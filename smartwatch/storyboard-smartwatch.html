@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Storyboard — Intelliden Smartwatch</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #f5f2eb;
+    font-family: 'DM Sans', sans-serif;
+    padding: 40px 32px 60px;
+    min-height: 100vh;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  header h1 {
+    font-family: 'Caveat', cursive;
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    letter-spacing: -0.01em;
+  }
+
+  header p {
+    font-size: 0.82rem;
+    color: #888;
+    margin-top: 4px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+    max-width: 1060px;
+    margin: 0 auto;
+  }
+
+  .frame {
+    background: #fff;
+    border: 1.5px solid #d6d0c4;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 3px 3px 0 #d6d0c4;
+  }
+
+  .frame-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-bottom: 1.5px solid #d6d0c4;
+    background: #faf8f4;
+  }
+
+  .frame-num {
+    font-family: 'Caveat', cursive;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    background: #1a1a1a;
+    color: #fff;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  .frame-title {
+    font-family: 'Caveat', cursive;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .frame-scene {
+    background: #fff;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    position: relative;
+    border-bottom: 1.5px solid #d6d0c4;
+  }
+
+  .frame-desc {
+    padding: 12px 14px;
+    background: #faf8f4;
+  }
+
+  .frame-desc p {
+    font-size: 0.78rem;
+    color: #444;
+    line-height: 1.55;
+    font-family: 'Caveat', cursive;
+    font-size: 0.95rem;
+    color: #333;
+  }
+
+  .scene-label {
+    position: absolute;
+    bottom: 8px;
+    right: 10px;
+    font-size: 0.62rem;
+    color: #bbb;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* scene bg lines (notebook feel) */
+  .frame-scene::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      transparent,
+      transparent 28px,
+      #f0ece4 28px,
+      #f0ece4 29px
+    );
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  svg.scene { position: relative; z-index: 1; overflow: visible; }
+
+  /* watch face mini */
+  .watch-face {
+    font-family: 'Caveat', cursive;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Storyboard — Morning Alert</h1>
+  <p>Intelliden · Smartwatch · Alex fixes a power issue from the wrist</p>
+</header>
+
+<div class="grid">
+
+  <!-- FRAME 1 -->
+  <div class="frame">
+    <div class="frame-top">
+      <div class="frame-num">1</div>
+      <div class="frame-title">Wrist glance</div>
+    </div>
+    <div class="frame-scene">
+      <svg class="scene" width="200" height="170" viewBox="0 0 200 170">
+        <!-- kitchen counter suggestion -->
+        <rect x="20" y="130" width="160" height="8" rx="2" fill="#e8e2d6" stroke="#ccc" stroke-width="0.8"/>
+        <!-- mug -->
+        <rect x="30" y="108" width="22" height="22" rx="4" fill="none" stroke="#888" stroke-width="1.5"/>
+        <path d="M52 115 Q60 115 60 122 Q60 129 52 129" fill="none" stroke="#888" stroke-width="1.5"/>
+        <!-- steam -->
+        <path d="M38 105 Q40 99 38 93" fill="none" stroke="#bbb" stroke-width="1" stroke-linecap="round"/>
+        <path d="M44 104 Q46 97 44 91" fill="none" stroke="#bbb" stroke-width="1" stroke-linecap="round"/>
+
+        <!-- stick figure standing, arm raised to look at watch -->
+        <!-- body -->
+        <circle cx="120" cy="42" r="14" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+        <!-- torso -->
+        <line x1="120" y1="56" x2="120" y2="100" stroke="#1a1a1a" stroke-width="2"/>
+        <!-- left arm down -->
+        <line x1="120" y1="68" x2="100" y2="88" stroke="#1a1a1a" stroke-width="2"/>
+        <!-- right arm raised toward wrist -->
+        <line x1="120" y1="68" x2="148" y2="58" stroke="#1a1a1a" stroke-width="2"/>
+        <!-- legs -->
+        <line x1="120" y1="100" x2="106" y2="130" stroke="#1a1a1a" stroke-width="2"/>
+        <line x1="120" y1="100" x2="134" y2="130" stroke="#1a1a1a" stroke-width="2"/>
+
+        <!-- watch on raised wrist -->
+        <rect x="148" y="51" width="18" height="13" rx="3" fill="#1a1a1a"/>
+        <text x="157" y="60" text-anchor="middle" fill="#4ef" font-size="5" font-family="monospace">7:44</text>
+
+        <!-- eyes looking down at watch (small dots on face) -->
+        <circle cx="115" cy="40" r="1.5" fill="#1a1a1a"/>
+        <circle cx="125" cy="40" r="1.5" fill="#1a1a1a"/>
+
+        <span class="scene-label"></span>
+      </svg>
+      <div class="scene-label">kitchen · morning</div>
+    </div>
+    <div class="frame-desc">
+      <p>Alex is making coffee. Raises wrist — watch face shows the time and live power draw bar at the bottom.</p>
+    </div>
+  </div>
+
+  <!-- FRAME 2 -->
+  <div class="frame">
+    <div class="frame-top">
+      <div class="frame-num">2</div>
+      <div class="frame-title">Alert vibrates</div>
+    </div>
+    <div class="frame-scene">
+      <svg class="scene" width="200" height="170" viewBox="0 0 200 170">
+        <!-- stick figure startled, arm up -->
+        <circle cx="80" cy="42" r="14" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+        <line x1="80" y1="56" x2="80" y2="100" stroke="#1a1a1a" stroke-width="2"/>
+        <line x1="80" y1="68" x2="58" y2="80" stroke="#1a1a1a" stroke-width="2"/>
+        <line x1="80" y1="68" x2="104" y2="52" stroke="#1a1a1a" stroke-width="2"/>
+        <line x1="80" y1="100" x2="66" y2="130" stroke="#1a1a1a" stroke-width="2"/>
+        <line x1="80" y1="100" x2="94" y2="130" stroke="#1a1a1a" stroke-width="2"/>
+        <!-- surprised face -->
+        <circle cx="75" cy="40" r="1.5" fill="#1a1a1a"/>
+        <circle cx="85" cy="40" r="1.5" fill="#1a1a1a"/>
+        <path d="M76 47 Q80 44 84 47" fill="none" stroke="#1a1a1a" stroke-width="1.2"/>
+
+        <!-- watch on wrist with vibration lines -->
+        <rect x="104" y="44" width="18" height="13" rx="3" fill="#1a1a1a"/>
+        <text x="113" y="53" text-anchor="middle" fill="#f55" font-size="4.5" font-family="monospace">!</text>
+        <!-- vibration lines -->
+        <path d="M100 45 Q97 50 100 55" fill="none" stroke="#888" stroke-width="1" stroke-dasharray="2 1"/>
+        <path d="M125 45 Q128 50 125 55" fill="none" stroke="#888" stroke-width="1" stroke-dasharray="2 1"/>
+
+        <!-- alert box floating -->
+        <rect x="110" y="68" width="76" height="48" rx="4" fill="#fff" stroke="#e33" stroke-width="1.5"/>
+        <rect x="110" y="68" width="76" height="14" rx="4" fill="#e33"/>
+        <text x="148" y="78" text-anchor="middle" fill="#fff" font-size="7" font-family="sans-serif" font-weight="bold">ALERT</text>
+        <text x="148" y="91" text-anchor="middle" fill="#333" font-size="6" font-family="sans-serif">Overload · 3.2kW</text>
+        <!-- buttons -->
+        <rect x="116" y="97" width="28" height="12" rx="3" fill="#e33"/>
+        <text x="130" y="105" text-anchor="middle" fill="#fff" font-size="6" font-family="sans-serif">Fix</text>
+        <rect x="150" y="97" width="30" height="12" rx="3" fill="#eee" stroke="#ccc" stroke-width="0.8"/>
+        <text x="165" y="105" text-anchor="middle" fill="#666" font-size="6" font-family="sans-serif">Dismiss</text>
+
+        <!-- arrow from watch to alert box -->
+        <path d="M122 57 Q130 62 130 68" fill="none" stroke="#888" stroke-width="1" stroke-dasharray="3 2" marker-end="url(#arr2)"/>
+        <defs>
+          <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+            <path d="M2 2L8 5L2 8" fill="none" stroke="#888" stroke-width="1.5"/>
+          </marker>
+        </defs>
+      </svg>
+      <div class="scene-label">haptic vibration</div>
+    </div>
+    <div class="frame-desc">
+      <p>Watch vibrates on the wrist. A red alert appears — "Overload · 3.2kW." Two buttons: Fix or Dismiss.</p>
+    </div>
+  </div>
+
+  <!-- FRAME 3 -->
+  <div class="frame">
+    <div class="frame-top">
+      <div class="frame-num">3</div>
+      <div class="frame-title">Tap "Fix"</div>
+    </div>
+    <div class="frame-scene">
+      <svg class="scene" width="200" height="170" viewBox="0 0 200 170">
+        <!-- stick figure tapping watch with finger -->
+        <circle cx="90" cy="42" r="14" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+        <line x1="90" y1="56" x2="90" y2="100" stroke="#1a1a1a" stroke-width="2"/>
+        <line x1="90" y1="68" x2="68" y2="84" stroke="#1a1a1a" stroke-width="2"/>
+        <!-- right arm extended forward to tap -->
+        <line x1="90" y1="68" x2="124" y2="80" stroke="#1a1a1a" stroke-width="2"/>
+        <line x1="90" y1="100" x2="76" y2="130" stroke="#1a1a1a" stroke-width="2"/>
+        <line x1="90" y1="100" x2="104" y2="130" stroke="#1a1a1a" stroke-width="2"/>
+        <!-- focused eyes -->
+        <circle cx="85" cy="40" r="1.5" fill="#1a1a1a"/>
+        <circle cx="95" cy="40" r="1.5" fill="#1a1a1a"/>
+        <!-- small smile -->
+        <path d="M86 47 Q90 50 94 47" fill="none" stroke="#1a1a1a" stroke-width="1.2"/>
+
+        <!-- watch on wrist of extended arm -->
+        <rect x="118" y="74" width="18" height="13" rx="3" fill="#1a1a1a"/>
+        <text x="127" y="83" text-anchor="middle" fill="#4ef" font-size="4.5" font-family="monospace">Fix</text>
+
+        <!-- finger tap indicator -->
+        <circle cx="127" cy="87" r="4" fill="none" stroke="#e33" stroke-width="1" stroke-dasharray="2 1"/>
+        <circle cx="127" cy="87" r="2" fill="#e33" opacity="0.7"/>
+
+        <!-- tap ripple -->
+        <circle cx="127" cy="87" r="8" fill="none" stroke="#e33" stroke-width="0.8" opacity="0.4"/>
+
+        <!-- analytics screen opening -->
+        <rect x="130" y="100" width="58" height="58" rx="5" fill="#f8f8f8" stroke="#1a1a1a" stroke-width="1.2"/>
+        <text x="159" y="113" text-anchor="middle" fill="#555" font-size="5.5" font-family="sans-serif">Analytics</text>
+        <!-- mini chart lines -->
+        <polyline points="136,140 142,130 150,136 158,120 166,125 174,118" fill="none" stroke="#4ef" stroke-width="1.5"/>
+        <circle cx="166" cy="125" r="2" fill="#3d3"/>
+        <text x="159" y="153" text-anchor="middle" fill="#888" font-size="5" font-family="sans-serif">opening...</text>
+
+        <!-- arrow from tap to screen -->
+        <path d="M127 95 Q128 100 132 102" fill="none" stroke="#888" stroke-width="1" stroke-dasharray="2 2"/>
+      </svg>
+      <div class="scene-label">one tap</div>
+    </div>
+    <div class="frame-desc">
+      <p>Alex taps "Fix." The Analytics screen opens directly — showing today's energy and a sparkline chart.</p>
+    </div>
+  </div>
+
+  <!-- FRAME 4 -->
+  <div class="frame">
+    <div class="frame-top">
+      <div class="frame-num">4</div>
+      <div class="frame-title">Stats screen</div>
+    </div>
+    <div class="frame-scene">
+      <svg class="scene" width="200" height="170" viewBox="0 0 200 170">
+        <!-- stick figure looking at wrist screen -->
+        <circle cx="60" cy="42" r="14" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+        <line x1="60" y1="56" x2="60" y2="100" stroke="#1a1a1a" stroke-width="2"/>
+        <line x1="60" y1="68" x2="40" y2="84" stroke="#1a1a1a" stroke-width="2"/>
+        <line x1="60" y1="68" x2="82" y2="58" stroke="#1a1a1a" stroke-width="2"/>
+        <line x1="60" y1="100" x2="46" y2="130" stroke="#1a1a1a" stroke-width="2"/>
+        <line x1="60" y1="100" x2="74" y2="130" stroke="#1a1a1a" stroke-width="2"/>
+        <!-- curious eyes -->
+        <circle cx="55" cy="40" r="1.5" fill="#1a1a1a"/>
+        <circle cx="65" cy="40" r="1.5" fill="#1a1a1a"/>
+
+        <!-- big watch screen -->
+        <rect x="88" y="28" width="98" height="120" rx="8" fill="#111" stroke="#444" stroke-width="1.5"/>
+
+        <!-- screen content -->
+        <text x="137" y="45" text-anchor="middle" fill="#4ef" font-size="6" font-family="monospace">ANALYTICS</text>
+        <text x="137" y="64" text-anchor="middle" fill="#fff" font-size="16" font-family="monospace" font-weight="300">48.7</text>
+        <text x="137" y="75" text-anchor="middle" fill="#4ef" font-size="5.5" font-family="monospace">kWh  +12%</text>
+
+        <!-- sparkline -->
+        <polyline points="96,100 104,98 112,90 120,93 130,83 140,86" fill="none" stroke="#4ef" stroke-width="1.5"/>
+        <circle cx="130" cy="83" r="2" fill="#3f3"/>
+
+        <!-- room bars -->
+        <text x="96" y="112" fill="#888" font-size="5" font-family="sans-serif">Living</text>
+        <rect x="116" y="107" width="40" height="5" rx="2" fill="#222"/>
+        <rect x="116" y="107" width="25" height="5" rx="2" fill="#4ef"/>
+
+        <text x="96" y="123" fill="#888" font-size="5" font-family="sans-serif">Kitchen</text>
+        <rect x="116" y="118" width="40" height="5" rx="2" fill="#222"/>
+        <rect x="116" y="118" width="18" height="5" rx="2" fill="#3f3"/>
+
+        <!-- HVAC warning -->
+        <rect x="92" y="132" width="90" height="11" rx="3" fill="#332200"/>
+        <text x="137" y="140" text-anchor="middle" fill="#fa0" font-size="5.5" font-family="sans-serif">HVAC +18% · Fix?</text>
+
+        <!-- arm line to watch -->
+        <line x1="82" y1="58" x2="88" y2="70" stroke="#1a1a1a" stroke-width="2"/>
+      </svg>
+      <div class="scene-label">analytics screen</div>
+    </div>
+    <div class="frame-desc">
+      <p>Screen shows 48.7 kWh used, room breakdown bars, and an HVAC warning — using 18% more than normal.</p>
+    </div>
+  </div>
+
+  <!-- FRAME 5 -->
+  <div class="frame">
+    <div class="frame-top">
+      <div class="frame-num">5</div>
+      <div class="frame-title">Problem fixed</div>
+    </div>
+    <div class="frame-scene">
+      <svg class="scene" width="200" height="170" viewBox="0 0 200 170">
+        <!-- stick figure arm raised in celebration -->
+        <circle cx="90" cy="42" r="14" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+        <line x1="90" y1="56" x2="90" y2="100" stroke="#1a1a1a" stroke-width="2"/>
+        <!-- both arms up -->
+        <line x1="90" y1="68" x2="68" y2="52" stroke="#1a1a1a" stroke-width="2"/>
+        <line x1="90" y1="68" x2="112" y2="52" stroke="#1a1a1a" stroke-width="2"/>
+        <line x1="90" y1="100" x2="76" y2="130" stroke="#1a1a1a" stroke-width="2"/>
+        <line x1="90" y1="100" x2="104" y2="130" stroke="#1a1a1a" stroke-width="2"/>
+        <!-- happy face -->
+        <circle cx="85" cy="39" r="1.5" fill="#1a1a1a"/>
+        <circle cx="95" cy="39" r="1.5" fill="#1a1a1a"/>
+        <path d="M84 46 Q90 52 96 46" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+
+        <!-- watch showing checkmark -->
+        <rect x="112" y="44" width="22" height="16" rx="4" fill="#111" stroke="#444" stroke-width="1"/>
+        <!-- green checkmark -->
+        <polyline points="116 53 120 57 128 48" fill="none" stroke="#3f3" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+        <!-- confirmation message box -->
+        <rect x="30" y="90" width="140" height="60" rx="6" fill="#f0fff4" stroke="#3a3" stroke-width="1.5"/>
+        <!-- green top bar -->
+        <rect x="30" y="90" width="140" height="16" rx="6" fill="#2a2"/>
+        <text x="100" y="101" text-anchor="middle" fill="#fff" font-size="7" font-family="sans-serif" font-weight="bold">Fixed!</text>
+        <text x="100" y="116" text-anchor="middle" fill="#333" font-size="6" font-family="sans-serif">HVAC optimised</text>
+        <text x="100" y="127" text-anchor="middle" fill="#555" font-size="6" font-family="sans-serif">Saving 28 RON / month</text>
+        <!-- done button -->
+        <rect x="80" y="134" width="40" height="11" rx="4" fill="#2a2"/>
+        <text x="100" y="141" text-anchor="middle" fill="#fff" font-size="6" font-family="sans-serif">Done</text>
+
+        <!-- sparkles -->
+        <text x="50" y="55" fill="#fa0" font-size="14">✦</text>
+        <text x="138" y="38" fill="#4ef" font-size="10">✦</text>
+        <text x="155" y="65" fill="#3f3" font-size="8">✦</text>
+      </svg>
+      <div class="scene-label">confirmed ✓</div>
+    </div>
+    <div class="frame-desc">
+      <p>Green checkmark on watch. Screen shows "HVAC optimised — saving 28 RON." One tap, done in seconds.</p>
+    </div>
+  </div>
+
+  <!-- FRAME 6 -->
+  <div class="frame">
+    <div class="frame-top">
+      <div class="frame-num">6</div>
+      <div class="frame-title">Walks out, done</div>
+    </div>
+    <div class="frame-scene">
+      <svg class="scene" width="200" height="170" viewBox="0 0 200 170">
+        <!-- door frame -->
+        <rect x="130" y="30" width="52" height="100" rx="2" fill="#ede8de" stroke="#bbb" stroke-width="1.2"/>
+        <rect x="134" y="34" width="44" height="92" rx="2" fill="#fff" stroke="#ccc" stroke-width="0.8"/>
+        <!-- door knob -->
+        <circle cx="148" cy="82" r="3" fill="#ccc" stroke="#aaa" stroke-width="0.8"/>
+        <!-- door gap (open) -->
+        <path d="M134 34 Q110 60 112 126" fill="#f0ece4" stroke="#bbb" stroke-width="0.8"/>
+
+        <!-- stick figure walking toward door -->
+        <!-- walking pose -->
+        <circle cx="80" cy="42" r="14" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+        <line x1="80" y1="56" x2="80" y2="100" stroke="#1a1a1a" stroke-width="2"/>
+        <!-- arms swinging -->
+        <line x1="80" y1="70" x2="58" y2="82" stroke="#1a1a1a" stroke-width="2"/>
+        <line x1="80" y1="70" x2="100" y2="60" stroke="#1a1a1a" stroke-width="2"/>
+        <!-- walking legs -->
+        <line x1="80" y1="100" x2="62" y2="130" stroke="#1a1a1a" stroke-width="2"/>
+        <line x1="80" y1="100" x2="96" y2="128" stroke="#1a1a1a" stroke-width="2"/>
+
+        <!-- small watch on wrist (normal face now) -->
+        <rect x="100" y="53" width="16" height="11" rx="3" fill="#1a1a1a"/>
+        <text x="108" y="61" text-anchor="middle" fill="#4ef" font-size="4" font-family="monospace">7:46</text>
+
+        <!-- low power bar under watch face label -->
+        <rect x="100" y="67" width="16" height="3" rx="1" fill="#222"/>
+        <rect x="100" y="67" width="7" height="3" rx="1" fill="#4ef"/>
+
+        <!-- happy/neutral face -->
+        <circle cx="75" cy="40" r="1.5" fill="#1a1a1a"/>
+        <circle cx="85" cy="40" r="1.5" fill="#1a1a1a"/>
+        <path d="M75 47 Q80 51 85 47" fill="none" stroke="#1a1a1a" stroke-width="1.2"/>
+
+        <!-- motion lines -->
+        <line x1="20" y1="75" x2="36" y2="75" stroke="#ddd" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="24" y1="85" x2="38" y2="85" stroke="#ddd" stroke-width="1" stroke-linecap="round"/>
+        <line x1="18" y1="95" x2="34" y2="95" stroke="#ddd" stroke-width="1" stroke-linecap="round"/>
+
+        <!-- floor -->
+        <line x1="10" y1="130" x2="190" y2="130" stroke="#ccc" stroke-width="1"/>
+      </svg>
+      <div class="scene-label">no phone needed</div>
+    </div>
+    <div class="frame-desc">
+      <p>Alex walks out the door. Watch face is back to normal — power draw is lower. Whole task done without touching the phone.</p>
+    </div>
+  </div>
+
+</div>
+
+<footer style="text-align:center; margin-top:40px; font-size:0.72rem; color:#aaa; letter-spacing:0.08em; text-transform:uppercase;">
+  Intelliden · Smartwatch · Storyboard A · Morning Commute
+</footer>
+
+</body>
+</html>

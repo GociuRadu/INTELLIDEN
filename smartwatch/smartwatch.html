@@ -1,0 +1,793 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watch Simulator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      /* Custom Scrollbar */
+      .no-scrollbar::-webkit-scrollbar { width: 3px; height: 3px; }
+      .no-scrollbar::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 4px; }
+      .no-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.3); border-radius: 4px; }
+      .no-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.5); }
+      .no-scrollbar { -ms-overflow-style: auto; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.3) rgba(255,255,255,0.05); }
+      /* Transitions */
+      .zoom-container { transition: transform 0.5s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.4s ease; }
+      .app-view { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease; }
+      /* App Grid Staggering */
+      .honeycomb-row { display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+      .app-icon { transition: transform 0.1s; cursor: pointer; }
+      .app-icon:active { transform: scale(0.9); }
+      /* Animations */
+      @keyframes pulse-fast { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.8; transform: scale(0.95); } }
+      .animate-beat { animation: pulse-fast 0.8s infinite ease-in-out; }
+      @keyframes spin-slow { to { transform: rotate(360deg); } }
+      .animate-spin-slow { animation: spin-slow 10s linear infinite; }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    
+    <style>
+      .font-mono { font-family: 'Space Grotesk', monospace !important; }
+      .tabular-nums { font-variant-numeric: tabular-nums; }
+    </style>
+  </head>
+  <body class="bg-neutral-100 flex items-center justify-center min-h-screen font-sans antialiased overflow-hidden selection:bg-none">
+    <div class="relative scale-[0.8] sm:scale-100 transition-transform duration-500">
+      <!-- Straps -->
+      <div class="absolute left-1/2 -top-24 -translate-x-1/2 w-48 h-32 bg-stone-800 rounded-t-3xl -z-10 shadow-inner"></div>
+      <div class="absolute left-1/2 -bottom-24 -translate-x-1/2 w-48 h-32 bg-stone-800 rounded-b-3xl -z-10 shadow-inner"></div>
+
+      <!-- Chassis -->
+      <div class="relative w-[340px] h-[410px] bg-neutral-200 rounded-[3rem] shadow-2xl flex items-center justify-center ring-1 ring-white/40 ring-inset">
+        <div class="absolute inset-0 rounded-[3rem] bg-gradient-to-br from-white/40 via-transparent to-black/10 pointer-events-none"></div>
+
+        <!-- Digital Crown -->
+        <button id="crown-btn" class="absolute -right-[14px] top-12 w-5 h-16 bg-neutral-300 rounded-r-md shadow-md border-l border-neutral-400 active:scale-95 transition-transform group cursor-pointer z-50 outline-none">
+          <div class="flex flex-col justify-center items-center gap-[2px] h-full py-1 opacity-40">
+            <div class="w-full h-[1px] bg-black"></div>
+            <div class="w-full h-[1px] bg-black"></div>
+            <div class="w-full h-[1px] bg-black"></div>
+          </div>
+        </button>
+        <div class="absolute -right-[4px] bottom-24 w-1 h-20 bg-neutral-300 rounded-r-sm shadow-sm border-l border-neutral-400"></div>
+
+        <!-- Screen -->
+        <div class="relative w-[310px] h-[380px] rounded-[2.5rem] overflow-hidden ring-4 ring-black shadow-inner z-10 text-white bg-[#131313]">
+          <div class="absolute top-0 right-0 w-full h-full bg-gradient-to-tr from-white/10 to-transparent pointer-events-none z-50 rounded-[2.5rem]"></div>
+
+          <!-- 1. WATCH FACE -->
+          <div id="watch-face" class="absolute inset-0 w-full h-full flex flex-col justify-between p-6 zoom-container origin-center z-20 bg-[#131313] cursor-pointer" onclick="if(currentState === 'face') { currentState = 'grid'; updateView(); }">
+            <div class="flex justify-between items-start">
+              <div class="flex flex-col">
+                <span class="text-[#39ff14] font-mono text-[10px] uppercase tracking-widest">
+                  Sys: Active
+                </span>
+                <span class="text-neutral-400 font-mono text-xs tracking-tight">
+                  UP: 14d 02h
+                </span>
+              </div>
+              <div class="flex flex-col items-end text-[#00e5ff]">
+                <i data-lucide="radio" class="w-4 h-4 mb-0.5"></i>
+                <span class="text-[10px] font-mono font-medium">ONLINE</span>
+              </div>
+            </div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center">
+              <div class="text-[#00e5ff] text-[10px] font-mono tracking-widest mb-1 opacity-70 uppercase">
+                Intelliden
+              </div>
+              <h1 class="text-6xl font-light tracking-tighter tabular-nums leading-none text-white font-mono" id="clock-display">
+                10:09
+              </h1>
+              <span id="date-display" class="hidden"></span>
+            </div>
+            <div class="flex justify-between items-end w-full">
+              <div class="flex flex-col w-full">
+                <div class="flex justify-between text-[10px] font-mono text-neutral-400 mb-1 uppercase">
+                  <span>Pwr Draw</span>
+                  <span class="text-[#39ff14]">1.2kW</span>
+                </div>
+                <div class="h-1 w-full bg-white/10 rounded-full overflow-hidden">
+                  <div class="h-full bg-gradient-to-r from-[#00e5ff] to-[#39ff14] w-[45%]"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. APP GRID -->
+          <div id="app-grid" class="absolute inset-0 w-full h-full flex flex-col items-center justify-center zoom-container opacity-0 scale-[2] pointer-events-none z-10 bg-[#131313]">
+            <div class="honeycomb-row translate-x-4">
+              <button onclick="openApp('dashboard')" class="w-14 h-14 rounded-full bg-gradient-to-br from-[#00e5ff]/20 to-transparent border border-[#00e5ff]/50 flex items-center justify-center app-icon shadow-lg backdrop-blur-md">
+                <i data-lucide="layout-dashboard" class="text-[#00e5ff] w-6 h-6"></i>
+              </button>
+              <button onclick="openApp('devices')" class="w-14 h-14 rounded-full bg-gradient-to-br from-[#39ff14]/20 to-transparent border border-[#39ff14]/50 flex items-center justify-center app-icon shadow-lg backdrop-blur-md">
+                <i data-lucide="cpu" class="text-[#39ff14] w-6 h-6"></i>
+              </button>
+            </div>
+            <div class="honeycomb-row -translate-x-0">
+              <button onclick="openApp('analytics')" class="w-16 h-16 rounded-full bg-gradient-to-br from-white/10 to-transparent border border-white/20 flex items-center justify-center app-icon shadow-lg z-20 relative backdrop-blur-md">
+                <i data-lucide="activity" class="text-white w-8 h-8"></i>
+              </button>
+            </div>
+            <div class="honeycomb-row translate-x-4">
+              <button onclick="openApp('automations')" class="w-14 h-14 rounded-full bg-gradient-to-br from-[#ff3d00]/20 to-transparent border border-[#ff3d00]/50 flex items-center justify-center app-icon shadow-lg backdrop-blur-md">
+                <i data-lucide="zap" class="text-[#ff3d00] w-6 h-6"></i>
+              </button>
+              <button onclick="openApp('access')" class="w-14 h-14 rounded-full bg-gradient-to-br from-purple-500/20 to-transparent border border-purple-500/50 flex items-center justify-center app-icon shadow-lg backdrop-blur-md">
+                <i data-lucide="shield" class="text-purple-400 w-6 h-6"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- 3. APP CONTAINER (Dynamic Views) -->
+          <div id="apps-container" class="absolute inset-0 w-full h-full pointer-events-none z-30">
+            <!-- Timer App -->
+            <div id="app-dashboard" class="app-view absolute inset-0 bg-[#131313] flex flex-col opacity-0 scale-90 hidden pointer-events-auto p-4 overflow-y-auto no-scrollbar">
+              <div class="text-[#00e5ff] font-mono text-[10px] tracking-widest text-center mb-3 uppercase">
+                Cmd Center
+              </div>
+
+              <div class="grid grid-cols-2 gap-2 mb-2">
+                <div class="bg-white/5 border border-white/10 rounded-xl p-2 flex flex-col items-center justify-center backdrop-blur-sm">
+                  <span class="text-neutral-500 font-mono text-[8px] uppercase tracking-wider mb-1">
+                    Avg Temp
+                  </span>
+                  <span class="text-white font-mono text-sm">22.3°</span>
+                  <svg class="w-full h-3 mt-1" viewBox="0 0 50 10" preserveAspectRatio="none">
+                    <path d="M0,8 L10,5 L20,7 L30,2 L40,6 L50,1" fill="none" stroke="#ff3d00" stroke-width="1"></path>
+                  </svg>
+                </div>
+                <div class="bg-white/5 border border-white/10 rounded-xl p-2 flex flex-col items-center justify-center backdrop-blur-sm">
+                  <span class="text-neutral-500 font-mono text-[8px] uppercase tracking-wider mb-1">
+                    Pwr Draw
+                  </span>
+                  <span class="text-white font-mono text-sm">
+                    <span class="flex items-center gap-1">
+                      3.2kW
+                      <i data-lucide="arrow-up-right" class="w-3 h-3 text-[#ff3d00]"></i>
+                    </span>
+                  </span>
+                  <div class="w-full h-1 bg-white/10 rounded-full mt-2">
+                    <div class="h-full bg-gradient-to-r from-[#00e5ff] to-[#39ff14] w-[64%] rounded-full shadow-[0_0_5px_#39ff14]"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white/5 border border-white/10 rounded-xl p-3 mb-2 backdrop-blur-sm">
+                <div class="flex justify-between items-center mb-2">
+                  <span class="text-neutral-400 font-mono text-[10px] uppercase">
+                    Lvg Room Light
+                  </span>
+                  <div class="w-8 h-4 bg-[#00e5ff]/20 rounded-full relative">
+                    <div class="absolute right-0.5 top-0.5 w-3 h-3 bg-[#00e5ff] rounded-full shadow-[0_0_5px_#00e5ff]"></div>
+                  </div>
+                </div>
+                <div class="h-1 bg-neutral-800 rounded-full">
+                  <div class="h-full w-[75%] bg-[#00e5ff] rounded-full shadow-[0_0_5px_#00e5ff]"></div>
+                </div>
+              </div>
+              <div class="bg-white/5 border border-white/10 rounded-xl p-3 flex-1 backdrop-blur-sm flex flex-col items-center relative overflow-hidden">
+                <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#00e5ff]/10 via-transparent to-transparent pointer-events-none"></div>
+                <div class="z-10 flex flex-col items-center text-center mb-2">
+                  <span class="text-[#00e5ff] font-mono text-sm font-bold shadow-[#00e5ff] drop-shadow-[0_0_4px_rgba(0,229,255,0.5)]">
+                    HUB ACTIVE
+                  </span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 w-full z-10">
+                  <div class="border border-white/10 rounded-lg p-1.5 flex flex-col items-center bg-black/40">
+                    <i data-lucide="camera" class="w-3 h-3 text-[#39ff14] mb-1"></i>
+                    <span class="text-[8px] font-mono text-white">4 Cams</span>
+                  </div>
+                  <div class="border border-[#00e5ff]/30 shadow-[0_0_4px_rgba(0,229,255,0.2)] rounded-lg p-1.5 flex flex-col items-center bg-black/40">
+                    <i data-lucide="lightbulb" class="w-3 h-3 text-[#00e5ff] mb-1"></i>
+                    <span class="text-[8px] font-mono text-white">
+                      12 Lights
+                    </span>
+                  </div>
+                  <div class="border border-purple-500/30 rounded-lg p-1.5 flex flex-col items-center bg-black/40">
+                    <i data-lucide="shield" class="w-3 h-3 text-purple-400 mb-1"></i>
+                    <span class="text-[8px] font-mono text-white">8 Sec</span>
+                  </div>
+                  <div class="border border-white/10 rounded-lg p-1.5 flex flex-col items-center bg-black/40">
+                    <i data-lucide="thermometer" class="w-3 h-3 text-yellow-400 mb-1"></i>
+                    <span class="text-[8px] font-mono text-white">4 Sens</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white/5 border border-white/10 rounded-xl p-3 flex-1 backdrop-blur-sm flex items-center justify-center relative overflow-hidden">
+                <i data-lucide="network" class="text-neutral-700 w-16 h-16 absolute opacity-30"></i>
+                <div class="z-10 flex flex-col items-center text-center">
+                  <span class="text-[#39ff14] font-mono text-sm font-bold shadow-[#39ff14] drop-shadow-[0_0_4px_rgba(57,255,20,0.5)]">
+                    ONLINE
+                  </span>
+                  <span class="text-neutral-400 font-mono text-[9px] mt-1">
+                    NETWORK STABLE
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Calculator App -->
+            <div id="app-devices" class="app-view absolute inset-0 bg-[#131313] flex flex-col opacity-0 scale-90 hidden pointer-events-auto p-3 overflow-y-auto no-scrollbar">
+              <button class="w-full bg-[#00e5ff]/10 border border-[#00e5ff]/30 text-[#00e5ff] rounded-full py-2 flex justify-center items-center gap-2 mb-3 mt-1 active:bg-[#00e5ff]/20 transition-colors" onclick="const s = this.querySelector('span'); const orig = s.innerText; s.innerText = 'SCANNING...'; setTimeout(() =&gt; s.innerText = orig, 1500);">
+                <i data-lucide="box-select" class="w-4 h-4"></i>
+                <span class="font-mono text-[10px] font-bold tracking-widest uppercase">
+                  Add Device
+                </span>
+              </button>
+
+              <div class="flex gap-2 overflow-x-auto no-scrollbar mb-3 pb-1 shrink-0">
+                <button class="px-3 py-1 bg-white/10 border border-white/20 rounded-full text-[9px] font-mono text-white whitespace-nowrap uppercase transition-colors shrink-0" onclick="this.parentElement.querySelectorAll('button').forEach(b =&gt; b.className='px-3 py-1 bg-transparent border border-white/10 rounded-full text-[9px] font-mono text-neutral-500 whitespace-nowrap uppercase transition-colors shrink-0'); this.className='px-3 py-1 bg-white/10 border border-white/20 rounded-full text-[9px] font-mono text-white whitespace-nowrap uppercase transition-colors shrink-0';">
+                  All (28)
+                </button>
+                <button class="px-3 py-1 bg-transparent border border-white/10 rounded-full text-[9px] font-mono text-neutral-500 whitespace-nowrap uppercase transition-colors shrink-0" onclick="this.parentElement.querySelectorAll('button').forEach(b =&gt; b.className='px-3 py-1 bg-transparent border border-white/10 rounded-full text-[9px] font-mono text-neutral-500 whitespace-nowrap uppercase transition-colors shrink-0'); this.className='px-3 py-1 bg-white/10 border border-white/20 rounded-full text-[9px] font-mono text-white whitespace-nowrap uppercase transition-colors shrink-0';">
+                  Lights (12)
+                </button>
+                <button class="px-3 py-1 bg-transparent border border-white/10 rounded-full text-[9px] font-mono text-neutral-500 whitespace-nowrap uppercase transition-colors shrink-0" onclick="this.parentElement.querySelectorAll('button').forEach(b =&gt; b.className='px-3 py-1 bg-transparent border border-white/10 rounded-full text-[9px] font-mono text-neutral-500 whitespace-nowrap uppercase transition-colors shrink-0'); this.className='px-3 py-1 bg-white/10 border border-white/20 rounded-full text-[9px] font-mono text-white whitespace-nowrap uppercase transition-colors shrink-0';">
+                  Security (8)
+                </button>
+                <button class="px-3 py-1 bg-transparent border border-white/10 rounded-full text-[9px] font-mono text-neutral-500 whitespace-nowrap uppercase transition-colors shrink-0" onclick="this.parentElement.querySelectorAll('button').forEach(b =&gt; b.className='px-3 py-1 bg-transparent border border-white/10 rounded-full text-[9px] font-mono text-neutral-500 whitespace-nowrap uppercase transition-colors shrink-0'); this.className='px-3 py-1 bg-white/10 border border-white/20 rounded-full text-[9px] font-mono text-white whitespace-nowrap uppercase transition-colors shrink-0';">
+                  Sensors (6)
+                </button>
+                <button class="px-3 py-1 bg-transparent border border-white/10 rounded-full text-[9px] font-mono text-neutral-500 whitespace-nowrap uppercase transition-colors shrink-0" onclick="this.parentElement.querySelectorAll('button').forEach(b =&gt; b.className='px-3 py-1 bg-transparent border border-white/10 rounded-full text-[9px] font-mono text-neutral-500 whitespace-nowrap uppercase transition-colors shrink-0'); this.className='px-3 py-1 bg-white/10 border border-white/20 rounded-full text-[9px] font-mono text-white whitespace-nowrap uppercase transition-colors shrink-0';">
+                  Cams (4)
+                </button>
+              </div>
+
+              <div class="flex flex-col gap-2">
+                <div class="bg-white/5 border border-white/10 rounded-xl p-2 flex items-center gap-3 relative overflow-hidden">
+                  <div class="absolute right-0 top-0 bottom-0 w-1 bg-[#39ff14]"></div>
+                  <div class="w-10 h-10 bg-black rounded-lg border border-neutral-800 flex items-center justify-center relative overflow-hidden shrink-0">
+                    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&amp;fit=crop&amp;w=100&amp;q=80')] bg-cover grayscale opacity-60"></div>
+                    <div class="w-1.5 h-1.5 bg-[#ff3d00] rounded-full shadow-[0_0_5px_#ff3d00] absolute top-1.5 right-1.5 animate-pulse"></div>
+                  </div>
+                  <div class="flex flex-col flex-1">
+                    <span class="text-white font-mono text-xs uppercase">
+                      Front Door Cam
+                      <br>
+                      <span class="text-neutral-500 text-[8px] uppercase">
+                        4K Camera
+                      </span>
+                    </span>
+                    <span class="text-[#39ff14] font-mono text-[9px] flex items-center gap-1 uppercase">
+                      <i data-lucide="wifi" class="w-2 h-2"></i>
+                      -42 dBm
+                      <span class="bg-red-500/20 text-red-400 px-1 rounded ml-1 ml-auto">
+                        REC
+                      </span>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="bg-white/5 border border-white/10 rounded-xl p-2 flex items-center gap-3 relative overflow-hidden">
+                  <div class="absolute right-0 top-0 bottom-0 w-1 bg-[#00e5ff]"></div>
+                  <div class="w-10 h-10 bg-black rounded-lg border border-neutral-800 flex items-center justify-center shrink-0">
+                    <i data-lucide="thermometer" class="w-5 h-5 text-neutral-400"></i>
+                  </div>
+                  <div class="flex flex-col flex-1">
+                    <span class="text-white font-mono text-xs uppercase">
+                      Living Room
+                      <br>
+                      <span class="text-neutral-500 text-[8px] uppercase">
+                        Temp Sensor
+                      </span>
+                    </span>
+                    <span class="text-neutral-500 font-mono text-[9px] uppercase">
+                      Bat: 84%
+                    </span>
+                  </div>
+                  <span class="text-white font-mono text-xs pr-2">22°</span>
+                </div>
+                <div class="bg-white/5 border border-white/10 rounded-xl p-2 flex items-center gap-3 relative overflow-hidden mt-2">
+                  <div class="absolute right-0 top-0 bottom-0 w-1 bg-neutral-600"></div>
+                  <div class="w-10 h-10 bg-black rounded-lg border border-neutral-800 flex items-center justify-center shrink-0">
+                    <i data-lucide="lightbulb" class="w-5 h-5 text-neutral-600"></i>
+                  </div>
+                  <div class="flex flex-col flex-1">
+                    <span class="text-neutral-400 font-mono text-xs uppercase">
+                      Kitchen Main
+                      <br>
+                      <span class="text-neutral-600 text-[8px] uppercase">
+                        Smart Bulb
+                      </span>
+                    </span>
+                    <span class="text-neutral-600 font-mono text-[9px] uppercase">
+                      Standby
+                    </span>
+                  </div>
+                  <span class="text-neutral-500 font-mono text-[9px] pr-2 uppercase flex items-center gap-1">
+                    <i data-lucide="wifi" class="w-2 h-2"></i>
+                    -60
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Heart Rate App -->
+            <div id="app-analytics" class="app-view absolute inset-0 bg-[#131313] flex flex-col items-center justify-start opacity-0 scale-90 hidden pointer-events-auto p-4 overflow-y-auto no-scrollbar">
+              <div class="text-[#00e5ff] font-mono text-[10px] tracking-widest mb-4 uppercase">
+                Analytics
+              </div>
+
+              <div class="flex flex-col items-center mb-5 w-full">
+                <h2 class="text-5xl font-mono text-white tracking-tighter shadow-[#00e5ff] drop-shadow-[0_0_12px_rgba(0,229,255,0.4)] tabular-nums">
+                  48.7
+                </h2>
+                <div class="flex justify-between w-full px-4 mt-1">
+                  <span class="text-[#00e5ff] font-mono text-[10px] uppercase">
+                    kWh Today
+                    <span class="text-[#39ff14] ml-1">+12%</span>
+                  </span>
+                  <span class="text-neutral-400 font-mono text-[10px]">
+                    ~32.40 RON
+                  </span>
+                </div>
+              </div>
+
+              <div class="w-full h-16 flex items-end opacity-90 mb-4 px-2 relative">
+                <div class="absolute inset-0 grid grid-rows-3 gap-0 pointer-events-none opacity-20">
+                  <div class="border-t border-white/20"></div>
+                  <div class="border-t border-white/20"></div>
+                  <div class="border-t border-white/20"></div>
+                </div>
+                <svg viewBox="0 0 100 40" class="w-full h-full preserve-3d overflow-visible">
+                  <path d="M0,30 L20,35 L40,20 L60,25 L80,5 L100,10" fill="none" stroke="#00e5ff" stroke-width="2"></path>
+                  <circle cx="80" cy="5" r="2" fill="#39ff14" class="animate-pulse"></circle>
+                </svg>
+              </div>
+
+              <div class="w-full flex flex-col gap-1 mb-4">
+                <span class="text-neutral-500 font-mono text-[8px] uppercase tracking-widest mb-1">
+                  Room Dist (Top 3)
+                </span>
+                <div class="flex items-center gap-2">
+                  <span class="text-[8px] font-mono text-neutral-400 w-12">
+                    Living
+                  </span>
+                  <div class="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
+                    <div class="h-full bg-[#00e5ff] w-[35%]"></div>
+                  </div>
+                  <span class="text-[8px] font-mono text-[#00e5ff]">35%</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-[8px] font-mono text-neutral-400 w-12">
+                    Kitchen
+                  </span>
+                  <div class="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
+                    <div class="h-full bg-[#39ff14] w-[28%]"></div>
+                  </div>
+                  <span class="text-[8px] font-mono text-[#39ff14]">28%</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-[8px] font-mono text-neutral-400 w-12">
+                    Bedroom
+                  </span>
+                  <div class="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
+                    <div class="h-full bg-purple-500 w-[18%]"></div>
+                  </div>
+                  <span class="text-[8px] font-mono text-purple-400">18%</span>
+                </div>
+              </div>
+              <div class="w-full bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-2.5 flex justify-between items-center backdrop-blur-sm mt-2">
+                <div class="flex flex-col">
+                  <span class="text-yellow-400 font-mono text-[10px] flex items-center gap-1 font-bold uppercase">
+                    <i data-lucide="thermometer-sun" class="w-3 h-3"></i>
+                    Thermal Loss
+                  </span>
+                  <span class="text-neutral-400 font-mono text-[8px] mt-0.5">
+                    HVAC +18%. Save 28 RON.
+                  </span>
+                </div>
+                <button class="bg-yellow-500 text-[#131313] px-3 py-1 rounded text-[10px] font-mono font-bold hover:bg-yellow-400 transition-colors uppercase">
+                  FIX
+                </button>
+              </div>
+              <div class="w-full bg-[#ff3d00]/10 border border-[#ff3d00]/30 rounded-xl p-2.5 flex justify-between items-center backdrop-blur-sm">
+                <div class="flex flex-col">
+                  <span class="text-[#ff3d00] font-mono text-[10px] flex items-center gap-1 font-bold uppercase">
+                    <i data-lucide="alert-triangle" class="w-3 h-3"></i>
+                    Overload
+                  </span>
+                  <span class="text-neutral-400 font-mono text-[9px] mt-0.5">
+                    Standby leak
+                  </span>
+                </div>
+                <button class="bg-[#ff3d00] text-[#131313] px-3 py-1 rounded text-[10px] font-mono font-bold hover:bg-[#ff3d00]/80 transition-colors uppercase" onclick="const btn = this; btn.innerText = 'FIXED'; btn.classList.replace('bg-[#ff3d00]', 'bg-[#39ff14]'); setTimeout(() =&gt; { btn.innerText = 'FIX'; btn.classList.replace('bg-[#39ff14]', 'bg-[#ff3d00]'); }, 2000);">
+                  Fix
+                </button>
+              </div>
+            </div>
+
+            <!-- Mail App -->
+            <div id="app-automations" class="app-view absolute inset-0 bg-[#131313] flex flex-col opacity-0 scale-90 hidden pointer-events-auto overflow-y-auto no-scrollbar">
+              <div class="px-4 py-3 bg-[#131313]/90 backdrop-blur-md sticky top-0 z-10 border-b border-white/5">
+                <h2 class="text-[#ff3d00] font-mono text-[10px] tracking-widest text-center uppercase">
+                  Logic Engine
+                </h2>
+              </div>
+              <button class="mx-4 mt-2 mb-1 bg-gradient-to-r from-[#00e5ff]/20 to-[#39ff14]/20 border border-[#39ff14]/30 text-white rounded-full py-1.5 flex justify-center items-center gap-2 active:opacity-80 transition-opacity">
+                <i data-lucide="plus" class="w-3 h-3 text-[#39ff14]"></i>
+                <span class="font-mono text-[9px] font-bold tracking-widest uppercase">
+                  New Logic Block
+                </span>
+              </button>
+
+              <div class="flex flex-col gap-2 p-3 pt-2">
+                <div class="bg-white/5 border border-white/10 rounded-xl p-3 flex flex-col gap-2 relative overflow-hidden">
+                  <div class="absolute left-0 top-0 bottom-0 w-1 bg-[#39ff14] shadow-[0_0_8px_#39ff14]"></div>
+                  <div class="flex items-center gap-2">
+                    <span class="bg-neutral-800 text-neutral-400 px-1.5 py-0.5 rounded border border-neutral-700 text-[8px] font-mono uppercase">
+                      If Trigger
+                    </span>
+                    <span class="text-white font-mono text-xs">Sunset</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="bg-[#00e5ff]/20 text-[#00e5ff] px-1.5 py-0.5 rounded border border-[#00e5ff]/30 text-[8px] font-mono uppercase">
+                      Then Action
+                    </span>
+                    <span class="text-neutral-300 font-mono text-xs">
+                      Close Blinds
+                    </span>
+                  </div>
+                  <div class="absolute right-3 top-1/2 -translate-y-1/2 w-6 h-3 bg-[#39ff14]/20 rounded-full cursor-pointer" onclick="const dot=this.children[0]; if(this.classList.contains('bg-[#39ff14]/20')) { this.classList.replace('bg-[#39ff14]/20', 'bg-neutral-800'); dot.classList.replace('bg-[#39ff14]', 'bg-neutral-500'); dot.classList.replace('right-0.5', 'left-0.5'); dot.style.boxShadow='none'; } else { this.classList.replace('bg-neutral-800', 'bg-[#39ff14]/20'); dot.classList.replace('bg-neutral-500', 'bg-[#39ff14]'); dot.classList.replace('left-0.5', 'right-0.5'); dot.style.boxShadow='0 0 4px #39ff14'; }">
+                    <div class="absolute right-0.5 top-0.5 w-2 h-2 bg-[#39ff14] rounded-full shadow-[0_0_4px_#39ff14]"></div>
+                  </div>
+                </div>
+
+                <div class="bg-white/5 border border-white/10 rounded-xl p-3 flex flex-col gap-2 relative overflow-hidden">
+                  <div class="absolute left-0 top-0 bottom-0 w-1 bg-[#39ff14] shadow-[0_0_8px_#39ff14]"></div>
+                  <div class="flex items-center gap-2">
+                    <span class="bg-neutral-800 text-neutral-400 px-1.5 py-0.5 rounded border border-neutral-700 text-[8px] font-mono uppercase">
+                      If AR Gesture
+                    </span>
+                    <span class="text-white font-mono text-xs">
+                      2-Finger Tap
+                    </span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="bg-[#00e5ff]/20 text-[#00e5ff] px-1.5 py-0.5 rounded border border-[#00e5ff]/30 text-[8px] font-mono uppercase">
+                      Then Action
+                    </span>
+                    <span class="text-neutral-300 font-mono text-xs">
+                      Dim Lights 50%
+                    </span>
+                  </div>
+                  <div class="absolute right-3 top-1/2 -translate-y-1/2 w-6 h-3 bg-[#39ff14]/20 rounded-full cursor-pointer" onclick="const dot=this.children[0]; if(this.classList.contains('bg-[#39ff14]/20')) { this.classList.replace('bg-[#39ff14]/20', 'bg-neutral-800'); dot.classList.replace('bg-[#39ff14]', 'bg-neutral-500'); dot.classList.replace('right-0.5', 'left-0.5'); dot.style.boxShadow='none'; } else { this.classList.replace('bg-neutral-800', 'bg-[#39ff14]/20'); dot.classList.replace('bg-neutral-500', 'bg-[#39ff14]'); dot.classList.replace('left-0.5', 'right-0.5'); dot.style.boxShadow='0 0 4px #39ff14'; }">
+                    <div class="absolute right-0.5 top-0.5 w-2 h-2 bg-[#39ff14] rounded-full shadow-[0_0_4px_#39ff14]"></div>
+                  </div>
+                </div>
+
+                <div class="bg-white/5 border border-white/10 rounded-xl p-3 flex flex-col gap-2 relative overflow-hidden opacity-50">
+                  <div class="absolute left-0 top-0 bottom-0 w-1 bg-neutral-600"></div>
+                  <div class="flex items-center gap-2">
+                    <span class="bg-neutral-800 text-neutral-400 px-1.5 py-0.5 rounded border border-neutral-700 text-[8px] font-mono uppercase">
+                      If Sensor
+                    </span>
+                    <span class="text-white font-mono text-xs">
+                      Temp &gt; 28°
+                    </span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="bg-neutral-800 text-neutral-400 px-1.5 py-0.5 rounded border border-neutral-700 text-[8px] font-mono uppercase">
+                      Then Action
+                    </span>
+                    <span class="text-neutral-300 font-mono text-xs">
+                      AC On
+                    </span>
+                  </div>
+                  <div class="absolute right-3 top-1/2 -translate-y-1/2 w-6 h-3 bg-neutral-800 rounded-full cursor-pointer" onclick="const dot=this.children[0]; const p=this.parentElement; if(this.classList.contains('bg-neutral-800')) { this.classList.replace('bg-neutral-800', 'bg-[#39ff14]/20'); dot.classList.replace('bg-neutral-500', 'bg-[#39ff14]'); dot.classList.replace('left-0.5', 'right-0.5'); dot.style.boxShadow='0 0 4px #39ff14'; p.classList.remove('opacity-50'); } else { this.classList.replace('bg-[#39ff14]/20', 'bg-neutral-800'); dot.classList.replace('bg-[#39ff14]', 'bg-neutral-500'); dot.classList.replace('right-0.5', 'left-0.5'); dot.style.boxShadow='none'; p.classList.add('opacity-50'); }">
+                    <div class="absolute left-0.5 top-0.5 w-2 h-2 bg-neutral-500 rounded-full"></div>
+                  </div>
+                </div>
+                <div class="mt-3 mx-1">
+                  <span class="text-neutral-500 font-mono text-[9px] uppercase tracking-widest mb-1.5 block">
+                    AR Gestures
+                  </span>
+                  <div class="bg-white/5 border border-[#00e5ff]/20 rounded-xl p-2 flex justify-between items-center cursor-pointer active:scale-95 transition-transform select-none" onclick="const track = this.querySelector('.relative'); const dot = track.children[0]; if(track.classList.contains('bg-[#00e5ff]/20')) { track.classList.replace('bg-[#00e5ff]/20', 'bg-neutral-800'); dot.classList.replace('bg-[#00e5ff]', 'bg-neutral-500'); dot.classList.replace('right-0.5', 'left-0.5'); dot.style.boxShadow='none'; } else { track.classList.replace('bg-neutral-800', 'bg-[#00e5ff]/20'); dot.classList.replace('bg-neutral-500', 'bg-[#00e5ff]'); dot.classList.replace('left-0.5', 'right-0.5'); dot.style.boxShadow='0 0 4px #00e5ff'; }">
+                    <div class="flex flex-col gap-0.5">
+                      <span class="text-white font-mono text-[9px] uppercase flex items-center gap-1">
+                        <i data-lucide="hand" class="w-3 h-3 text-[#00e5ff]"></i>
+                        2-Finger Tap
+                      </span>
+                      <span class="text-neutral-400 font-mono text-[8px]">
+                        Dim All Lights
+                      </span>
+                    </div>
+                    <div class="w-6 h-3 bg-[#00e5ff]/20 rounded-full relative">
+                      <div class="absolute right-0.5 top-0.5 w-2 h-2 bg-[#00e5ff] rounded-full shadow-[0_0_4px_#00e5ff]"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="mt-3 mx-1 pb-4">
+                  <span class="text-neutral-500 font-mono text-[9px] uppercase tracking-widest mb-1.5 block">
+                    Active Recipes
+                  </span>
+                  <div class="bg-black/40 border border-white/5 rounded-xl p-2 flex flex-col gap-1">
+                    <div class="flex justify-between items-center">
+                      <span class="text-[#39ff14] font-mono text-[9px] uppercase">
+                        Energy Saver
+                      </span>
+                      <span class="text-neutral-500 font-mono text-[8px]">
+                        145 runs
+                      </span>
+                    </div>
+                    <span class="text-neutral-400 font-mono text-[8px]">
+                      Turn off devices when away
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Music App -->
+            <div id="app-access" class="app-view absolute inset-0 bg-[#131313] flex flex-col opacity-0 scale-90 hidden pointer-events-auto overflow-y-auto no-scrollbar">
+              <div class="px-4 py-3 bg-[#131313]/90 backdrop-blur-md sticky top-0 z-10 border-b border-white/5">
+                <h2 class="text-purple-400 font-mono text-[10px] tracking-widest text-center uppercase">
+                  Access Ctrl
+                </h2>
+              </div>
+              <button class="mx-4 mt-2 mb-1 bg-purple-500/10 border border-purple-500/30 text-purple-400 rounded-full py-1.5 flex justify-center items-center gap-2 active:bg-purple-500/20 transition-colors">
+                <i data-lucide="user-plus" class="w-3 h-3"></i>
+                <span class="font-mono text-[9px] font-bold tracking-widest uppercase">
+                  Add User
+                </span>
+              </button>
+
+              <div class="flex flex-col gap-2 p-3 pt-2">
+                <div class="bg-white/5 border border-purple-500/30 rounded-xl p-2.5 flex items-center justify-between cursor-pointer hover:bg-white/10 transition-colors">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center border border-purple-500/50">
+                      <span class="text-purple-400 text-[10px] font-bold font-mono">
+                        AM
+                      </span>
+                    </div>
+                    <div class="flex flex-col">
+                      <span class="text-white font-mono text-xs uppercase">
+                        Alex Morgan (ADM)
+                      </span>
+                      <span class="text-[#39ff14] font-mono text-[9px] flex items-center gap-1 uppercase">
+                        <span class="w-1 h-1 rounded-full bg-[#39ff14] shadow-[0_0_4px_#39ff14]"></span>
+                        Online
+                      </span>
+                    </div>
+                  </div>
+                  <i data-lucide="chevron-right" class="w-4 h-4 text-neutral-600"></i>
+                </div>
+
+                <div class="bg-white/5 border border-white/10 rounded-xl p-2.5 flex items-center justify-between cursor-pointer hover:bg-white/10 transition-colors">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
+                      <span class="text-neutral-400 text-[10px] font-bold font-mono">
+                        KA
+                      </span>
+                    </div>
+                    <div class="flex flex-col">
+                      <span class="text-white font-mono text-xs uppercase">
+                        Kids Account
+                      </span>
+                      <span class="text-[#ff3d00] font-mono text-[9px] flex items-center gap-1 uppercase">
+                        <i data-lucide="clock" class="w-2 h-2"></i>
+                        Curfew On
+                      </span>
+                    </div>
+                  </div>
+                  <i data-lucide="chevron-right" class="w-4 h-4 text-neutral-600"></i>
+                </div>
+                <div class="bg-white/5 border border-white/10 rounded-xl p-2.5 flex items-center justify-between cursor-pointer hover:bg-white/10 transition-colors mt-2">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-[#00e5ff]/10 flex items-center justify-center border border-[#00e5ff]/30">
+                      <span class="text-[#00e5ff] text-[10px] font-bold font-mono">
+                        SM
+                      </span>
+                    </div>
+                    <div class="flex flex-col">
+                      <span class="text-white font-mono text-xs uppercase">
+                        Sarah Morgan
+                      </span>
+                      <span class="text-neutral-400 font-mono text-[9px] flex items-center gap-1 uppercase">
+                        User • 18 Devices
+                      </span>
+                    </div>
+                  </div>
+                  <i data-lucide="chevron-right" class="w-4 h-4 text-neutral-600"></i>
+                </div>
+
+                <div class="mt-3">
+                  <span class="text-neutral-500 font-mono text-[9px] uppercase tracking-widest mb-1.5 block">
+                    Activity Log
+                  </span>
+                  <div class="bg-black/40 border border-white/5 rounded-xl p-2.5 flex flex-col gap-1.5 relative">
+                    <div class="absolute left-0 top-3 bottom-3 w-[2px] bg-neutral-800 rounded-full"></div>
+
+                    <div class="flex flex-col pl-3 relative">
+                      <div class="absolute left-[-1.5px] top-1.5 w-[5px] h-[5px] bg-[#39ff14] rounded-full shadow-[0_0_4px_#39ff14]"></div>
+                      <div class="flex justify-between items-center text-[9px] font-mono mb-0.5">
+                        <span class="text-neutral-300">Front Door</span>
+                        <span class="text-neutral-500">10:02</span>
+                      </div>
+                      <div class="text-[#39ff14] font-mono text-[9px] uppercase">
+                        Unlocked (Admin)
+                      </div>
+                    </div>
+
+                    <div class="flex flex-col pl-3 relative mt-1">
+                      <div class="absolute left-[-1.5px] top-1.5 w-[5px] h-[5px] bg-[#ff3d00] rounded-full shadow-[0_0_4px_#ff3d00]"></div>
+                      <div class="flex justify-between items-center text-[9px] font-mono mb-0.5">
+                        <span class="text-neutral-300">Garage</span>
+                        <span class="text-neutral-500">08:45</span>
+                      </div>
+                      <div class="text-[#ff3d00] font-mono text-[9px] uppercase">
+                        Access Denied
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Settings App -->
+
+            <!-- Weather App -->
+
+            <!-- Phone App -->
+
+            <!-- Messages App -->
+
+            <!-- Alarm App (Center Clock) -->
+          </div>
+        </div>
+      </div>
+
+      <div class="absolute -right-48 top-12 text-[#00e5ff] opacity-60 w-40 text-sm font-mono uppercase tracking-widest">
+        <div class="flex items-center gap-2 mb-2">
+          <i data-lucide="mouse-pointer-2" class="w-4 h-4"></i>
+          <span>Tap to open apps</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>Crown for home</span>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      lucide.createIcons();
+
+      // --- View State Management ---
+      const views = {
+          face: document.getElementById('watch-face'),
+          grid: document.getElementById('app-grid'),
+          apps: document.getElementById('apps-container')
+      };
+
+      // Track current state: 'face', 'grid', or 'app-ID'
+      let currentState = 'face';
+      let activeAppId = null;
+
+      function updateView() {
+          // Reset grid zooming classes to ensure clean state transitions
+          // This fixes the bug where the grid would stay zoomed in
+          views.grid.classList.remove('scale-[3]');
+          views.grid.classList.remove('scale-[2]');
+
+          if (currentState === 'face') {
+              // Face visible
+              views.face.classList.remove('opacity-0', 'scale-[0.5]', 'pointer-events-none');
+              views.face.classList.add('z-20');
+
+              // Grid Hidden (prepared to zoom in from large)
+              views.grid.classList.add('opacity-0', 'scale-[2]', 'pointer-events-none');
+              views.grid.classList.remove('z-20');
+
+              closeAllApps();
+
+          } else if (currentState === 'grid') {
+              // Face Hidden (shrinks)
+              views.face.classList.add('opacity-0', 'scale-[0.5]', 'pointer-events-none');
+              views.face.classList.remove('z-20');
+
+              // Grid Visible (normal size)
+              views.grid.classList.remove('opacity-0', 'pointer-events-none');
+              views.grid.classList.add('z-20');
+
+              closeAllApps();
+
+          } else {
+              // App Open
+              // Face invisible
+              views.face.classList.add('opacity-0', 'scale-[0.5]', 'pointer-events-none');
+              views.face.classList.remove('z-20');
+
+              // Grid expands out of view (zooms in)
+              views.grid.classList.add('opacity-0', 'scale-[3]', 'pointer-events-none');
+              views.grid.classList.remove('z-20');
+
+              // Show App
+              const appEl = document.getElementById('app-' + activeAppId);
+              if(appEl) {
+                  appEl.classList.remove('hidden');
+                  // Force reflow to ensure transition plays
+                  void appEl.offsetWidth;
+                  appEl.classList.remove('opacity-0', 'scale-90');
+              }
+          }
+      }
+
+      function closeAllApps() {
+          document.querySelectorAll('.app-view').forEach(el => {
+              if (!el.classList.contains('hidden')) {
+                  // Start fade out animation
+                  el.classList.add('opacity-0', 'scale-90');
+
+                  // Wait for transition to finish before hiding display
+                  // This allows the "zoom out" effect to be seen
+                  setTimeout(() => {
+                      // Only add hidden if we haven't switched back to this app in the meantime
+                      if (currentState !== 'app' || activeAppId !== el.id.replace('app-', '')) {
+                           el.classList.add('hidden');
+                      }
+                  }, 300);
+              }
+          });
+      }
+
+      function openApp(appId) {
+          activeAppId = appId;
+          currentState = 'app';
+          updateView();
+      }
+
+      // --- Hardware Buttons ---
+      document.getElementById('crown-btn').addEventListener('click', () => {
+          if (currentState === 'app') {
+              currentState = 'grid'; // Go back to grid
+              activeAppId = null;
+          } else if (currentState === 'grid') {
+              currentState = 'face'; // Go home
+          } else {
+              currentState = 'grid'; // Open menu
+          }
+          updateView();
+      });
+
+      // --- App Specific Logic ---
+
+      // Clock Logic
+      function updateClock() {
+          const now = new Date();
+          const h = String(now.getHours()).padStart(2, '0');
+          const m = String(now.getMinutes()).padStart(2, '0');
+          document.getElementById('clock-display').textContent = `${h}:${m}`;
+          document.getElementById('date-display').textContent = now.getDate();
+      }
+      setInterval(updateClock, 1000);
+      updateClock();
+
+      // Calculator Logic
+      let calcVal = '0';
+      function calcInput(v) {
+          const display = document.getElementById('calc-display');
+          if (v === 'C') { calcVal = '0'; }
+          else if (v === '=') {
+              try { calcVal = String(eval(calcVal)); } catch { calcVal = 'Error'; }
+          }
+          else if (v === '+/-') { calcVal = String(parseFloat(calcVal) * -1); }
+          else if (v === '%') { calcVal = String(parseFloat(calcVal) / 100); }
+          else {
+              if (calcVal === '0' && !['.','/','*','-','+'].includes(v)) calcVal = v;
+              else calcVal += v;
+          }
+          // limit length
+          if(calcVal.length > 9) calcVal = calcVal.substring(0,9);
+          display.innerText = calcVal;
+      }
+
+      // Phone Logic
+      function phoneType(num) {
+          const disp = document.getElementById('phone-display');
+          if (disp.innerText.length < 12) disp.innerText += num;
+      }
+    </script>
+  
+</body></html>
