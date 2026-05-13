@@ -46,8 +46,18 @@ CONVERSATION
 
 --------------------------------------------------------------------------------
 
-TEAM MEMBER: [Colleague Name]
-  [To be completed by team member]
+TEAM MEMBER: Stativa Darius 
+  I used Claude  to assist me during the development of my smart home project, Intelliden.
+I directed and made all the design and content decisions myself — Claude was used as a tool to help me produce the deliverables faster, not to come up with the ideas.
+Specifically, I used it to help with:
+
+Producing the UX documentation — sitemap, storyboards, user flows and screen sketches — following my direction
+Generating the storyboard visuals based on the scenario I described
+Putting together the style guide using the colors, fonts and icons I had already chosen
+
+Every prompt was written by me, every output was reviewed by me, and anything that didn't match my vision was changed or redone. Claude helped me execute my ideas, not create them.
+Example:make a little more detailed storyboard out of this given this base app You are a specialized engineer passionate about home automation. So passionate that you build a smart home ecosystem for your current living space, where you control it via your smartphone/tablet, smartwatch, and AR glasses. From adding new devices, viewing information and statistics, setting automations and gestures, to interacting co-op with others (family or roommates) and much more.
+Make me a working prototype of the Intelliden smartphone app, same look and feel as the watch one I already have
 
 --------------------------------------------------------------------------------
 
