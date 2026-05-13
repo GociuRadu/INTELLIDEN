@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>INTELLIDEN — Mobile Prototype</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --bg:#131313; --s1:rgba(255,255,255,0.04); --s2:rgba(255,255,255,0.07);
+  --b:rgba(255,255,255,0.08); --b2:rgba(255,255,255,0.13);
+  --c:#00e5ff; --g:#39ff14; --o:#ff3d00; --v:#a78bfa; --y:#fbbf24;
+  --t:#f0f0f0; --td:rgba(240,240,240,0.5); --tdd:rgba(240,240,240,0.28);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Space Grotesk',sans-serif;background:radial-gradient(ellipse at 50% 30%,#0d1a1a,#060606);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.phone{width:390px;height:844px;background:var(--bg);border-radius:44px;border:1.5px solid rgba(255,255,255,0.1);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 0 1px rgba(0,229,255,0.04),0 0 80px rgba(0,229,255,0.07),0 60px 120px rgba(0,0,0,0.9)}
+.notch{width:124px;height:30px;background:#000;border-radius:0 0 20px 20px;position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:100}
+.hdr{padding:44px 20px 13px;display:flex;align-items:center;justify-content:space-between;background:rgba(13,13,13,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--b);flex-shrink:0;position:relative;z-index:50}
+.logo{font-size:12px;font-weight:700;letter-spacing:3.5px;color:var(--c);text-transform:uppercase;text-shadow:0 0 20px rgba(0,229,255,0.35)}
+.uptime{display:flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--tdd)}
+.udot{width:5px;height:5px;border-radius:50%;background:var(--g);box-shadow:0 0 8px var(--g);animation:pulse 2s infinite}
+.content{flex:1;overflow-y:auto;overflow-x:hidden;padding-bottom:72px;scrollbar-width:none}
+.content::-webkit-scrollbar{display:none}
+.screen{display:none;padding:14px}
+.screen.active{display:block}
+.bnav{position:absolute;bottom:0;left:0;right:0;height:70px;background:rgba(10,10,10,0.96);backdrop-filter:blur(20px);border-top:1px solid var(--b);display:flex;z-index:50}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;padding-bottom:6px;transition:all .2s;position:relative}
+.ni-icon{font-size:18px;line-height:1}
+.ni-lbl{font-size:8.5px;font-weight:600;letter-spacing:.5px;color:var(--tdd);text-transform:uppercase}
+.ni.active .ni-lbl{color:var(--c)}
+.ni.active .ni-icon{filter:drop-shadow(0 0 5px var(--c))}
+.nglow{position:absolute;bottom:0;height:2px;width:20%;background:var(--c);box-shadow:0 0 8px var(--c);transition:left .25s cubic-bezier(.4,0,.2,1)}
+/* CARDS */
+.card{background:var(--s1);border:1px solid var(--b);border-radius:14px;padding:13px 15px;backdrop-filter:blur(10px)}
+.cc{border-color:rgba(0,229,255,0.18);box-shadow:0 0 18px rgba(0,229,255,0.05)}
+.cg{border-color:rgba(57,255,20,0.15)}
+.co{border-color:rgba(255,61,0,0.2)}
+.cv{border-color:rgba(167,139,250,0.18)}
+/* LAYOUT */
+.row{display:flex;align-items:center}
+.rsb{display:flex;align-items:center;justify-content:space-between}
+.col{display:flex;flex-direction:column}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.f1{flex:1}
+.gap4{gap:4px}.gap6{gap:6px}.gap8{gap:8px}.gap10{gap:10px}
+.mt4{margin-top:4px}.mt6{margin-top:6px}.mt8{margin-top:8px}.mt10{margin-top:10px}.mt12{margin-top:12px}.mt14{margin-top:14px}.mt16{margin-top:16px}
+.mb6{margin-bottom:6px}.mb8{margin-bottom:8px}.mb10{margin-bottom:10px}
+/* TEXT */
+.tc{color:var(--c)}.tg{color:var(--g)}.to{color:#ff6b47}.tv{color:var(--v)}.ty{color:var(--y)}
+.td{color:var(--td)}.tdd{color:var(--tdd)}.tw{color:var(--t)}
+.t10{font-size:10px}.t11{font-size:11px}.t12{font-size:12px}.t13{font-size:13px}.t14{font-size:14px}
+.fw6{font-weight:600}.fw7{font-weight:700}
+.mono{font-family:'JetBrains Mono',monospace}
+.lbl{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--tdd);margin-bottom:5px}
+.lbl-c{color:rgba(0,229,255,0.55)}
+/* SECTION TITLE */
+.st{font-size:9.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--tdd);margin:18px 0 10px;display:flex;align-items:center;gap:8px}
+.st::after{content:'';flex:1;height:1px;background:var(--b)}
+/* BADGES */
+.bdg{display:inline-block;font-size:8.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:2px 8px;border-radius:4px}
+.b-act{background:rgba(57,255,20,.1);color:var(--g);border:1px solid rgba(57,255,20,.2)}
+.b-rec{background:rgba(255,61,0,.1);color:#ff6b47;border:1px solid rgba(255,61,0,.25);animation:pulse 1.5s infinite}
+.b-stb{background:rgba(255,255,255,.04);color:var(--tdd);border:1px solid var(--b)}
+.b-hi{background:rgba(255,61,0,.1);color:#ff6b47;border:1px solid rgba(255,61,0,.2)}
+.b-md{background:rgba(251,191,36,.1);color:var(--y);border:1px solid rgba(251,191,36,.2)}
+.b-lo{background:rgba(57,255,20,.08);color:var(--g);border:1px solid rgba(57,255,20,.15)}
+.b-ok{background:rgba(57,255,20,.08);color:var(--g);border:1px solid rgba(57,255,20,.15)}
+.b-fail{background:rgba(255,61,0,.1);color:#ff6b47;border:1px solid rgba(255,61,0,.2)}
+.b-deny{background:rgba(255,61,0,.08);color:#ff6b47;border:1px solid rgba(255,61,0,.15)}
+.b-adm{background:rgba(0,229,255,.1);color:var(--c);border:1px solid rgba(0,229,255,.2)}
+.b-usr{background:rgba(57,255,20,.08);color:var(--g);border:1px solid rgba(57,255,20,.15)}
+.b-kid{background:rgba(251,191,36,.08);color:var(--y);border:1px solid rgba(251,191,36,.15)}
+.b-gst{background:rgba(255,255,255,.05);color:var(--tdd);border:1px solid var(--b)}
+/* TOGGLE */
+.tog{width:38px;height:21px;border-radius:11px;background:rgba(255,255,255,.08);border:1px solid var(--b);position:relative;cursor:pointer;flex-shrink:0;transition:all .2s}
+.tog.on{background:rgba(0,229,255,.2);border-color:rgba(0,229,255,.4)}
+.tog.on-g{background:rgba(57,255,20,.15);border-color:rgba(57,255,20,.3)}
+.tog.on-r{background:rgba(255,61,0,.15);border-color:rgba(255,61,0,.3)}
+.tog::after{content:'';position:absolute;top:2px;left:2px;width:15px;height:15px;border-radius:50%;background:rgba(255,255,255,.3);transition:all .2s}
+.tog.on::after{left:19px;background:var(--c);box-shadow:0 0 8px rgba(0,229,255,.7)}
+.tog.on-g::after{left:19px;background:var(--g);box-shadow:0 0 8px rgba(57,255,20,.6)}
+.tog.on-r::after{left:19px;background:var(--o);box-shadow:0 0 8px rgba(255,61,0,.6)}
+/* BUTTONS */
+.bbtn{width:100%;padding:13px;border-radius:12px;border:none;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .2s}
+.bbtn:active{opacity:.7}
+.bbtn-c{background:linear-gradient(135deg,rgba(0,229,255,.12),rgba(0,229,255,.04));border:1px solid rgba(0,229,255,.28);color:var(--c)}
+.smbtn{padding:6px 11px;border-radius:7px;cursor:pointer;font-family:'Space Grotesk',sans-serif;font-size:9.5px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;transition:opacity .2s;border:none}
+.smbtn:active{opacity:.6}
+.sb-g{background:rgba(255,255,255,.05);border:1px solid var(--b);color:var(--td)}
+.sb-c{background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.25);color:var(--c)}
+.sb-r{background:rgba(255,61,0,.08);border:1px solid rgba(255,61,0,.25);color:#ff6b47}
+/* PROGRESS */
+.pb{height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden}
+.pf{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--c),var(--g));box-shadow:0 0 8px rgba(0,229,255,.3)}
+/* SLIDER */
+.sl-t{height:3px;background:rgba(255,255,255,.08);border-radius:2px;position:relative;margin-top:10px}
+.sl-f{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--c),rgba(0,229,255,.5))}
+.sl-th{position:absolute;top:50%;transform:translate(-50%,-50%);width:14px;height:14px;border-radius:50%;background:var(--c);box-shadow:0 0 10px rgba(0,229,255,.6)}
+/* DIVIDER */
+.dv{height:1px;background:var(--b);margin:10px 0}
+/* FILTER TABS */
+.fscroll{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none;margin-bottom:12px}
+.fscroll::-webkit-scrollbar{display:none}
+.ftab{padding:6px 13px;border-radius:20px;border:1px solid var(--b);background:var(--s1);font-size:10px;font-weight:600;color:var(--tdd);cursor:pointer;white-space:nowrap;transition:all .2s}
+.ftab.active{border-color:rgba(0,229,255,.4);color:var(--c);background:rgba(0,229,255,.08);box-shadow:0 0 10px rgba(0,229,255,.1)}
+/* NODE GRID */
+.ngrid{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;margin-top:8px}
+.nsq{aspect-ratio:1;border-radius:3px;background:rgba(57,255,20,.14);border:1px solid rgba(57,255,20,.22)}
+.nsq.off{background:rgba(255,255,255,.04);border-color:var(--b)}
+/* CAM PREVIEW */
+.cam-p{width:100%;height:85px;background:#080808;border-radius:8px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;margin-bottom:10px;border:1px solid rgba(255,255,255,.05)}
+.cam-p::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 4px,rgba(255,255,255,.008) 4px,rgba(255,255,255,.008) 5px)}
+.cam-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(255,255,255,.18);letter-spacing:2px;position:relative;z-index:1}
+.cam-rd{position:absolute;top:8px;right:8px;width:6px;height:6px;border-radius:50%;background:var(--o);box-shadow:0 0 8px var(--o);animation:pulse 1s infinite;z-index:2}
+/* TOPO NODES */
+.tn{padding:10px 6px;border-radius:10px;text-align:center;cursor:pointer;transition:all .2s}
+.tn:active{opacity:.7}
+.tn-c{background:rgba(0,229,255,.05);border:1px solid rgba(0,229,255,.18)}
+.tn-y{background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.18)}
+.tn-r{background:rgba(255,61,0,.05);border:1px solid rgba(255,61,0,.18)}
+.tn-g{background:rgba(57,255,20,.05);border:1px solid rgba(57,255,20,.18)}
+.tn-ic{font-size:18px;margin-bottom:3px}
+.tn-n{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:600}
+.tn-lb{font-size:7.5px;letter-spacing:1px;text-transform:uppercase;color:var(--tdd);margin-top:2px}
+.tn-c .tn-n{color:var(--c)}.tn-y .tn-n{color:var(--y)}.tn-r .tn-n{color:#ff6b47}.tn-g .tn-n{color:var(--g)}
+/* LOGIC */
+.lb-hdr{font-size:8.5px;font-weight:700;letter-spacing:1.5px;color:rgba(0,229,255,.45);text-transform:uppercase;margin-bottom:5px;font-family:'JetBrains Mono',monospace}
+.lc{padding:11px 13px;border-radius:9px;background:var(--s1);border:1px solid var(--b);display:flex;align-items:center;gap:10px}
+.lc.if{border-left:2px solid var(--c)}.lc.then{border-left:2px solid var(--g)}
+.l-arr{text-align:center;color:var(--g);font-size:15px;margin:3px 0}
+/* AVATAR */
+.av{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.av-a{background:linear-gradient(135deg,rgba(0,229,255,.28),rgba(57,255,20,.28));color:var(--c);border:1px solid rgba(0,229,255,.28)}
+.av-u{background:rgba(0,229,255,.13);color:var(--c);border:1px solid rgba(0,229,255,.22)}
+.av-k{background:rgba(251,191,36,.13);color:var(--y);border:1px solid rgba(251,191,36,.22)}
+.av-g{background:rgba(255,255,255,.05);color:var(--td);border:1px solid var(--b)}
+/* ACT LOG ICON */
+.ai{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.ai-l{background:rgba(0,229,255,.07)}
+.ai-u{background:rgba(57,255,20,.07)}
+.ai-s{background:rgba(255,61,0,.07)}
+.ai-c{background:rgba(167,139,250,.07)}
+/* BIG VAL */
+.bv{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:600}
+.bv-c{color:var(--c);text-shadow:0 0 28px rgba(0,229,255,.4)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+</style>
+</head>
+<body>
+<div class="phone">
+<div class="notch"></div>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="logo">INTELLIDEN</div>
+  <div class="uptime"><span class="udot"></span>14d 02h 37m</div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+<!-- ══ HUB ══ -->
+<div class="screen active" id="s-hub">
+
+  <!-- Status widgets -->
+  <div class="g2">
+    <div class="card cc">
+      <div class="lbl lbl-c">Temperature</div>
+      <div class="row gap6 mt4">
+        <span style="font-size:15px">🌡</span>
+        <span class="bv bv-c" style="font-size:20px">22.3°</span>
+      </div>
+      <svg width="100%" height="28" viewBox="0 0 100 28" preserveAspectRatio="none" style="margin-top:6px">
+        <polygon points="0,20 12,17 24,15 36,19 48,14 60,12 72,13 84,11 100,9 100,28 0,28" fill="rgba(0,229,255,0.06)"/>
+        <polyline points="0,20 12,17 24,15 36,19 48,14 60,12 72,13 84,11 100,9" fill="none" stroke="var(--c)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="card">
+      <div class="lbl">Power Usage</div>
+      <div class="row gap6 mt4">
+        <span style="font-size:15px">⚡</span>
+        <span class="bv tw" style="font-size:20px">3.2<span class="t10 td" style="font-size:11px"> kWh</span></span>
+      </div>
+      <div class="pb mt8"><div class="pf" style="width:64%"></div></div>
+      <div class="tdd t10" style="margin-top:4px;text-align:right">64% of limit</div>
+    </div>
+  </div>
+
+  <!-- Active Nodes -->
+  <div class="card mt10">
+    <div class="rsb">
+      <div>
+        <div class="lbl">Active Nodes</div>
+        <div class="row gap6 mt4">
+          <span class="tg fw7 mono" style="font-size:18px">28</span>
+          <span class="tdd" style="font-size:13px">/32</span>
+        </div>
+      </div>
+      <span style="font-size:22px">📡</span>
+    </div>
+    <div class="ngrid">
+      <div class="nsq"></div><div class="nsq"></div><div class="nsq"></div><div class="nsq"></div><div class="nsq"></div><div class="nsq"></div><div class="nsq"></div><div class="nsq"></div>
+      <div class="nsq"></div><div class="nsq"></div><div class="nsq"></div><div class="nsq"></div><div class="nsq"></div><div class="nsq"></div><div class="nsq"></div><div class="nsq"></div>
+      <div class="nsq"></div><div class="nsq"></div><div class="nsq"></div><div class="nsq"></div><div class="nsq"></div><div class="nsq"></div><div class="nsq"></div><div class="nsq"></div>
+      <div class="nsq"></div><div class="nsq"></div><div class="nsq"></div><div class="nsq"></div>
+      <div class="nsq off"></div><div class="nsq off"></div><div class="nsq off"></div><div class="nsq off"></div>
+    </div>
+  </div>
+
+  <!-- Quick Controls -->
+  <div class="st">Quick Controls</div>
+
+  <div class="card cc mb10">
+    <div class="rsb">
+      <div class="row gap8"><span>💡</span>
+        <div><div class="t13 fw6">Living Room Lights</div><div class="tdd t10">Smart Bulbs · 3 devices</div></div>
+      </div>
+      <div class="tog on" onclick="this.classList.toggle('on')"></div>
+    </div>
+    <div class="sl-t mt12"><div class="sl-f" style="width:75%"></div><div class="sl-th" style="left:75%"></div></div>
+    <div class="rsb tdd t10 mt4"><span>0%</span><span class="tc">75%</span><span>100%</span></div>
+  </div>
+
+  <div class="card mb10">
+    <div class="rsb">
+      <div class="row gap8"><span>❄️</span>
+        <div><div class="t13 fw6">Climate Control</div><div class="tdd t10">HVAC · Target 21°C · Now 22°C</div></div>
+      </div>
+      <div class="tog on" onclick="this.classList.toggle('on')"></div>
+    </div>
+  </div>
+
+  <div class="card cg mb10">
+    <div class="rsb">
+      <div class="row gap8"><span>🔒</span>
+        <div>
+          <div class="t13 fw6">Security · Front Door</div>
+          <div class="mt4"><span class="bdg b-act">LOCKED</span></div>
+        </div>
+      </div>
+      <div class="row gap6">
+        <div class="smbtn sb-g">Unlock</div>
+        <div class="smbtn sb-c">Status</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Network Topology -->
+  <div class="st">Network Topology</div>
+  <div class="card">
+    <div class="rsb mb10">
+      <div class="t12 fw6">Hub Status</div>
+      <div class="row gap6"><div style="width:6px;height:6px;border-radius:50%;background:var(--g);box-shadow:0 0 8px var(--g)"></div><span class="tg t10 fw6">ONLINE</span></div>
+    </div>
+    <div class="g4">
+      <div class="tn tn-c" onclick="nav('nodes');filterDev('Cameras',null)"><div class="tn-ic">📷</div><div class="tn-n">4</div><div class="tn-lb">Cameras</div></div>
+      <div class="tn tn-y" onclick="nav('nodes');filterDev('Lights',null)"><div class="tn-ic">💡</div><div class="tn-n">12</div><div class="tn-lb">Lights</div></div>
+      <div class="tn tn-r" onclick="nav('nodes');filterDev('Security',null)"><div class="tn-ic">🔐</div><div class="tn-n">8</div><div class="tn-lb">Security</div></div>
+      <div class="tn tn-g" onclick="nav('nodes');filterDev('Sensors',null)"><div class="tn-ic">📡</div><div class="tn-n">4</div><div class="tn-lb">Sensors</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ NODES ══ -->
+<div class="screen" id="s-nodes">
+  <button class="bbtn bbtn-c mb10">⊕ ADD NEW DEVICE</button>
+
+  <div class="fscroll" id="ftabs">
+    <div class="ftab active" onclick="filterDev('All',this)">All (28)</div>
+    <div class="ftab" onclick="filterDev('Lights',this)">Lights (12)</div>
+    <div class="ftab" onclick="filterDev('Sensors',this)">Sensors (6)</div>
+    <div class="ftab" onclick="filterDev('Security',this)">Security (8)</div>
+    <div class="ftab" onclick="filterDev('Cameras',this)">Cameras (4)</div>
+  </div>
+
+  <div id="devlist">
+    <!-- CAMERAS -->
+    <div class="card cc mb10 dcard" data-cat="Cameras">
+      <div class="cam-p"><div class="cam-rd"></div><div class="cam-lbl">4K · FRONT DOOR · LIVE</div></div>
+      <div class="rsb mb6"><div><div class="t13 fw6">Front Door Cam</div><div class="tdd t10 mt4">4K Camera · Entrance</div></div><span class="bdg b-rec">RECORDING</span></div>
+      <div class="dv"></div>
+      <div class="rsb"><div class="row gap8"><span>🔋</span><span class="tg t11">98%</span><span class="tdd">|</span><span class="tg t11">-38 dBm</span></div><div class="row gap6"><div class="smbtn sb-g">Config</div><div class="smbtn sb-c">Details</div></div></div>
+    </div>
+    <div class="card mb10 dcard" data-cat="Cameras">
+      <div class="cam-p"><div class="cam-lbl">4K · GARDEN · LIVE</div></div>
+      <div class="rsb mb6"><div><div class="t13 fw6">Garden Cam</div><div class="tdd t10 mt4">4K Camera · Garden</div></div><span class="bdg b-act">ACTIVE</span></div>
+      <div class="dv"></div>
+      <div class="rsb"><div class="row gap8"><span>🔋</span><span class="tg t11">100%</span><span class="tdd">|</span><span class="tc t11">-46 dBm</span></div><div class="row gap6"><div class="smbtn sb-g">Config</div><div class="smbtn sb-c">Details</div></div></div>
+    </div>
+    <!-- LIGHTS -->
+    <div class="card mb10 dcard" data-cat="Lights">
+      <div class="rsb mb6"><div class="row gap8"><span style="font-size:22px">💡</span><div><div class="t13 fw6">Living Room Main</div><div class="tdd t10">Smart Bulb · Living Room</div></div></div><span class="bdg b-act">ACTIVE</span></div>
+      <div class="dv"></div>
+      <div class="rsb"><div class="row gap8"><span>⚡</span><span class="tg t11">Wired</span><span class="tdd">|</span><span class="tg t11">-41 dBm</span></div><div class="row gap6"><div class="smbtn sb-g">Config</div><div class="smbtn sb-c">Details</div></div></div>
+    </div>
+    <div class="card mb10 dcard" data-cat="Lights">
+      <div class="rsb mb6"><div class="row gap8"><span style="font-size:22px">💡</span><div><div class="t13 fw6">Kitchen Light</div><div class="tdd t10">Smart Bulb · Kitchen</div></div></div><span class="bdg b-act">ACTIVE</span></div>
+      <div class="dv"></div>
+      <div class="rsb"><div class="row gap8"><span>⚡</span><span class="tg t11">Wired</span><span class="tdd">|</span><span class="tc t11">-48 dBm</span></div><div class="row gap6"><div class="smbtn sb-g">Config</div><div class="smbtn sb-c">Details</div></div></div>
+    </div>
+    <div class="card mb10 dcard" data-cat="Lights">
+      <div class="rsb mb6"><div class="row gap8"><span style="font-size:22px">💡</span><div><div class="t13 fw6">Bedroom Light</div><div class="tdd t10">Smart Bulb · Bedroom</div></div></div><span class="bdg b-stb">STANDBY</span></div>
+      <div class="dv"></div>
+      <div class="rsb"><div class="row gap8"><span>⚡</span><span class="tg t11">Wired</span><span class="tdd">|</span><span class="tg t11">-43 dBm</span></div><div class="row gap6"><div class="smbtn sb-g">Config</div><div class="smbtn sb-c">Details</div></div></div>
+    </div>
+    <!-- SECURITY -->
+    <div class="card cg mb10 dcard" data-cat="Security">
+      <div class="rsb mb6"><div class="row gap8"><span style="font-size:22px">🔐</span><div><div class="t13 fw6">Front Door Lock</div><div class="tdd t10">Smart Lock · Entrance</div></div></div><span class="bdg b-act">ACTIVE</span></div>
+      <div class="dv"></div>
+      <div class="rsb"><div class="row gap8"><span>🔋</span><span class="tc t11">61%</span><span class="tdd">|</span><span class="tg t11">-40 dBm</span></div><div class="row gap6"><div class="smbtn sb-g">Config</div><div class="smbtn sb-c">Details</div></div></div>
+    </div>
+    <div class="card mb10 dcard" data-cat="Security">
+      <div class="rsb mb6"><div class="row gap8"><span style="font-size:22px">🚨</span><div><div class="t13 fw6">Motion Sensor PIR</div><div class="tdd t10">PIR Sensor · Entrance</div></div></div><span class="bdg b-act">ACTIVE</span></div>
+      <div class="dv"></div>
+      <div class="rsb"><div class="row gap8"><span>🔋</span><span class="tg t11">92%</span><span class="tdd">|</span><span class="tg t11">-39 dBm</span></div><div class="row gap6"><div class="smbtn sb-g">Config</div><div class="smbtn sb-c">Details</div></div></div>
+    </div>
+    <!-- SENSORS -->
+    <div class="card mb10 dcard" data-cat="Sensors">
+      <div class="rsb mb6"><div class="row gap8"><span style="font-size:22px">🌡</span><div><div class="t13 fw6">Temp Sensor Hall</div><div class="tdd t10">Temp Sensor · Hall</div></div></div><span class="bdg b-act">ACTIVE</span></div>
+      <div class="dv"></div>
+      <div class="rsb"><div class="row gap8"><span>🔋</span><span class="tg t11">88%</span><span class="tdd">|</span><span class="to t11">-52 dBm</span></div><div class="row gap6"><div class="smbtn sb-g">Config</div><div class="smbtn sb-c">Details</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DATA ══ -->
+<div class="screen" id="s-data">
+  <div class="g2">
+    <div class="card cc">
+      <div class="lbl lbl-c">Total Daily</div>
+      <div class="bv bv-c mt4">48.7<span class="t11 td"> kWh</span></div>
+      <div class="row gap6 mt6"><span class="t10">↑</span><span class="tg t10 fw6">+12% vs yesterday</span></div>
+    </div>
+    <div class="card">
+      <div class="lbl">Est. Cost</div>
+      <div class="bv tw mt4">32.40<span class="t11 td"> RON</span></div>
+      <div class="tdd t10 mt6">0.665 RON/kWh</div>
+    </div>
+  </div>
+
+  <div class="st">24-Hour Telemetry</div>
+  <div class="card cc" style="padding:13px 11px">
+    <div class="rsb tdd t10 mb8"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>
+    <svg width="100%" height="100" viewBox="0 0 340 100" preserveAspectRatio="none">
+      <line x1="0" y1="20" x2="340" y2="20" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+      <line x1="0" y1="50" x2="340" y2="50" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+      <line x1="0" y1="80" x2="340" y2="80" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+      <polygon points="0,84 15,88 30,91 44,91 59,88 74,77 89,61 103,48 118,41 133,46 148,50 163,55 177,39 192,43 207,48 222,32 237,23 251,16 266,23 281,32 296,39 310,50 325,61 340,73 340,92 0,92" fill="rgba(0,229,255,0.06)"/>
+      <polyline points="0,84 15,88 30,91 44,91 59,88 74,77 89,61 103,48 118,41 133,46 148,50 163,55 177,39 192,43 207,48 222,32 237,23 251,16 266,23 281,32 296,39 310,50 325,61 340,73" fill="none" stroke="var(--c)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="251" cy="16" r="4" fill="var(--g)" style="filter:drop-shadow(0 0 5px var(--g))"/>
+    </svg>
+    <div class="rsb tdd t10 mt4"><span>0 kWh</span><span class="tc">Peak 3.5 kWh @ 17:00</span><span>4 kWh</span></div>
+  </div>
+
+  <div class="st">Room Distribution</div>
+  <div class="card" style="display:flex;gap:14px;align-items:center">
+    <svg width="120" height="120" viewBox="0 0 140 140" style="flex-shrink:0">
+      <circle cx="70" cy="70" r="50" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="18"/>
+      <circle cx="70" cy="70" r="50" fill="none" stroke="#00e5ff" stroke-width="18" stroke-dasharray="110 204" stroke-dashoffset="0" transform="rotate(-90 70 70)" style="filter:drop-shadow(0 0 5px rgba(0,229,255,.5))"/>
+      <circle cx="70" cy="70" r="50" fill="none" stroke="#39ff14" stroke-width="18" stroke-dasharray="88 226" stroke-dashoffset="-110" transform="rotate(-90 70 70)" style="filter:drop-shadow(0 0 4px rgba(57,255,20,.4))"/>
+      <circle cx="70" cy="70" r="50" fill="none" stroke="#a78bfa" stroke-width="18" stroke-dasharray="57 257" stroke-dashoffset="-198" transform="rotate(-90 70 70)"/>
+      <circle cx="70" cy="70" r="50" fill="none" stroke="#fbbf24" stroke-width="18" stroke-dasharray="38 276" stroke-dashoffset="-255" transform="rotate(-90 70 70)"/>
+      <circle cx="70" cy="70" r="50" fill="none" stroke="#ff3d00" stroke-width="18" stroke-dasharray="22 292" stroke-dashoffset="-293" transform="rotate(-90 70 70)"/>
+      <circle cx="70" cy="70" r="34" fill="#131313"/>
+      <text x="70" y="67" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="#00e5ff">48.7</text>
+      <text x="70" y="78" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,255,255,0.28)">kWh</text>
+    </svg>
+    <div class="f1 col gap6">
+      <div class="rsb"><div class="row gap6"><span style="width:8px;height:8px;border-radius:2px;background:var(--c);display:block"></span><span class="t11 td">Living Room</span></div><span class="t11 fw6 tc">35%</span></div>
+      <div class="rsb"><div class="row gap6"><span style="width:8px;height:8px;border-radius:2px;background:var(--g);display:block"></span><span class="t11 td">Kitchen</span></div><span class="t11 fw6 tg">28%</span></div>
+      <div class="rsb"><div class="row gap6"><span style="width:8px;height:8px;border-radius:2px;background:var(--v);display:block"></span><span class="t11 td">Bedroom</span></div><span class="t11 fw6 tv">18%</span></div>
+      <div class="rsb"><div class="row gap6"><span style="width:8px;height:8px;border-radius:2px;background:var(--y);display:block"></span><span class="t11 td">Bathroom</span></div><span class="t11 fw6 ty">12%</span></div>
+      <div class="rsb"><div class="row gap6"><span style="width:8px;height:8px;border-radius:2px;background:var(--o);display:block"></span><span class="t11 td">Other</span></div><span class="t11 fw6 to">7%</span></div>
+    </div>
+  </div>
+
+  <div class="st">AI Detection</div>
+  <div class="card co mb10"><div class="rsb mb6"><div class="t12 fw6">⚡ Standby Overload</div><span class="bdg b-hi">HIGH</span></div><div class="td t11 mb8">Living room consuming 2.3 kWh in standby</div><div class="rsb"><span class="tg t10 fw6">Save 42 RON/month</span><div class="smbtn sb-c">FIX</div></div></div>
+  <div class="card mb10"><div class="rsb mb6"><div class="t12 fw6">🌡 Thermal Loss</div><span class="bdg b-md">MEDIUM</span></div><div class="td t11 mb8">HVAC running 18% longer than optimal</div><div class="rsb"><span class="tg t10 fw6">Save 28 RON/month</span><div class="smbtn sb-c">FIX</div></div></div>
+  <div class="card mb10"><div class="rsb mb6"><div class="t12 fw6">✅ Optimal Schedule</div><span class="bdg b-lo">LOW</span></div><div class="td t11 mb8">Lighting automation is 94% efficient</div><div class="rsb"><span class="tg t10 fw6">Save 12 RON/month</span><div class="smbtn sb-c">FIX</div></div></div>
+  <div class="card co"><div class="rsb mb6"><div class="t12 fw6">⏱ Peak Hour Usage</div><span class="bdg b-hi">HIGH</span></div><div class="td t11 mb8">Heavy consumption during peak tariff (18–21h)</div><div class="rsb"><span class="tg t10 fw6">Save 56 RON/month</span><div class="smbtn sb-c">FIX</div></div></div>
+</div>
+
+<!-- ══ LOGIC ══ -->
+<div class="screen" id="s-logic">
+  <button class="bbtn bbtn-c mb10">⊕ NEW LOGIC BLOCK</button>
+  <div class="st">Logic Blocks</div>
+
+  <!-- Block 1 -->
+  <div class="mb10">
+    <div class="rsb mb6"><div class="lb-hdr">Logic #01</div><div class="tog on" onclick="this.classList.toggle('on')"></div></div>
+    <div class="lc if mb4"><span style="font-size:18px">🌅</span><div class="f1"><div class="t11 fw6">IF Sunset</div><div class="tdd t10">Trigger · Daily · 20:34</div></div></div>
+    <div class="l-arr">↓</div>
+    <div class="lc then"><span style="font-size:18px">🪟</span><div class="f1"><div class="t11 fw6">THEN Close Blinds</div><div class="tdd t10">Action · All Zones</div></div></div>
+    <div class="row gap6 mt8"><div class="smbtn sb-g f1" style="text-align:center">Edit</div><div class="smbtn sb-r f1" style="text-align:center">Delete</div></div>
+  </div>
+
+  <!-- Block 2 -->
+  <div class="mb10">
+    <div class="rsb mb6"><div class="lb-hdr">Logic #02</div><div class="tog on" onclick="this.classList.toggle('on')"></div></div>
+    <div class="lc if mb4"><span style="font-size:18px">🚶</span><div class="f1"><div class="t11 fw6">IF Motion Detected</div><div class="tdd t10">Sensor · Entrance PIR</div></div></div>
+    <div class="l-arr">↓</div>
+    <div class="lc then"><span style="font-size:18px">💡</span><div class="f1"><div class="t11 fw6">THEN Turn On Lights</div><div class="tdd t10">Action · Entrance · 80%</div></div></div>
+    <div class="row gap6 mt8"><div class="smbtn sb-g f1" style="text-align:center">Edit</div><div class="smbtn sb-r f1" style="text-align:center">Delete</div></div>
+  </div>
+
+  <!-- Block 3 disabled -->
+  <div class="mb10" style="opacity:.45" id="lb3">
+    <div class="rsb mb6"><div class="lb-hdr">Logic #03</div><div class="tog" onclick="this.classList.toggle('on');document.getElementById('lb3').style.opacity=this.classList.contains('on')?'1':'.45'"></div></div>
+    <div class="lc if mb4"><span style="font-size:18px">🌡</span><div class="f1"><div class="t11 fw6">IF Temp &gt; 26°C</div><div class="tdd t10">Sensor · Indoor Thermometer</div></div></div>
+    <div class="l-arr">↓</div>
+    <div class="lc then"><span style="font-size:18px">❄️</span><div class="f1"><div class="t11 fw6">THEN Start Cooling</div><div class="tdd t10">Action · HVAC · 21°C target</div></div></div>
+    <div class="row gap6 mt8"><div class="smbtn sb-g f1" style="text-align:center">Edit</div><div class="smbtn sb-r f1" style="text-align:center">Delete</div></div>
+  </div>
+
+  <!-- Block 4 -->
+  <div class="mb10">
+    <div class="rsb mb6"><div class="lb-hdr">Logic #04</div><div class="tog on" onclick="this.classList.toggle('on')"></div></div>
+    <div class="lc if mb4"><span style="font-size:18px">🌄</span><div class="f1"><div class="t11 fw6">IF Sunrise</div><div class="tdd t10">Trigger · Daily · 06:12</div></div></div>
+    <div class="l-arr">↓</div>
+    <div class="lc then"><span style="font-size:18px">🔓</span><div class="f1"><div class="t11 fw6">THEN Unlock Door</div><div class="tdd t10">Action · Front Door</div></div></div>
+    <div class="row gap6 mt8"><div class="smbtn sb-g f1" style="text-align:center">Edit</div><div class="smbtn sb-r f1" style="text-align:center">Delete</div></div>
+  </div>
+
+  <div class="st">Spatial Awareness (AR Gestures)</div>
+  <div class="card">
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--b)"><span style="font-size:20px;width:34px;text-align:center">✌️</span><div class="f1"><div class="t11 fw6">Two-finger Tap → Dim All Lights</div><div class="mono tdd" style="font-size:9px;margin-top:2px;letter-spacing:1px">LIVING ROOM</div></div><div class="tog on" onclick="this.classList.toggle('on')"></div></div>
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--b)"><span style="font-size:20px;width:34px;text-align:center">☝️</span><div class="f1"><div class="t11 fw6">Swipe Up → Increase Temperature</div><div class="mono tdd" style="font-size:9px;margin-top:2px;letter-spacing:1px">BEDROOM</div></div><div class="tog on" onclick="this.classList.toggle('on')"></div></div>
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--b)"><span style="font-size:20px;width:34px;text-align:center">🤚</span><div class="f1"><div class="t11 fw6">Palm Raise → Emergency Mode</div><div class="mono tdd" style="font-size:9px;margin-top:2px;letter-spacing:1px">ALL ZONES</div></div><div class="tog on" onclick="this.classList.toggle('on')"></div></div>
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 0"><span style="font-size:20px;width:34px;text-align:center">🤏</span><div class="f1"><div class="t11 fw6">Pinch → Toggle Lights</div><div class="mono tdd" style="font-size:9px;margin-top:2px;letter-spacing:1px">KITCHEN</div></div><div class="tog on" onclick="this.classList.toggle('on')"></div></div>
+  </div>
+
+  <div class="st">Active Recipes</div>
+  <div class="card">
+    <div style="padding:10px 0;border-bottom:1px solid var(--b)"><div class="rsb"><div class="t12 fw6">⚡ Energy Saver Mode</div><div class="tog on" onclick="this.classList.toggle('on')"></div></div><div class="td t11 mt4">Turn off devices when away</div><div class="row gap8 mt6"><span class="mono tdd" style="font-size:9px">145 exec</span><span class="tdd">·</span><span class="mono tdd" style="font-size:9px">Last: 2h ago</span></div><div class="row gap6 mt8"><div class="smbtn sb-g">Modify</div><div class="smbtn sb-c">View</div></div></div>
+    <div style="padding:10px 0;border-bottom:1px solid var(--b)"><div class="rsb"><div class="t12 fw6">🌅 Morning Routine</div><div class="tog on" onclick="this.classList.toggle('on')"></div></div><div class="td t11 mt4">Lights + coffee + unlock at 7AM</div><div class="row gap8 mt6"><span class="mono tdd" style="font-size:9px">89 exec</span><span class="tdd">·</span><span class="mono tdd" style="font-size:9px">Last: 5h ago</span></div><div class="row gap6 mt8"><div class="smbtn sb-g">Modify</div><div class="smbtn sb-c">View</div></div></div>
+    <div style="padding:10px 0;border-bottom:1px solid var(--b)"><div class="rsb"><div class="t12 fw6">🔒 Security Alert</div><div class="tog on" onclick="this.classList.toggle('on')"></div></div><div class="td t11 mt4">Notify when door opens</div><div class="row gap8 mt6"><span class="mono tdd" style="font-size:9px">3 exec</span><span class="tdd">·</span><span class="mono tdd" style="font-size:9px">Last: yesterday</span></div><div class="row gap6 mt8"><div class="smbtn sb-g">Modify</div><div class="smbtn sb-c">View</div></div></div>
+    <div style="padding:10px 0"><div class="rsb"><div class="t12 fw6">🌤 Climate Optimizer</div><div class="tog on" onclick="this.classList.toggle('on')"></div></div><div class="td t11 mt4">Adjust temperature by weather forecast</div><div class="row gap8 mt6"><span class="mono tdd" style="font-size:9px">234 exec</span><span class="tdd">·</span><span class="mono tdd" style="font-size:9px">Last: 30 min ago</span></div><div class="row gap6 mt8"><div class="smbtn sb-g">Modify</div><div class="smbtn sb-c">View</div></div></div>
+  </div>
+</div>
+
+<!-- ══ ACCESS ══ -->
+<div class="screen" id="s-access">
+  <button class="bbtn bbtn-c mb10">⊕ ADD USER</button>
+  <div class="st">Authorized Users</div>
+
+  <div class="card cc mb10"><div class="rsb mb10"><div class="row gap10"><div class="av av-a">AM</div><div><div class="t13 fw6">Alex Morgan</div><div class="mt4"><span class="bdg b-adm">ADMIN</span></div></div></div><div class="col" style="align-items:flex-end;gap:3px"><span class="tdd t10">2 min ago</span><span class="tdd t10 mono">32 devices</span></div></div><div class="tdd t10 mb8">All Access · Config · Delete</div><div class="row gap6"><div class="smbtn sb-g f1" style="text-align:center">Permissions</div><div class="smbtn sb-c f1" style="text-align:center">Details</div></div></div>
+
+  <div class="card mb10"><div class="rsb mb10"><div class="row gap10"><div class="av av-u">SM</div><div><div class="t13 fw6">Sarah Morgan</div><div class="mt4"><span class="bdg b-usr">USER</span></div></div></div><div class="col" style="align-items:flex-end;gap:3px"><span class="tdd t10">1h ago</span><span class="tdd t10 mono">18 devices</span></div></div><div class="tdd t10 mb8">Lights · Climate · Media</div><div class="row gap6"><div class="smbtn sb-g f1" style="text-align:center">Permissions</div><div class="smbtn sb-c f1" style="text-align:center">Details</div></div></div>
+
+  <div class="card mb10"><div class="rsb mb10"><div class="row gap10"><div class="av av-k">KA</div><div><div class="t13 fw6">Kids Account</div><div class="mt4"><span class="bdg b-kid">KIDS</span></div></div></div><div class="col" style="align-items:flex-end;gap:3px"><span class="tdd t10">3h ago</span><span class="tdd t10 mono">8 devices</span></div></div><div class="tdd t10 mb4">Lights · Media</div><div class="to t10 mb8">⏰ Curfew: 22:00 – 07:00</div><div class="row gap6"><div class="smbtn sb-g f1" style="text-align:center">Permissions</div><div class="smbtn sb-c f1" style="text-align:center">Details</div></div></div>
+
+  <div class="card mb10"><div class="rsb mb10"><div class="row gap10"><div class="av av-g">GA</div><div><div class="t13 fw6">Guest Access</div><div class="mt4"><span class="bdg b-gst">GUEST</span></div></div></div><div class="col" style="align-items:flex-end;gap:3px"><span class="tdd t10">Yesterday</span><span class="tdd t10 mono">4 devices</span></div></div><div class="tdd t10 mb4">Lights · Door</div><div class="to t10 mb8">⏰ 48h time limit</div><div class="row gap6"><div class="smbtn sb-g f1" style="text-align:center">Permissions</div><div class="smbtn sb-c f1" style="text-align:center">Details</div></div></div>
+
+  <div class="st">Activity Log</div>
+  <div class="card">
+    <div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--b)"><div class="ai ai-l">🔒</div><div class="f1"><div class="t12 fw6">Alex Morgan</div><div class="td t11">Unlocked Front Door</div><div class="tdd mono" style="font-size:9px;margin-top:2px">2 min ago</div></div><span class="bdg b-ok">SUCCESS</span></div>
+    <div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--b)"><div class="ai ai-u">🌡</div><div class="f1"><div class="t12 fw6">Sarah Morgan</div><div class="td t11">Adjusted Temperature</div><div class="tdd mono" style="font-size:9px;margin-top:2px">1h ago</div></div><span class="bdg b-ok">SUCCESS</span></div>
+    <div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--b)"><div class="ai ai-s">🚫</div><div class="f1"><div class="t12 fw6 to">Unknown</div><div class="td t11">Failed Door Unlock</div><div class="tdd mono" style="font-size:9px;margin-top:2px">3h ago</div></div><span class="bdg b-fail">FAILED</span></div>
+    <div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--b)"><div class="ai ai-c">📷</div><div class="f1"><div class="t12 fw6">Kids Account</div><div class="td t11">Tried Camera Access</div><div class="tdd mono" style="font-size:9px;margin-top:2px">4h ago</div></div><span class="bdg b-deny">DENIED</span></div>
+    <div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--b)"><div class="ai ai-u">⚙️</div><div class="f1"><div class="t12 fw6">Alex Morgan</div><div class="td t11">Created Automation</div><div class="tdd mono" style="font-size:9px;margin-top:2px">5h ago</div></div><span class="bdg b-ok">SUCCESS</span></div>
+    <div style="display:flex;gap:10px;padding:10px 0"><div class="ai ai-l">💡</div><div class="f1"><div class="t12 fw6">Guest Access</div><div class="td t11">Turned On Lights</div><div class="tdd mono" style="font-size:9px;margin-top:2px">Yesterday</div></div><span class="bdg b-ok">SUCCESS</span></div>
+  </div>
+
+  <div class="st">Critical Notifications</div>
+  <div class="card co mb10"><div class="rsb mb6"><div class="t12 fw6 to">⚠ Multiple Failed Access</div><span class="bdg b-hi">HIGH</span></div><div class="td t11 mb8">3 failed unlock attempts · 3h ago</div><div class="smbtn sb-c">Review</div></div>
+  <div class="card mb10"><div class="rsb mb6"><div class="t12 fw6">📷 Permission Escalation</div><span class="bdg b-md">MEDIUM</span></div><div class="td t11 mb8">Kids requesting Camera access · 4h ago</div><div class="smbtn sb-c">Review</div></div>
+  <div class="card mb10"><div class="rsb mb6"><div class="t12 fw6">📡 New Device Connection</div><span class="bdg b-hi">HIGH</span></div><div class="td t11 mb8">Unknown device on network · 6h ago</div><div class="smbtn sb-c">Review</div></div>
+
+  <div class="st">Notification Settings</div>
+  <div class="card">
+    <div class="rsb" style="padding:10px 0;border-bottom:1px solid var(--b)"><div><div class="t12 fw6">Security Alerts</div><div class="tdd t10">Unauthorized access, door events</div></div><div class="tog on-r on" onclick="this.classList.toggle('on')"></div></div>
+    <div class="rsb" style="padding:10px 0;border-bottom:1px solid var(--b)"><div><div class="t12 fw6">Access Events</div><div class="tdd t10">User logins, permission changes</div></div><div class="tog on" onclick="this.classList.toggle('on')"></div></div>
+    <div class="rsb" style="padding:10px 0"><div><div class="t12 fw6">System Updates</div><div class="tdd t10">Firmware, maintenance</div></div><div class="tog" onclick="this.classList.toggle('on')"></div></div>
+  </div>
+</div>
+
+</div><!-- /content -->
+
+<!-- BOTTOM NAV -->
+<div class="bnav" id="bnav">
+  <div class="nglow" id="nglow" style="left:0%"></div>
+  <div class="ni active" onclick="nav('hub',0)"><div class="ni-icon">⬡</div><div class="ni-lbl">Hub</div></div>
+  <div class="ni" onclick="nav('nodes',1)"><div class="ni-icon">◈</div><div class="ni-lbl">Nodes</div></div>
+  <div class="ni" onclick="nav('data',2)"><div class="ni-icon">◷</div><div class="ni-lbl">Data</div></div>
+  <div class="ni" onclick="nav('logic',3)"><div class="ni-icon">⟳</div><div class="ni-lbl">Logic</div></div>
+  <div class="ni" onclick="nav('access',4)"><div class="ni-icon">◉</div><div class="ni-lbl">Access</div></div>
+</div>
+</div>
+
+<script>
+const MAP = {hub:'s-hub',nodes:'s-nodes',data:'s-data',logic:'s-logic',access:'s-access'};
+function nav(name, idx) {
+  Object.values(MAP).forEach(id => document.getElementById(id).classList.remove('active'));
+  document.getElementById(MAP[name]).classList.add('active');
+  document.querySelector('.content').scrollTop = 0;
+  document.querySelectorAll('.ni').forEach((el,i) => el.classList.toggle('active', i===idx));
+  document.getElementById('nglow').style.left = (idx*20)+'%';
+}
+function filterDev(cat, el) {
+  if (el) { document.querySelectorAll('.ftab').forEach(t => t.classList.remove('active')); el.classList.add('active'); }
+  else { document.querySelectorAll('.ftab').forEach(t => { if(t.textContent.startsWith(cat)) t.classList.add('active'); else t.classList.remove('active'); }); }
+  document.querySelectorAll('.dcard').forEach(c => { c.style.display = (cat==='All'||c.dataset.cat===cat)?'block':'none'; });
+}
+</script>
+</body>
+</html>

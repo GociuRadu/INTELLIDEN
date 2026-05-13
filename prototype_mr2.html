@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>INTELLIDEN — MR Headset</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --c:#00e5ff; --g:#39ff14; --o:#ff3d00; --v:#a78bfa; --y:#fbbf24;
+  --t:#f0f0f0; --td:rgba(240,240,240,0.5); --tdd:rgba(240,240,240,0.28);
+  --b:rgba(0,229,255,0.12); --b2:rgba(0,229,255,0.24);
+  --s:rgba(10,25,40,0.42);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Space Grotesk',sans-serif;background:#050a0f;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+
+/* FRAME */
+.headset{width:1280px;height:720px;position:relative;overflow:hidden;border-radius:28px;border:1px solid rgba(0,229,255,0.15);box-shadow:0 0 0 1px rgba(0,229,255,0.05),0 0 100px rgba(0,229,255,0.08),0 60px 120px rgba(0,0,0,0.95);display:flex;flex-direction:column}
+
+/* ROOM BG */
+.room-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 60%,rgba(0,50,80,0.18) 0%,transparent 55%),radial-gradient(ellipse at 70% 40%,rgba(0,30,50,0.12) 0%,transparent 50%),linear-gradient(180deg,#04090e 0%,#060d14 50%,#040810 100%)}
+.room-bg::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,229,255,0.008) 3px,rgba(0,229,255,0.008) 4px);pointer-events:none}
+.vignette{position:absolute;inset:0;pointer-events:none;z-index:2;background:radial-gradient(ellipse at 50% 50%,transparent 55%,rgba(0,0,0,0.65) 100%)}
+.lens{position:absolute;inset:0;pointer-events:none;z-index:3;border-radius:28px;box-shadow:inset 0 0 60px rgba(0,0,0,0.5),inset 0 0 2px rgba(0,229,255,0.15)}
+.crosshair{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:22px;height:22px;pointer-events:none;z-index:4}
+.crosshair::before,.crosshair::after{content:'';position:absolute;background:rgba(0,229,255,0.22)}
+.crosshair::before{width:1px;height:100%;left:50%;transform:translateX(-50%)}
+.crosshair::after{height:1px;width:100%;top:50%;transform:translateY(-50%)}
+
+/* TOP BAR */
+.topbar{position:relative;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:14px 28px 12px;background:rgba(4,9,14,0.75);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,229,255,0.08);flex-shrink:0}
+.logo{font-size:12px;font-weight:700;letter-spacing:4px;color:var(--c);text-transform:uppercase;text-shadow:0 0 20px rgba(0,229,255,0.4)}
+.tabs{display:flex;gap:6px}
+.tab{padding:7px 26px;border-radius:20px;cursor:pointer;font-size:10.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--tdd);border:1px solid transparent;transition:all .2s}
+.tab.active{color:var(--c);border-color:rgba(0,229,255,0.3);background:rgba(0,229,255,0.07);box-shadow:0 0 14px rgba(0,229,255,0.1)}
+.tab:hover:not(.active){color:var(--td);border-color:rgba(255,255,255,0.08)}
+.topbar-right{display:flex;align-items:center;gap:20px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--tdd)}
+.dot{width:5px;height:5px;border-radius:50%;display:inline-block;margin-right:5px}
+.dot-g{background:var(--g);box-shadow:0 0 6px var(--g);animation:pulse 2s infinite}
+.dot-c{background:var(--c);box-shadow:0 0 6px var(--c)}
+.dot-r{background:var(--o);box-shadow:0 0 6px var(--o);animation:pulse 1.2s infinite}
+
+/* CONTENT */
+.content{flex:1;position:relative;z-index:10;overflow:hidden}
+.screen{display:none;height:100%;padding:20px 24px;gap:16px}
+.screen.active{display:flex;animation:fadeIn .25s ease}
+
+/* BOTTOM BAR */
+.botbar{position:relative;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:9px 28px;background:rgba(4,9,14,0.6);backdrop-filter:blur(20px);border-top:1px solid rgba(0,229,255,0.06);flex-shrink:0}
+.g-hint{font-size:9px;color:rgba(0,229,255,0.35);font-family:'JetBrains Mono',monospace;letter-spacing:2px;text-transform:uppercase}
+.b-right{display:flex;gap:16px;font-size:9px;color:var(--tdd);font-family:'JetBrains Mono',monospace;align-items:center}
+
+/* AR CARD */
+.arc{background:var(--s);border:1px solid var(--b);border-radius:16px;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);position:relative;padding:18px 20px}
+.arc-c{border-color:var(--b2);box-shadow:0 0 24px rgba(0,229,255,0.06)}
+.arc-g{border-color:rgba(57,255,20,0.2)}
+.arc-o{border-color:rgba(255,61,0,0.28);box-shadow:0 0 20px rgba(255,61,0,0.06)}
+
+/* AR corner brackets */
+.arc::before,.arc::after,.arc .br::before,.arc .br::after,
+.room-tile::before,.room-tile::after,.room-tile .br::before,.room-tile .br::after{
+  content:'';position:absolute;width:12px;height:12px;border-color:rgba(0,229,255,0.38);border-style:solid
+}
+.arc::before,.room-tile::before{top:-1px;left:-1px;border-width:1.5px 0 0 1.5px;border-radius:3px 0 0 0}
+.arc::after,.room-tile::after{top:-1px;right:-1px;border-width:1.5px 1.5px 0 0;border-radius:0 3px 0 0}
+.arc .br::before,.room-tile .br::before{bottom:-1px;left:-1px;border-width:0 0 1.5px 1.5px;border-radius:0 0 0 3px}
+.arc .br::after,.room-tile .br::after{bottom:-1px;right:-1px;border-width:0 1.5px 1.5px 0;border-radius:0 0 3px 0}
+
+/* LAYOUT */
+.row{display:flex;align-items:center}
+.rsb{display:flex;align-items:center;justify-content:space-between}
+.col{display:flex;flex-direction:column}
+.f1{flex:1}
+.gap8{gap:8px}.gap10{gap:10px}.gap12{gap:12px}.gap16{gap:16px}
+.mt4{margin-top:4px}.mt6{margin-top:6px}.mt8{margin-top:8px}.mt12{margin-top:12px}
+.mb4{margin-bottom:4px}.mb6{margin-bottom:6px}.mb8{margin-bottom:8px}.mb12{margin-bottom:12px}
+
+/* TEXT */
+.tc{color:var(--c)}.tg{color:var(--g)}.to{color:#ff6b47}.tv{color:var(--v)}.ty{color:var(--y)}
+.td{color:var(--td)}.tdd{color:var(--tdd)}.tw{color:var(--t)}
+.t10{font-size:10px}.t11{font-size:11px}.t12{font-size:12px}.t13{font-size:13px}.t14{font-size:14px}
+.fw6{font-weight:600}.fw7{font-weight:700}.fw8{font-weight:800}
+.mono{font-family:'JetBrains Mono',monospace}
+.lbl{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(0,229,255,0.45);margin-bottom:6px}
+
+/* BADGES */
+.bdg{display:inline-block;font-size:8px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:2px 8px;border-radius:3px}
+.b-act{background:rgba(57,255,20,.1);color:var(--g);border:1px solid rgba(57,255,20,.2)}
+.b-stb{background:rgba(255,255,255,.04);color:var(--tdd);border:1px solid rgba(255,255,255,.08)}
+.b-hi{background:rgba(255,61,0,.1);color:#ff6b47;border:1px solid rgba(255,61,0,.2)}
+.b-md{background:rgba(251,191,36,.1);color:var(--y);border:1px solid rgba(251,191,36,.2)}
+.b-ok{background:rgba(57,255,20,.08);color:var(--g);border:1px solid rgba(57,255,20,.15)}
+.b-fail{background:rgba(255,61,0,.1);color:#ff6b47;border:1px solid rgba(255,61,0,.2)}
+.b-deny{background:rgba(255,61,0,.08);color:#ff6b47;border:1px solid rgba(255,61,0,.15)}
+.b-adm{background:rgba(0,229,255,.1);color:var(--c);border:1px solid rgba(0,229,255,.2)}
+
+/* TOGGLE */
+.tog{width:42px;height:23px;border-radius:12px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);position:relative;cursor:pointer;flex-shrink:0;transition:all .2s}
+.tog.on{background:rgba(0,229,255,.18);border-color:rgba(0,229,255,.4)}
+.tog::after{content:'';position:absolute;top:3px;left:3px;width:15px;height:15px;border-radius:50%;background:rgba(255,255,255,.3);transition:all .2s}
+.tog.on::after{left:22px;background:var(--c);box-shadow:0 0 8px rgba(0,229,255,.7)}
+
+/* PROGRESS BAR */
+.pb{height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden}
+.pf{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--c),var(--g));box-shadow:0 0 6px rgba(0,229,255,.3)}
+
+/* ROOM TILE */
+.room-tile{background:var(--s);border:1px solid var(--b);border-radius:18px;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);position:relative;padding:22px;cursor:pointer;transition:all .25s;display:flex;flex-direction:column;gap:12px}
+.room-tile.on{background:rgba(0,229,255,0.07);border-color:rgba(0,229,255,0.28);box-shadow:0 0 30px rgba(0,229,255,0.07)}
+.room-tile.alert-tile{background:rgba(255,61,0,0.06);border-color:rgba(255,61,0,0.28)}
+
+/* AVATAR */
+.av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.av-a{background:linear-gradient(135deg,rgba(0,229,255,.28),rgba(57,255,20,.28));color:var(--c);border:1px solid rgba(0,229,255,.3)}
+.av-u{background:rgba(0,229,255,.13);color:var(--c);border:1px solid rgba(0,229,255,.22)}
+.av-k{background:rgba(251,191,36,.13);color:var(--y);border:1px solid rgba(251,191,36,.22)}
+.av-g{background:rgba(255,255,255,.05);color:var(--td);border:1px solid rgba(255,255,255,.1)}
+
+/* DIVIDER */
+.dv{height:1px;background:rgba(0,229,255,0.07);margin:10px 0}
+
+/* ANIMATION */
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes fadeIn{from{opacity:0;transform:scale(.985)}to{opacity:1;transform:scale(1)}}
+</style>
+</head>
+<body>
+<div class="headset">
+  <div class="room-bg"></div>
+  <div class="vignette"></div>
+  <div class="lens"></div>
+  <div class="crosshair"></div>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="logo">INTELLIDEN · MR</div>
+    <div class="tabs">
+      <div class="tab active" onclick="nav(0)">Hub</div>
+      <div class="tab" onclick="nav(1)">Rooms</div>
+      <div class="tab" onclick="nav(2)">Access</div>
+    </div>
+    <div class="topbar-right">
+      <span><span class="dot dot-g"></span>28/32 NODES</span>
+      <span><span class="dot dot-c"></span>22.3°C</span>
+      <span><span class="dot dot-r"></span>1 ALERT</span>
+      <span>22:37</span>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- ══ HUB ══ -->
+    <div class="screen active" id="s0">
+
+      <!-- LEFT: status -->
+      <div class="col gap12" style="width:250px">
+        <div class="lbl">System Status</div>
+
+        <div class="arc arc-c f1">
+          <div class="br"></div>
+          <div class="lbl">Temperature</div>
+          <div class="mono fw6" style="font-size:38px;color:var(--c);text-shadow:0 0 24px rgba(0,229,255,0.4);line-height:1">22.3°</div>
+          <div class="tdd t11 mt6">Indoor average</div>
+          <div class="pb mt12"><div class="pf" style="width:58%"></div></div>
+          <div class="rsb tdd t10 mt4"><span>16°</span><span class="tc">Normal</span><span>30°</span></div>
+        </div>
+
+        <div class="arc f1">
+          <div class="br"></div>
+          <div class="lbl">Power Usage</div>
+          <div class="mono fw6 tw" style="font-size:38px;line-height:1">3.2<span style="font-size:16px;color:var(--tdd)"> kWh</span></div>
+          <div class="tdd t11 mt6">Today · 64% of avg</div>
+          <div class="pb mt12"><div class="pf" style="width:64%;background:linear-gradient(90deg,var(--y),var(--c))"></div></div>
+        </div>
+
+        <div class="arc arc-o">
+          <div class="br"></div>
+          <div class="rsb mb6">
+            <div class="lbl" style="color:rgba(255,100,50,0.6);margin:0">Alert</div>
+            <span style="font-size:20px">🚪</span>
+          </div>
+          <div class="t14 fw7 to">Entrance Open</div>
+          <div class="tdd t11 mt6">Opened at 22:14</div>
+        </div>
+      </div>
+
+      <!-- CENTER: main HUD -->
+      <div class="col f1" style="align-items:center;justify-content:center;gap:22px">
+        <div style="text-align:center">
+          <div class="mono fw6" style="font-size:10px;letter-spacing:5px;color:rgba(0,229,255,0.4);text-transform:uppercase;margin-bottom:10px">GOOD EVENING</div>
+          <div class="fw8" style="font-size:40px;color:#f0f0f0;letter-spacing:-0.5px">Robert Ionescu</div>
+          <div class="tdd mono" style="font-size:11px;margin-top:8px;letter-spacing:2px">TUESDAY · 13 MAY 2026</div>
+        </div>
+
+        <div onclick="this.style.opacity='0.6';setTimeout(()=>this.style.opacity='1',200)"
+          style="padding:10px 32px;border-radius:24px;background:rgba(0,229,255,0.07);border:1px solid rgba(0,229,255,0.26);font-size:11px;font-weight:700;letter-spacing:3px;color:var(--c);text-transform:uppercase;cursor:pointer;animation:pulse 3s infinite">
+          ◈ EVENING MODE ACTIVE
+        </div>
+
+        <!-- 3 quick controls -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;width:100%">
+          <div class="arc arc-c" style="text-align:center;cursor:pointer">
+            <div class="br"></div>
+            <div style="font-size:30px;margin-bottom:10px">💡</div>
+            <div class="t14 fw7 tc">Lights</div>
+            <div class="tdd t11 mt6">4 rooms on</div>
+            <div style="margin-top:14px;display:flex;justify-content:center">
+              <div class="tog on" onclick="event.stopPropagation();this.classList.toggle('on')"></div>
+            </div>
+          </div>
+          <div class="arc" style="text-align:center;cursor:pointer">
+            <div class="br"></div>
+            <div style="font-size:30px;margin-bottom:10px">❄️</div>
+            <div class="t14 fw7">Climate</div>
+            <div class="tdd t11 mt6">Target: 21°C</div>
+            <div class="tc fw7 mono mt8" style="font-size:22px">21°</div>
+          </div>
+          <div class="arc arc-g" style="text-align:center;cursor:pointer">
+            <div class="br"></div>
+            <div style="font-size:30px;margin-bottom:10px">🔒</div>
+            <div class="t14 fw7">Security</div>
+            <div class="tg t11 mt6">All locked</div>
+            <div class="mt10"><span class="bdg b-act">SECURED</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: node summary -->
+      <div class="col gap12" style="width:230px">
+        <div class="lbl">Network</div>
+        <div class="arc arc-c f1">
+          <div class="br"></div>
+          <div class="lbl" style="margin-bottom:4px">Active Nodes</div>
+          <div class="row gap8 mb12">
+            <span class="tg fw7 mono" style="font-size:32px">28</span>
+            <span class="tdd" style="font-size:16px">/32</span>
+          </div>
+          <div id="nodeGrid" style="display:grid;grid-template-columns:repeat(8,1fr);gap:4px"></div>
+          <div class="dv"></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div style="text-align:center">
+              <div class="mono fw6 ty" style="font-size:20px">12</div>
+              <div class="tdd" style="font-size:8px;letter-spacing:1.5px;text-transform:uppercase;margin-top:3px">Lights</div>
+            </div>
+            <div style="text-align:center">
+              <div class="mono fw6 tv" style="font-size:20px">8</div>
+              <div class="tdd" style="font-size:8px;letter-spacing:1.5px;text-transform:uppercase;margin-top:3px">Security</div>
+            </div>
+            <div style="text-align:center">
+              <div class="mono fw6 tg" style="font-size:20px">4</div>
+              <div class="tdd" style="font-size:8px;letter-spacing:1.5px;text-transform:uppercase;margin-top:3px">Sensors</div>
+            </div>
+            <div style="text-align:center">
+              <div class="mono fw6 tc" style="font-size:20px">4</div>
+              <div class="tdd" style="font-size:8px;letter-spacing:1.5px;text-transform:uppercase;margin-top:3px">Cameras</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ ROOMS ══ -->
+    <div class="screen" id="s1" style="flex-direction:column">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;flex:1">
+
+        <div class="room-tile on" id="rt0" onclick="toggleRoom('rt0')">
+          <div class="br"></div>
+          <div class="rsb">
+            <span style="font-size:30px">💡</span>
+            <div class="tog on" id="tg0" onclick="event.stopPropagation();toggleRoom('rt0')"></div>
+          </div>
+          <div>
+            <div class="fw7" style="font-size:20px;color:var(--t)">Living Room</div>
+            <div class="tdd t12 mt4">4 lights · 75% brightness</div>
+          </div>
+          <div>
+            <div class="pb"><div class="pf" style="width:75%"></div></div>
+            <div class="rsb tdd t10 mt4"><span>OFF</span><span class="tc">75%</span><span>100%</span></div>
+          </div>
+          <div><span class="bdg b-act">ACTIVE</span></div>
+        </div>
+
+        <div class="room-tile" id="rt1" onclick="toggleRoom('rt1')">
+          <div class="br"></div>
+          <div class="rsb">
+            <span style="font-size:30px">🌙</span>
+            <div class="tog" id="tg1" onclick="event.stopPropagation();toggleRoom('rt1')"></div>
+          </div>
+          <div>
+            <div class="fw7" style="font-size:20px;color:var(--t)">Bedroom</div>
+            <div class="tdd t12 mt4">2 lights · standby</div>
+          </div>
+          <div>
+            <div class="pb"><div class="pf" style="width:0%"></div></div>
+            <div class="rsb tdd t10 mt4"><span>OFF</span><span>—</span><span>100%</span></div>
+          </div>
+          <div><span class="bdg b-stb">STANDBY</span></div>
+        </div>
+
+        <div class="room-tile on" id="rt2" onclick="toggleRoom('rt2')">
+          <div class="br"></div>
+          <div class="rsb">
+            <span style="font-size:30px">🍳</span>
+            <div class="tog on" id="tg2" onclick="event.stopPropagation();toggleRoom('rt2')"></div>
+          </div>
+          <div>
+            <div class="fw7" style="font-size:20px;color:var(--t)">Kitchen</div>
+            <div class="tdd t12 mt4">3 lights · full brightness</div>
+          </div>
+          <div>
+            <div class="pb"><div class="pf" style="width:100%"></div></div>
+            <div class="rsb tdd t10 mt4"><span>OFF</span><span class="tc">100%</span><span>100%</span></div>
+          </div>
+          <div><span class="bdg b-act">ACTIVE</span></div>
+        </div>
+
+        <div class="room-tile on" id="rt3" onclick="toggleRoom('rt3')">
+          <div class="br"></div>
+          <div class="rsb">
+            <span style="font-size:30px">🚿</span>
+            <div class="tog on" id="tg3" onclick="event.stopPropagation();toggleRoom('rt3')"></div>
+          </div>
+          <div>
+            <div class="fw7" style="font-size:20px;color:var(--t)">Bathroom</div>
+            <div class="tdd t12 mt4">1 light · 50% brightness</div>
+          </div>
+          <div>
+            <div class="pb"><div class="pf" style="width:50%"></div></div>
+            <div class="rsb tdd t10 mt4"><span>OFF</span><span class="tc">50%</span><span>100%</span></div>
+          </div>
+          <div><span class="bdg b-act">ACTIVE</span></div>
+        </div>
+
+        <div class="room-tile alert-tile">
+          <div class="br"></div>
+          <div class="rsb">
+            <span style="font-size:30px">🚪</span>
+            <span class="bdg b-hi" style="animation:pulse 1.5s infinite">ALERT</span>
+          </div>
+          <div>
+            <div class="fw7 to" style="font-size:20px">Entrance</div>
+            <div class="tdd t12 mt4">Door open · since 22:14</div>
+          </div>
+          <div>
+            <div class="pb" style="background:rgba(255,61,0,0.15)"><div style="height:100%;border-radius:2px;background:var(--o);width:100%"></div></div>
+          </div>
+          <div style="font-size:11px;color:#ff6b47">Motion detected · Camera active</div>
+        </div>
+
+        <div class="room-tile" id="rt5" onclick="toggleRoom('rt5')">
+          <div class="br"></div>
+          <div class="rsb">
+            <span style="font-size:30px">🖥️</span>
+            <div class="tog" id="tg5" onclick="event.stopPropagation();toggleRoom('rt5')"></div>
+          </div>
+          <div>
+            <div class="fw7" style="font-size:20px;color:var(--t)">Office</div>
+            <div class="tdd t12 mt4">2 lights · off</div>
+          </div>
+          <div>
+            <div class="pb"><div class="pf" style="width:0%"></div></div>
+            <div class="rsb tdd t10 mt4"><span>OFF</span><span>—</span><span>100%</span></div>
+          </div>
+          <div><span class="bdg b-stb">IDLE</span></div>
+        </div>
+
+      </div>
+
+      <!-- Quick actions bar -->
+      <div class="row gap12" style="margin-top:12px;justify-content:center">
+        <div onclick="allRoomsOff()"
+          style="padding:10px 28px;border-radius:10px;background:rgba(255,61,0,0.07);border:1px solid rgba(255,61,0,0.22);color:#ff6b47;font-size:10px;font-weight:700;letter-spacing:2px;cursor:pointer;text-transform:uppercase">
+          ALL OFF
+        </div>
+        <div onclick="allRoomsOn()"
+          style="padding:10px 28px;border-radius:10px;background:rgba(0,229,255,0.07);border:1px solid rgba(0,229,255,0.22);color:var(--c);font-size:10px;font-weight:700;letter-spacing:2px;cursor:pointer;text-transform:uppercase">
+          ALL ON
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ ACCESS ══ -->
+    <div class="screen" id="s2">
+
+      <!-- LEFT: users 2x2 -->
+      <div class="col f1 gap12">
+        <div class="lbl">Authorized Users</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;flex:1">
+
+          <div class="arc arc-c">
+            <div class="br"></div>
+            <div class="row gap10 mb10">
+              <div class="av av-a">AM</div>
+              <div>
+                <div class="t14 fw7">Alex Morgan</div>
+                <div class="mt4"><span class="bdg b-adm">ADMIN</span></div>
+              </div>
+            </div>
+            <div class="tdd t12 mb10">All Access · 32 devices</div>
+            <div class="rsb tdd t11"><span>2 min ago</span><span class="tc">Active now</span></div>
+          </div>
+
+          <div class="arc">
+            <div class="br"></div>
+            <div class="row gap10 mb10">
+              <div class="av av-u">SM</div>
+              <div>
+                <div class="t14 fw7">Sarah Morgan</div>
+                <div class="mt4"><span class="bdg b-act">USER</span></div>
+              </div>
+            </div>
+            <div class="tdd t12 mb10">Lights · Climate · 18 devices</div>
+            <div class="rsb tdd t11"><span>1h ago</span><span class="tg">Online</span></div>
+          </div>
+
+          <div class="arc">
+            <div class="br"></div>
+            <div class="row gap10 mb10">
+              <div class="av av-k">KA</div>
+              <div>
+                <div class="t14 fw7">Kids Account</div>
+                <div class="mt4"><span class="bdg b-md">LIMITED</span></div>
+              </div>
+            </div>
+            <div class="to t12 mb10">⏰ Curfew: 22:00 – 07:00</div>
+            <div class="rsb tdd t11"><span>3h ago</span><span class="ty">Restricted</span></div>
+          </div>
+
+          <div class="arc">
+            <div class="br"></div>
+            <div class="row gap10 mb10">
+              <div class="av av-g">GA</div>
+              <div>
+                <div class="t14 fw7">Guest Access</div>
+                <div class="mt4"><span class="bdg b-stb">GUEST</span></div>
+              </div>
+            </div>
+            <div class="to t12 mb10">⏰ 48h limit · Lights · Door</div>
+            <div class="rsb tdd t11"><span>Yesterday</span><span>Expires soon</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- RIGHT: alerts + events -->
+      <div class="col gap12" style="width:400px">
+        <div class="lbl">Alerts &amp; Recent Events</div>
+
+        <div class="arc arc-o">
+          <div class="br"></div>
+          <div class="rsb mb8">
+            <div class="t13 fw7 to">⚠ Multiple Failed Access</div>
+            <span class="bdg b-hi">HIGH</span>
+          </div>
+          <div class="td t12">3 failed unlock attempts · 3 hours ago</div>
+        </div>
+
+        <div class="arc f1">
+          <div class="br"></div>
+          <div class="lbl mb8">Recent Events</div>
+
+          <div class="row gap10" style="padding:10px 0;border-bottom:1px solid rgba(0,229,255,0.07)">
+            <div style="width:32px;height:32px;border-radius:8px;background:rgba(0,229,255,.07);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">🔒</div>
+            <div class="f1"><div class="t13 fw6">Alex Morgan</div><div class="tdd t11 mt4">Unlocked Front Door</div></div>
+            <span class="bdg b-ok">OK</span>
+          </div>
+          <div class="row gap10" style="padding:10px 0;border-bottom:1px solid rgba(0,229,255,0.07)">
+            <div style="width:32px;height:32px;border-radius:8px;background:rgba(57,255,20,.07);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">🌡</div>
+            <div class="f1"><div class="t13 fw6">Sarah Morgan</div><div class="tdd t11 mt4">Adjusted Temperature → 22°C</div></div>
+            <span class="bdg b-ok">OK</span>
+          </div>
+          <div class="row gap10" style="padding:10px 0;border-bottom:1px solid rgba(0,229,255,0.07)">
+            <div style="width:32px;height:32px;border-radius:8px;background:rgba(255,61,0,.07);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">🚫</div>
+            <div class="f1"><div class="t13 fw6 to">Unknown Device</div><div class="tdd t11 mt4">Failed Door Unlock · 3 attempts</div></div>
+            <span class="bdg b-fail">FAIL</span>
+          </div>
+          <div class="row gap10" style="padding:10px 0">
+            <div style="width:32px;height:32px;border-radius:8px;background:rgba(167,139,250,.07);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">📷</div>
+            <div class="f1"><div class="t13 fw6">Kids Account</div><div class="tdd t11 mt4">Camera Access — Denied</div></div>
+            <span class="bdg b-deny">DENY</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <!-- BOTTOM BAR -->
+  <div class="botbar">
+    <div class="g-hint">✦ OPEN PALM → GESTURE MENU &nbsp;|&nbsp; GAZE + PINCH → SELECT</div>
+    <div class="b-right">
+      <span class="tc">INTELLIDEN v2.4</span>
+      <span>·</span>
+      <span>MR HEADSET</span>
+      <span>·</span>
+      <span style="width:5px;height:5px;border-radius:50%;background:var(--c);box-shadow:0 0 4px var(--c);display:inline-block"></span>
+      <span>14d UPTIME</span>
+    </div>
+  </div>
+</div>
+
+<script>
+// Node grid
+const grid = document.getElementById('nodeGrid');
+for(let i=0;i<32;i++){
+  const d=document.createElement('div');
+  d.style.cssText=`aspect-ratio:1;border-radius:3px;background:${i<28?'rgba(57,255,20,.16)':'rgba(255,255,255,.04)'};border:1px solid ${i<28?'rgba(57,255,20,.25)':'rgba(255,255,255,.07)'}`;
+  grid.appendChild(d);
+}
+
+// Tab navigation
+const screens=document.querySelectorAll('.screen');
+const tabs=document.querySelectorAll('.tab');
+let cur=0;
+
+function nav(n){
+  screens[cur].classList.remove('active');
+  tabs[cur].classList.remove('active');
+  cur=n;
+  screens[cur].classList.add('active');
+  tabs[cur].classList.add('active');
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'&&cur<2)nav(cur+1);
+  if(e.key==='ArrowLeft'&&cur>0)nav(cur-1);
+});
+
+// Room toggles
+function toggleRoom(id){
+  const tile=document.getElementById(id);
+  if(!tile)return;
+  const isOn=tile.classList.toggle('on');
+  const togId=id.replace('rt','tg');
+  const tog=document.getElementById(togId);
+  if(tog){
+    if(isOn)tog.classList.add('on');
+    else tog.classList.remove('on');
+  }
+}
+
+function allRoomsOff(){
+  ['rt0','rt1','rt2','rt3','rt5'].forEach(id=>{
+    document.getElementById(id)?.classList.remove('on');
+    document.getElementById(id.replace('rt','tg'))?.classList.remove('on');
+  });
+}
+function allRoomsOn(){
+  ['rt0','rt1','rt2','rt3','rt5'].forEach(id=>{
+    document.getElementById(id)?.classList.add('on');
+    document.getElementById(id.replace('rt','tg'))?.classList.add('on');
+  });
+}
+</script>
+</body>
+</html>

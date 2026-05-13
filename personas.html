@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>INTELLIDEN — Persona Profiles</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #0a0f1a;
+    color: #c9d6e8;
+    padding: 52px 44px;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 52px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid #1e2d42;
+  }
+  .header-left .project {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 5px;
+    color: #00C9B1;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .header-left h1 {
+    font-size: 34px;
+    font-weight: 800;
+    color: #f0f6ff;
+    letter-spacing: -1px;
+  }
+  .header-right {
+    font-size: 12px;
+    color: #3d5270;
+    text-align: right;
+    line-height: 2;
+  }
+
+  /* CARD WRAPPER */
+  .card-wrap {
+    margin-bottom: 40px;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid #1e2d42;
+    background: #0d1625;
+  }
+
+  .card-accent { height: 3px; }
+  .c1 .card-accent { background: linear-gradient(90deg, #00C9B1, #0090ff); }
+  .c2 .card-accent { background: linear-gradient(90deg, #3b82f6, #06b6d4); }
+  .c3 .card-accent { background: linear-gradient(90deg, #a78bfa, #ec4899); }
+
+  .card {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+  }
+
+  /* LEFT */
+  .card-left {
+    padding: 36px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+    border-right: 1px solid #1e2d42;
+    background: #0b1220;
+  }
+
+  .avatar-wrap { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+
+  .avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #1e2d42;
+  }
+
+  .persona-badge {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 4px;
+  }
+  .c1 .persona-badge { background: rgba(0,201,177,0.12); color: #00C9B1; border: 1px solid rgba(0,201,177,0.25); }
+  .c2 .persona-badge { background: rgba(59,130,246,0.12); color: #60a5fa; border: 1px solid rgba(59,130,246,0.25); }
+  .c3 .persona-badge { background: rgba(167,139,250,0.12); color: #a78bfa; border: 1px solid rgba(167,139,250,0.25); }
+
+  .info-block { display: flex; flex-direction: column; gap: 14px; }
+  .info-row { display: flex; flex-direction: column; gap: 3px; }
+  .info-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #3d5270;
+  }
+  .info-value { font-size: 13px; color: #8bafd4; font-weight: 400; line-height: 1.4; }
+
+  .bar-bg { background: #141f30; border-radius: 3px; height: 4px; margin-top: 6px; }
+  .bar-fill { height: 4px; border-radius: 3px; }
+  .c1 .bar-fill { background: linear-gradient(90deg, #00C9B1, #0090ff); }
+  .c2 .bar-fill { background: linear-gradient(90deg, #3b82f6, #06b6d4); }
+  .c3 .bar-fill { background: linear-gradient(90deg, #a78bfa, #ec4899); }
+  .bar-label { font-size: 11px; color: #3d5270; margin-top: 5px; }
+
+  .platforms-list { display: flex; flex-direction: column; gap: 7px; }
+  .plat {
+    font-size: 12px;
+    color: #6b8aaa;
+    background: #0f1c2e;
+    border: 1px solid #1e2d42;
+    border-radius: 6px;
+    padding: 7px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .plat-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+  .c1 .plat-dot { background: #00C9B1; }
+  .c2 .plat-dot { background: #3b82f6; }
+  .c3 .plat-dot { background: #a78bfa; }
+
+  /* RIGHT */
+  .card-right { padding: 36px 40px; display: flex; flex-direction: column; gap: 26px; }
+
+  .name { font-size: 26px; font-weight: 800; color: #f0f6ff; letter-spacing: -0.5px; }
+  .role { font-size: 13px; color: #4d6a8a; margin-top: 5px; line-height: 1.6; }
+
+  .quote {
+    font-size: 14px;
+    font-style: italic;
+    color: #7a9bbf;
+    line-height: 1.75;
+    padding: 14px 18px;
+    background: #0a1220;
+    border-left: 3px solid;
+    border-radius: 0 8px 8px 0;
+    border: 1px solid #1e2d42;
+    border-left-width: 3px;
+  }
+  .c1 .quote { border-left-color: #00C9B1; }
+  .c2 .quote { border-left-color: #3b82f6; }
+  .c3 .quote { border-left-color: #a78bfa; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .c1 .section-label { color: #00C9B1; }
+  .c2 .section-label { color: #60a5fa; }
+  .c3 .section-label { color: #a78bfa; }
+
+  .list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .list li {
+    font-size: 13px;
+    color: #7a9bbf;
+    padding-left: 16px;
+    position: relative;
+    line-height: 1.55;
+  }
+  .list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+  }
+  .c1 .list li::before { background: #00C9B1; }
+  .c2 .list li::before { background: #3b82f6; }
+  .c3 .list li::before { background: #a78bfa; }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag {
+    font-size: 11px;
+    padding: 4px 11px;
+    border-radius: 5px;
+    background: #0f1c2e;
+    color: #4d6a8a;
+    border: 1px solid #1e2d42;
+  }
+
+  .scenario {
+    background: #0a1220;
+    border: 1px solid #1e2d42;
+    border-radius: 10px;
+    padding: 18px 22px;
+    font-size: 13px;
+    color: #6b8aaa;
+    line-height: 1.75;
+  }
+  .scenario strong {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    color: #3d5270;
+  }
+
+  footer {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid #1e2d42;
+    font-size: 11px;
+    color: #243347;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  @media print {
+    @page { size: A4 landscape; margin: 12mm 14mm; }
+
+    body { padding: 0; background: #0a0f1a !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+    .card-wrap { margin-bottom: 20px; page-break-inside: avoid; break-inside: avoid; }
+
+    .card { grid-template-columns: 180px 1fr; }
+
+    .card-left { padding: 20px 18px; gap: 16px; }
+    .card-right { padding: 20px 24px; gap: 16px; }
+
+    .avatar { width: 72px; height: 72px; }
+    .name { font-size: 20px; }
+    .role { font-size: 11px; }
+    .quote { font-size: 11px; padding: 10px 14px; }
+
+    .two-col { gap: 16px; }
+    .list li { font-size: 11px; gap: 6px; }
+    .list { gap: 6px; }
+
+    .section-label { font-size: 9px; margin-bottom: 8px; }
+    .tag { font-size: 10px; padding: 3px 8px; }
+    .scenario { font-size: 11px; padding: 12px 16px; }
+    .scenario strong { font-size: 9px; }
+
+    .info-label { font-size: 9px; }
+    .info-value { font-size: 11px; }
+    .bar-label { font-size: 10px; }
+    .plat { font-size: 10px; padding: 5px 8px; }
+
+    .header { margin-bottom: 20px; padding-bottom: 14px; }
+    .header-left h1 { font-size: 24px; }
+    .header-right { font-size: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <div class="project">INTELLIDEN</div>
+    <h1>User Persona Profiles</h1>
+  </div>
+  <div class="header-right">
+    Smart Home Ecosystem<br>
+    HCI Project · 2026<br>
+    3 Personas Defined
+  </div>
+</div>
+
+<!-- PERSONA 1 — ROBERT -->
+<div class="card-wrap c1">
+  <div class="card-accent"></div>
+  <div class="card">
+
+    <div class="card-left">
+      <div class="avatar-wrap">
+        <img class="avatar" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Robert Ionescu"/>
+        <span class="persona-badge">Primary Persona</span>
+      </div>
+
+      <div class="info-block">
+        <div class="info-row">
+          <span class="info-label">Age</span>
+          <span class="info-value">27</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Location</span>
+          <span class="info-value">Cluj-Napoca</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Occupation</span>
+          <span class="info-value">Software Engineer</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Living Situation</span>
+          <span class="info-value">Lives alone, smart apartment</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Tech Literacy</span>
+          <div class="bar-bg"><div class="bar-fill" style="width:92%"></div></div>
+          <div class="bar-label">Expert — 92%</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="info-label" style="margin-bottom:10px">Platforms</div>
+        <div class="platforms-list">
+          <div class="plat"><span class="plat-dot"></span>Mobile / Tablet</div>
+          <div class="plat"><span class="plat-dot"></span>AR Headset</div>
+          <div class="plat"><span class="plat-dot"></span>Smartwatch</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-right">
+      <div>
+        <div class="name">Robert Ionescu</div>
+        <div class="role">Works remotely as a backend engineer. Passionate about home automation — built part of his setup using Raspberry Pi and Home Assistant before switching to INTELLIDEN.</div>
+      </div>
+
+      <div class="quote">
+        "If I can't automate it, I'll build the automation myself. My home should know what I need before I do."
+      </div>
+
+      <div class="two-col">
+        <div>
+          <div class="section-label">Goals</div>
+          <ul class="list">
+            <li>Full granular control over every device with deep automation scripting</li>
+            <li>Real-time energy consumption per device, not just totals</li>
+            <li>Use the AR headset to inspect and adjust devices hands-free</li>
+            <li>Integrate weather, calendar and third-party APIs into scenes</li>
+            <li>Selective guest access without giving admin privileges</li>
+          </ul>
+        </div>
+        <div>
+          <div class="section-label">Frustrations</div>
+          <ul class="list">
+            <li>Google Home and Apple Home are too simplified — no scripting</li>
+            <li>No mature AR interface for smart home control exists yet</li>
+            <li>Latency when switching between platforms breaks the experience</li>
+            <li>Energy reports are too aggregated — needs per-device granularity</li>
+            <li>Difficult to manage multi-user access without exposing everything</li>
+          </ul>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-label">Interests</div>
+        <div class="tags">
+          <span class="tag">Home Automation</span>
+          <span class="tag">IoT Development</span>
+          <span class="tag">AR / VR</span>
+          <span class="tag">Energy Efficiency</span>
+          <span class="tag">Open Source</span>
+          <span class="tag">Raspberry Pi</span>
+          <span class="tag">Late-night coding</span>
+        </div>
+      </div>
+
+      <div class="scenario">
+        <strong>Key Scenario</strong>
+        Robert arrives home from the office. His phone detects the geofence and triggers the "Arriving Home" scene — lights turn on at 40%, thermostat adjusts to 22°C, workstation wakes up. He puts on his AR headset and walks through the apartment seeing live overlays: the fridge shows it's been open 4 hours, the bedroom lamp is still on. He pinches the lamp icon in AR to switch it off without touching anything physical.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PERSONA 2 — DANIEL -->
+<div class="card-wrap c2">
+  <div class="card-accent"></div>
+  <div class="card">
+
+    <div class="card-left">
+      <div class="avatar-wrap">
+        <img class="avatar" src="https://randomuser.me/api/portraits/men/54.jpg" alt="Daniel Popa"/>
+        <span class="persona-badge">Secondary Persona</span>
+      </div>
+
+      <div class="info-block">
+        <div class="info-row">
+          <span class="info-label">Age</span>
+          <span class="info-value">41</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Location</span>
+          <span class="info-value">Bucharest</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Occupation</span>
+          <span class="info-value">Project Manager</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Living Situation</span>
+          <span class="info-value">Wife and two kids (ages 6 and 9)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Tech Literacy</span>
+          <div class="bar-bg"><div class="bar-fill" style="width:55%"></div></div>
+          <div class="bar-label">Intermediate — 55%</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="info-label" style="margin-bottom:10px">Platforms</div>
+        <div class="platforms-list">
+          <div class="plat"><span class="plat-dot"></span>Mobile (primary)</div>
+          <div class="plat"><span class="plat-dot"></span>Smartwatch</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-right">
+      <div>
+        <div class="name">Daniel Popa</div>
+        <div class="role">Manages a team of 12 at a logistics company. Travels 2–3 days a week. Got into smart home after a break-in scare in the neighborhood — security and family safety are his main drivers.</div>
+      </div>
+
+      <div class="quote">
+        "I just want to press one button and know my family is safe, the house is locked, and the lights are off."
+      </div>
+
+      <div class="two-col">
+        <div>
+          <div class="section-label">Goals</div>
+          <ul class="list">
+            <li>Simple morning and bedtime routines, no complex setup required</li>
+            <li>Monitor kids' rooms remotely — camera, motion, temperature</li>
+            <li>Lock and unlock doors, view cameras directly from his phone</li>
+            <li>Instant alerts for unusual activity while traveling</li>
+            <li>Shared access with his wife with separate permission levels</li>
+          </ul>
+        </div>
+        <div>
+          <div class="section-label">Frustrations</div>
+          <ul class="list">
+            <li>Too many separate apps — lights, cameras, heating all different</li>
+            <li>Setting up automations requires reading lengthy documentation</li>
+            <li>Kids accidentally trigger devices through voice assistants</li>
+            <li>No good guest mode — doesn't want visitors to have full access</li>
+            <li>Notifications are either overwhelming noise or miss critical events</li>
+          </ul>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-label">Interests</div>
+        <div class="tags">
+          <span class="tag">Family Safety</span>
+          <span class="tag">Security Cameras</span>
+          <span class="tag">Smart Locks</span>
+          <span class="tag">One-tap Scenes</span>
+          <span class="tag">Parental Controls</span>
+          <span class="tag">Remote Monitoring</span>
+        </div>
+      </div>
+
+      <div class="scenario">
+        <strong>Key Scenario</strong>
+        Daniel is in a meeting when he gets an INTELLIDEN alert: motion at the front door at 3:42 PM. He opens the app, sees it's his kids arriving from school, and unlocks the door remotely with one tap. He activates the "Kids Home" scene — TV turns on in the living room, bedroom doors stay locked until homework time. Everything handled in under a minute without stepping out of the meeting.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PERSONA 3 — LAURA -->
+<div class="card-wrap c3">
+  <div class="card-accent"></div>
+  <div class="card">
+
+    <div class="card-left">
+      <div class="avatar-wrap">
+        <img class="avatar" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Laura Marin"/>
+        <span class="persona-badge">Tertiary Persona</span>
+      </div>
+
+      <div class="info-block">
+        <div class="info-row">
+          <span class="info-label">Age</span>
+          <span class="info-value">31</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Location</span>
+          <span class="info-value">Cluj-Napoca</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Occupation</span>
+          <span class="info-value">Retired Teacher</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Living Situation</span>
+          <span class="info-value">Lives with son Robert after hip surgery</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Tech Literacy</span>
+          <div class="bar-bg"><div class="bar-fill" style="width:20%"></div></div>
+          <div class="bar-label">Beginner — 20%</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="info-label" style="margin-bottom:10px">Platforms</div>
+        <div class="platforms-list">
+          <div class="plat"><span class="plat-dot"></span>Smartwatch (primary)</div>
+          <div class="plat"><span class="plat-dot"></span>Tablet (with help)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-right">
+      <div>
+        <div class="name">Laura Marin</div>
+        <div class="role">Taught Romanian literature for 38 years. Moved in with her son Robert after a hip replacement. Not comfortable with technology but trusts his setup. Prefers simple, reliable interactions over complex features.</div>
+      </div>
+
+      <div class="quote">
+        "I don't need to understand how it works. I just need to feel safe and know Robert can help me if something goes wrong."
+      </div>
+
+      <div class="two-col">
+        <div>
+          <div class="section-label">Goals</div>
+          <ul class="list">
+            <li>Turn lights on and off from the wrist without getting up</li>
+            <li>Send Robert an alert with one button press in an emergency</li>
+            <li>See at a glance whether the door is locked and the temperature</li>
+            <li>Receive medication and appointment reminders on her watch</li>
+            <li>Feel independent at home without constantly asking for help</li>
+          </ul>
+        </div>
+        <div>
+          <div class="section-label">Frustrations</div>
+          <ul class="list">
+            <li>Too many options on screen — she gets lost and anxious</li>
+            <li>Text and icons are too small on most phone interfaces</li>
+            <li>Accidental taps trigger things she didn't intend</li>
+            <li>Voice commands feel unnatural — she finds them embarrassing</li>
+            <li>Error messages are confusing — she just sees something "broke"</li>
+          </ul>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-label">Interests</div>
+        <div class="tags">
+          <span class="tag">Accessibility</span>
+          <span class="tag">Large UI Elements</span>
+          <span class="tag">Emergency Alerts</span>
+          <span class="tag">Medication Reminders</span>
+          <span class="tag">High Contrast</span>
+          <span class="tag">Minimal Interactions</span>
+          <span class="tag">Caregiver Connectivity</span>
+        </div>
+      </div>
+
+      <div class="scenario">
+        <strong>Key Scenario</strong>
+        It's 11 PM and Laura can't sleep. She raises her wrist and taps the large "Lights" button on her INTELLIDEN watch face — the bedroom lamp dims to 30%. She feels cold and taps the temperature card. Robert pre-configured this to simply notify him, so he adjusts from his room without her navigating any menus. In the morning her watch vibrates with a gentle medication reminder. She taps "Done." No menus, no typing, no confusion.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <span>INTELLIDEN · Smart Home Ecosystem</span>
+  <span>HCI Project 2026 · Persona Profiles v1.2</span>
+</footer>
+
+</body>
+</html>
