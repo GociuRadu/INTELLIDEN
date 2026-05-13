@@ -22,6 +22,18 @@ Start-Sleep -Milliseconds 400
 Start-Process "$base\mobile\prototype_mobile.html"
 Start-Sleep -Milliseconds 400
 
+# 4. Smartwatch
+Start-Process "$base\smartwatch\smartwatch.html"
+Start-Sleep -Milliseconds 400
+Start-Process "$base\smartwatch\storyboard-smartwatch.html"
+Start-Sleep -Milliseconds 400
+Start-Process "$base\smartwatch\Fără titlu.png"
+Start-Sleep -Milliseconds 400
+Start-Process "$base\smartwatch\sitemap-2026-05-13.png"
+Start-Sleep -Milliseconds 400
+Start-Process "$base\smartwatch\storyboard-1778698510968.png"
+Start-Sleep -Milliseconds 400
+
 # Personas (supporting context)
 Start-Process "$base\personas\personas.html"
 
