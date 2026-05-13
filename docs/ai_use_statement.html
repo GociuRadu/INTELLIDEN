@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>INTELLIDEN — Statement of AI Use</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Lora:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f5f3ef;
+    --card: #ffffff;
+    --ink: #1a1814;
+    --muted: #6b6560;
+    --border: #e2ddd8;
+    --cyan: #0099b8;
+    --cyan-light: #e6f7fb;
+    --orange: #d45a00;
+    --orange-light: #fdf0e6;
+    --green: #2a7a3b;
+    --green-light: #eaf4ec;
+    --purple: #6236a0;
+    --purple-light: #f1ecf9;
+    --shadow: 0 2px 8px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+  }
+
+  body {
+    font-family: 'Space Grotesk', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--ink);
+    color: #fff;
+    padding: 56px 0 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 50% 120%, #6236a020 0%, transparent 70%);
+  }
+  .header-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #a78bfa;
+    margin-bottom: 14px;
+  }
+  header h1 { font-size: clamp(26px, 4vw, 42px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 10px; }
+  header h1 span { color: #a78bfa; }
+  header p { font-size: 15px; color: rgba(255,255,255,0.5); font-family: 'Lora', serif; font-style: italic; }
+
+  main { max-width: 900px; margin: 0 auto; padding: 56px 24px 80px; }
+
+  .card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 28px 32px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    margin-bottom: 20px;
+  }
+  .card h3 {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+    margin-top: 40px;
+  }
+  .section-sub {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 20px;
+    font-family: 'Lora', serif;
+    font-style: italic;
+  }
+
+  /* tool badge */
+  .tool-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--purple-light);
+    border: 1px solid #c9b8f0;
+    border-radius: 10px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--purple);
+    margin-bottom: 16px;
+    margin-right: 8px;
+  }
+  .tool-badge span { font-weight: 400; color: var(--muted); }
+
+  /* deliverable table */
+  .del-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .del-table th {
+    padding: 9px 14px;
+    text-align: left;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 2px solid var(--border);
+  }
+  .del-table td { padding: 11px 14px; border-bottom: 1px solid #f0ece8; vertical-align: top; }
+  .del-table tr:last-child td { border-bottom: none; }
+  .del-table tr:hover td { background: #faf9f7; }
+  .file-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    background: #f0ece8;
+    border-radius: 4px;
+    padding: 2px 6px;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .role-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    border-radius: 5px;
+    padding: 2px 7px;
+    letter-spacing: 0.05em;
+  }
+  .r-gen { background: var(--purple-light); color: var(--purple); }
+  .r-ref { background: var(--cyan-light); color: var(--cyan); }
+  .r-str { background: var(--green-light); color: var(--green); }
+  .r-fix { background: var(--orange-light); color: var(--orange); }
+
+  /* prompt samples */
+  .prompt-block {
+    background: #1a1814;
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .prompt-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .prompt-label.user { color: #a78bfa; }
+  .prompt-label.ai { color: #00d4e8; }
+  .prompt-text {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.6;
+  }
+  .prompt-result {
+    margin-top: 8px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.35);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .prompt-pair { margin-bottom: 20px; }
+
+  /* divider */
+  .div { height: 1px; background: var(--border); margin: 40px 0; position: relative; }
+  .div::after { content: '◆'; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); background: var(--bg); padding: 0 12px; font-size: 10px; color: var(--border); }
+
+  /* declaration box */
+  .declaration {
+    background: var(--purple-light);
+    border: 1px solid #c9b8f0;
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-top: 40px;
+  }
+  .declaration h4 { font-size: 15px; font-weight: 700; color: var(--purple); margin-bottom: 10px; }
+  .declaration p { font-size: 13px; line-height: 1.7; color: #4a3570; }
+  .declaration .sig { margin-top: 20px; font-size: 12px; color: #7a5aaa; font-family: 'Lora', serif; font-style: italic; }
+
+  /* teammate section placeholder */
+  .teammate-slot {
+    border: 2px dashed var(--border);
+    border-radius: 14px;
+    padding: 28px 32px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .teammate-slot .slot-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .teammate-slot .slot-name { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+  .teammate-slot .slot-note { font-size: 13px; color: var(--muted); font-style: italic; }
+
+  .info-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; font-size: 13px; }
+  .info-row .label { flex-shrink: 0; width: 120px; color: var(--muted); font-size: 12px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-tag">INTELLIDEN · HCI 2026</div>
+  <h1>Statement of <span>AI Use</span></h1>
+  <p>Transparency about AI tools used in the design and development of this project</p>
+</header>
+
+<main>
+
+  <!-- ── OVERVIEW ── -->
+  <div class="card">
+    <h3>Overview</h3>
+    <p style="font-size:14px; line-height:1.7; color:var(--muted);">
+      This document discloses all AI tools used during the INTELLIDEN project — a smart home ecosystem with Mobile and Mixed Reality interfaces. AI assistance was used for generating code, visual artifacts, and research content. All design decisions, user research framing, and project direction were driven by the student team.
+    </p>
+  </div>
+
+  <!-- ── TOOLS USED ── -->
+  <div class="section-title">Tools Used</div>
+  <div class="section-sub">AI systems involved in the project</div>
+
+  <div class="card">
+    <div>
+      <div class="tool-badge">🤖 Claude (Anthropic) <span>— claude.ai / Claude Code VS Code Extension</span></div>
+    </div>
+    <div class="info-row"><div class="label">Model</div><div>Claude Sonnet 4.6 (claude-sonnet-4-6)</div></div>
+    <div class="info-row"><div class="label">Interface</div><div>Claude Code — VS Code extension with terminal access</div></div>
+    <div class="info-row"><div class="label">Access</div><div>Interactive CLI agent; read/write access to project files and git repository</div></div>
+    <div class="info-row"><div class="label">Used by</div><div>Gociu Radu (prototype + UX artifacts development)</div></div>
+    <div class="info-row"><div class="label">Period</div><div>May 2026 — HCI project sprint</div></div>
+  </div>
+
+  <div class="div"></div>
+
+  <!-- ── WHAT WAS GENERATED ── -->
+  <div class="section-title">What Was Generated</div>
+  <div class="section-sub">Deliverables created with AI assistance, and the role AI played in each</div>
+
+  <div class="card">
+    <h3>Deliverables — Gociu Radu</h3>
+    <table class="del-table">
+      <thead>
+        <tr>
+          <th>Deliverable</th>
+          <th>File</th>
+          <th>AI Role</th>
+          <th>Human Contribution</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>MR Headset Prototype</strong></td>
+          <td><span class="file-tag">ar-headset/prototype_mr2.html</span></td>
+          <td><span class="role-tag r-gen">Generated</span></td>
+          <td>Directed scope (3 tabs: Hub/Rooms/Access), reviewed all screens, requested simplification from 5→3 tabs</td>
+        </tr>
+        <tr>
+          <td><strong>Mobile Prototype</strong></td>
+          <td><span class="file-tag">mobile/prototype_mobile.html</span></td>
+          <td><span class="role-tag r-gen">Generated</span></td>
+          <td>Specified 5-screen structure, feature list, interaction flows</td>
+        </tr>
+        <tr>
+          <td><strong>Persona Profiles</strong></td>
+          <td><span class="file-tag">personas/personas.html</span></td>
+          <td><span class="role-tag r-str">Structured</span></td>
+          <td>Defined all 3 personas: names, ages, occupations, goals, frustrations, tech comfort</td>
+        </tr>
+        <tr>
+          <td><strong>AR Storyboard</strong></td>
+          <td><span class="file-tag">ar-headset/storyboard_ar.html</span></td>
+          <td><span class="role-tag r-gen">Generated</span></td>
+          <td>Chose white-card stick-figure style (from reference image), approved 6 narrative scenarios</td>
+        </tr>
+        <tr>
+          <td><strong>AR User Flow</strong></td>
+          <td><span class="file-tag">ar-headset/ar_userflow.html</span></td>
+          <td><span class="role-tag r-gen">Generated</span></td>
+          <td>Approved flow structure and node taxonomy</td>
+        </tr>
+        <tr>
+          <td><strong>AR Screen Sketches</strong></td>
+          <td><span class="file-tag">ar-headset/ar_sketches.html</span></td>
+          <td><span class="role-tag r-gen">Generated</span></td>
+          <td>Requested minimalist annotated style; reviewed annotation content per screen</td>
+        </tr>
+        <tr>
+          <td><strong>Research Tactics</strong></td>
+          <td><span class="file-tag">research/research_tactics.html</span></td>
+          <td><span class="role-tag r-gen">Generated</span></td>
+          <td>Selected tactics (Survey, Competitor Analysis, Literature Review); validated findings and implications</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="margin-top:16px; padding-top:16px; border-top:1px solid var(--border); font-size:12px; color:var(--muted);">
+      <strong style="color:var(--ink);">Role legend:</strong>
+      &nbsp;<span class="role-tag r-gen">Generated</span> AI wrote the full artifact &nbsp;
+      <span class="role-tag r-str">Structured</span> AI formatted content provided by human &nbsp;
+      <span class="role-tag r-ref">Refined</span> AI improved human draft &nbsp;
+      <span class="role-tag r-fix">Fixed</span> AI corrected specific bugs or errors
+    </div>
+  </div>
+
+  <!-- teammate placeholders -->
+  <div class="teammate-slot">
+    <div class="slot-label">Team Member 2</div>
+    <div class="slot-name">[Colleague Name]</div>
+    <div class="slot-note">To be completed — add deliverables, AI tools used, and human contributions.</div>
+  </div>
+
+  <div class="teammate-slot">
+    <div class="slot-label">Team Member 3</div>
+    <div class="slot-name">[Colleague Name]</div>
+    <div class="slot-note">To be completed — add deliverables, AI tools used, and human contributions.</div>
+  </div>
+
+  <div class="div"></div>
+
+  <!-- ── HOW AI WAS USED ── -->
+  <div class="section-title">How AI Was Used</div>
+  <div class="section-sub">Workflow and interaction model</div>
+
+  <div class="card">
+    <h3>Workflow</h3>
+    <p style="font-size:14px; line-height:1.7; color:var(--muted);">
+      AI was used through an <strong style="color:var(--ink);">iterative prompt-and-review loop</strong> inside VS Code via the Claude Code extension. The student described each deliverable in natural language, reviewed the generated output in a browser, then issued correction or refinement prompts. No generated artifact was accepted without review. The student controlled all design decisions — scope, style, content, and personas. AI acted as an implementation accelerator, not a designer.
+    </p>
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-top:20px;">
+      <div style="background:#faf9f7; border-radius:10px; padding:16px; text-align:center;">
+        <div style="font-size:24px; margin-bottom:6px;">💬</div>
+        <div style="font-size:12px; font-weight:600; margin-bottom:4px;">1. Describe</div>
+        <div style="font-size:11px; color:var(--muted);">Student describes the artifact in natural language</div>
+      </div>
+      <div style="background:#faf9f7; border-radius:10px; padding:16px; text-align:center;">
+        <div style="font-size:24px; margin-bottom:6px;">🤖</div>
+        <div style="font-size:12px; font-weight:600; margin-bottom:4px;">2. Generate</div>
+        <div style="font-size:11px; color:var(--muted);">Claude writes the HTML/CSS/SVG file and commits to git</div>
+      </div>
+      <div style="background:#faf9f7; border-radius:10px; padding:16px; text-align:center;">
+        <div style="font-size:24px; margin-bottom:6px;">🔍</div>
+        <div style="font-size:12px; font-weight:600; margin-bottom:4px;">3. Review & Refine</div>
+        <div style="font-size:11px; color:var(--muted);">Student reviews in browser, requests changes or approves</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="div"></div>
+
+  <!-- ── PROMPT SAMPLES ── -->
+  <div class="section-title">Prompt Samples</div>
+  <div class="section-sub">Representative prompts used during the project (translated to English where original was in Romanian)</div>
+
+  <div class="prompt-pair">
+    <div class="prompt-block">
+      <div class="prompt-label user">Student → Claude</div>
+      <div class="prompt-text">"Create an MR headset prototype in HTML — landscape layout, dark AR aesthetic with scan lines, glassmorphism panels. 3 tabs: Hub (status + room controls), Rooms (room grid with toggle), Access (user management). Make it feel like a real AR HUD, not a generic dashboard."</div>
+    </div>
+    <div class="prompt-block" style="margin-top:-4px; border-radius:0 0 10px 10px; background:#0f1a28;">
+      <div class="prompt-label ai">Claude → Result</div>
+      <div class="prompt-result">→ Generated prototype_mr2.html — 500+ lines, full AR HUD with backdrop-filter blur panels, scan-line overlay, corner bracket decorations, JavaScript tab navigation and room toggles.</div>
+    </div>
+  </div>
+
+  <div class="prompt-pair">
+    <div class="prompt-block">
+      <div class="prompt-label user">Student → Claude</div>
+      <div class="prompt-text">"The storyboard needs to be in this style" [attached reference screenshot of white-card UX storyboard with stick figures]. "6 panels, white cards, proper stick figures with head/eyes/smile, AR headset shown on figure."</div>
+    </div>
+    <div class="prompt-block" style="margin-top:-4px; border-radius:0 0 10px 10px; background:#0f1a28;">
+      <div class="prompt-label ai">Claude → Result</div>
+      <div class="prompt-result">→ Recreated storyboard_ar.html from scratch — white-card style, SVG stick figures with circular heads, proper limbs, AR headset drawn as dark rect with cyan lenses, Lora italic captions.</div>
+    </div>
+  </div>
+
+  <div class="prompt-pair">
+    <div class="prompt-block">
+      <div class="prompt-label user">Student → Claude</div>
+      <div class="prompt-text">"Reduce the features of the MR headset, make it more compact, easier and more intuitive — it's too much content for a gaze-based AR interface."</div>
+    </div>
+    <div class="prompt-block" style="margin-top:-4px; border-radius:0 0 10px 10px; background:#0f1a28;">
+      <div class="prompt-label ai">Claude → Result</div>
+      <div class="prompt-result">→ Simplified prototype from 5 complex tabs to 3 clean tabs. Removed nested sub-panels, increased touch target sizes, consolidated controls into larger room tiles.</div>
+    </div>
+  </div>
+
+  <div class="prompt-pair">
+    <div class="prompt-block">
+      <div class="prompt-label user">Student → Claude</div>
+      <div class="prompt-text">"Check that in the examples we use people from our persona profiles — not placeholder names."</div>
+    </div>
+    <div class="prompt-block" style="margin-top:-4px; border-radius:0 0 10px 10px; background:#0f1a28;">
+      <div class="prompt-label ai">Claude → Result</div>
+      <div class="prompt-result">→ Identified "Alex Morgan" and "Sarah Morgan" as placeholders across 3 files. Replaced with Daniel Popa (USER) and Laura Marin (LIMITED) — actual project personas — in prototype_mr2.html, ar_sketches.html, and prototype_mobile.html.</div>
+    </div>
+  </div>
+
+  <div class="div"></div>
+
+  <!-- ── DECLARATION ── -->
+  <div class="declaration">
+    <h4>Declaration of Academic Integrity</h4>
+    <p>
+      The use of AI tools in this project was <strong>fully intentional, acknowledged, and disclosed</strong> in accordance with course guidelines. AI was used to accelerate implementation of designs that were conceptualized, directed, and reviewed by the student team. All personas, project direction, feature decisions, and critical design choices were made by humans. AI did not replace the design thinking process — it executed it.
+    </p>
+    <p style="margin-top:10px;">
+      No AI-generated content was submitted as original human intellectual work without disclosure. This statement represents a complete and honest account of AI involvement in the INTELLIDEN project.
+    </p>
+    <div class="sig">INTELLIDEN Team · HCI Project 2026 · Universitate</div>
+  </div>
+
+</main>
+</body>
+</html>
