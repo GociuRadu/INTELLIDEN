@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Style Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #ffffff;
+    font-family: 'Inter', sans-serif;
+    padding: 56px 64px;
+    color: #111;
+    width: 1100px;
+    margin: 0 auto;
+  }
+
+  h2 {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #aaa;
+    margin-bottom: 16px;
+  }
+
+  .gap { margin-bottom: 48px; }
+
+  /* COLORS */
+  .color-row { display: flex; gap: 14px; }
+  .color-card { display: flex; flex-direction: column; gap: 5px; }
+  .color-block { width: 96px; height: 60px; border-radius: 8px; }
+  .color-name { font-size: 12px; font-weight: 600; color: #222; }
+  .color-hex  { font-size: 11px; color: #999; font-family: monospace; }
+  .color-role { font-size: 10px; color: #bbb; }
+
+  /* TYPOGRAPHY */
+  .type-row { display: flex; gap: 16px; }
+  .type-card {
+    flex: 1;
+    background: #f7f7f7;
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .type-sample { margin-bottom: 10px; min-height: 48px; display: flex; align-items: flex-end; }
+  .type-label { font-size: 11px; color: #aaa; }
+  .type-use   { font-size: 10px; color: #bbb; margin-top: 3px; }
+
+  /* ICONS */
+  .icon-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .icon-card {
+    width: 80px; height: 80px;
+    border-radius: 10px;
+    border: 1.5px solid #ebebeb;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 7px;
+    background: #fafafa;
+  }
+  .icon-card svg { width: 24px; height: 24px; }
+  .icon-card span { font-size: 10px; color: #aaa; font-weight: 500; }
+
+  .icon-rule {
+    margin-top: 14px;
+    font-size: 12px;
+    color: #aaa;
+    line-height: 1.7;
+  }
+  .icon-rule strong { color: #555; font-weight: 600; }
+</style>
+</head>
+<body>
+
+  <!-- TITLE -->
+  <div style="margin-bottom:48px;">
+    <div style="font-size:22px;font-weight:700;letter-spacing:-0.5px;color:#111;">Intelliden <span style="color:#00e5ff;">Style Guide</span></div>
+    <div style="font-size:13px;color:#bbb;margin-top:4px;">Smart Home Ecosystem</div>
+  </div>
+
+  <!-- COLORS -->
+  <div class="gap">
+    <h2>Color Palette</h2>
+    <div class="color-row">
+      <div class="color-card">
+        <div class="color-block" style="background:#0e0e0f;border:1px solid #333;"></div>
+        <div class="color-name">Background</div>
+        <div class="color-hex">#0E0E0F</div>
+        <div class="color-role">Main dark base</div>
+      </div>
+      <div class="color-card">
+        <div class="color-block" style="background:#1c1c1f;border:1px solid #333;"></div>
+        <div class="color-name">Surface</div>
+        <div class="color-hex">#1C1C1F</div>
+        <div class="color-role">Cards &amp; tiles</div>
+      </div>
+      <div class="color-card">
+        <div class="color-block" style="background:#00e5ff;"></div>
+        <div class="color-name">Cyan</div>
+        <div class="color-hex">#00E5FF</div>
+        <div class="color-role">Primary accent</div>
+      </div>
+      <div class="color-card">
+        <div class="color-block" style="background:#39ff14;"></div>
+        <div class="color-name">Green</div>
+        <div class="color-hex">#39FF14</div>
+        <div class="color-role">Active / online</div>
+      </div>
+      <div class="color-card">
+        <div class="color-block" style="background:#ff3d00;"></div>
+        <div class="color-name">Orange</div>
+        <div class="color-hex">#FF3D00</div>
+        <div class="color-role">Alerts / danger</div>
+      </div>
+      <div class="color-card">
+        <div class="color-block" style="background:#a855f7;"></div>
+        <div class="color-name">Purple</div>
+        <div class="color-hex">#A855F7</div>
+        <div class="color-role">Users / access</div>
+      </div>
+      <div class="color-card">
+        <div class="color-block" style="background:#e8e6df;border:1px solid #ddd;"></div>
+        <div class="color-name">Off-white</div>
+        <div class="color-hex">#E8E6DF</div>
+        <div class="color-role">Body text</div>
+      </div>
+      <div class="color-card">
+        <div class="color-block" style="background:#5a5a54;"></div>
+        <div class="color-name">Muted</div>
+        <div class="color-hex">#5A5A54</div>
+        <div class="color-role">Labels / hints</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="gap">
+    <h2>Typography</h2>
+    <div class="type-row">
+
+      <div class="type-card">
+        <div class="type-sample">
+          <div style="font-weight:700;font-size:28px;letter-spacing:-1px;color:#111;line-height:1;">Intelliden</div>
+        </div>
+        <div class="type-label">Syne — Headings</div>
+        <div class="type-use">Weight 700–800 · App name, titles</div>
+      </div>
+
+      <div class="type-card">
+        <div class="type-sample">
+          <div style="font-weight:300;font-size:32px;color:#111;letter-spacing:-1px;line-height:1;">48.7 <span style="font-size:14px;color:#888;font-weight:400;">kWh</span></div>
+        </div>
+        <div class="type-label">DM Mono — Data</div>
+        <div class="type-use">Weight 300 · Numbers, time, values</div>
+      </div>
+
+      <div class="type-card">
+        <div class="type-sample">
+          <div style="font-size:13px;color:#444;line-height:1.7;">Device status updates and<br>home automation events.</div>
+        </div>
+        <div class="type-label">DM Mono — Body</div>
+        <div class="type-use">Weight 400 · Descriptions, captions</div>
+      </div>
+
+      <div class="type-card">
+        <div class="type-sample">
+          <div style="font-family:monospace;font-size:12px;color:#00c8a0;letter-spacing:0.05em;line-height:1.9;">
+            SYSTEM: ACTIVE<br>
+            <span style="color:#aaa;">IF sunset → close_blinds()</span>
+          </div>
+        </div>
+        <div class="type-label">Syne Mono — Labels</div>
+        <div class="type-use">Uppercase tags · rule strings</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ICONS -->
+  <div class="gap">
+    <h2>Icon Style</h2>
+    <div class="icon-row">
+
+      <div class="icon-card">
+        <svg fill="none" stroke="#00e5ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+          <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+        </svg>
+        <span>Dashboard</span>
+      </div>
+
+      <div class="icon-card">
+        <svg fill="none" stroke="#39ff14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <rect x="4" y="4" width="16" height="16" rx="2"/><rect x="8" y="8" width="8" height="8" rx="1"/>
+          <line x1="8" y1="2" x2="8" y2="4"/><line x1="16" y1="2" x2="16" y2="4"/>
+          <line x1="8" y1="20" x2="8" y2="22"/><line x1="16" y1="20" x2="16" y2="22"/>
+          <line x1="2" y1="8" x2="4" y2="8"/><line x1="2" y1="16" x2="4" y2="16"/>
+          <line x1="20" y1="8" x2="22" y2="8"/><line x1="20" y1="16" x2="22" y2="16"/>
+        </svg>
+        <span>Devices</span>
+      </div>
+
+      <div class="icon-card">
+        <svg fill="none" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+        </svg>
+        <span>Stats</span>
+      </div>
+
+      <div class="icon-card">
+        <svg fill="none" stroke="#ff3d00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+        </svg>
+        <span>Automations</span>
+      </div>
+
+      <div class="icon-card">
+        <svg fill="none" stroke="#a855f7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+        <span>Access</span>
+      </div>
+
+      <div class="icon-card">
+        <svg fill="none" stroke="#00e5ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/>
+          <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0018 8 6 6 0 006 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 018.91 14"/>
+        </svg>
+        <span>Lights</span>
+      </div>
+
+      <div class="icon-card">
+        <svg fill="none" stroke="#39ff14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <path d="M23 7l-7 5 7 5V7z"/>
+          <rect x="1" y="5" width="15" height="14" rx="2"/>
+        </svg>
+        <span>Camera</span>
+      </div>
+
+      <div class="icon-card">
+        <svg fill="none" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <path d="M14 14.76V3.5a2.5 2.5 0 00-5 0v11.26a4.5 4.5 0 105 0z"/>
+        </svg>
+        <span>Temp</span>
+      </div>
+
+      <div class="icon-card">
+        <svg fill="none" stroke="#ff3d00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.73 21a2 2 0 01-3.46 0"/>
+        </svg>
+        <span>Alert</span>
+      </div>
+
+      <div class="icon-card">
+        <svg fill="none" stroke="#a855f7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span>User</span>
+      </div>
+
+      <div class="icon-card">
+        <svg fill="none" stroke="#00e5ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <rect x="1" y="6" width="22" height="13" rx="2"/>
+          <line x1="1" y1="10" x2="23" y2="10"/>
+        </svg>
+        <span>Watch</span>
+      </div>
+
+      <div class="icon-card">
+        <svg fill="none" stroke="#39ff14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <path d="M5 12.55a11 11 0 0114.08 0"/>
+          <path d="M1.42 9a16 16 0 0121.16 0"/>
+          <path d="M8.53 16.11a6 6 0 016.95 0"/>
+          <circle cx="12" cy="20" r="1"/>
+        </svg>
+        <span>Network</span>
+      </div>
+
+    </div>
+
+    <div class="icon-rule">
+      <strong>Style:</strong> Outline only, no fills · Stroke 1.5px · Round caps · Color matches app section
+    </div>
+  </div>
+
+</body>
+</html>
