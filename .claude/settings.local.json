@@ -1,0 +1,45 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p /c/IOC)",
+      "Bash(start \"C:\\\\IOC\\\\personas.html\")",
+      "PowerShell(Start-Process \"C:\\\\IOC\\\\personas.html\")",
+      "PowerShell(Start-Process \"C:\\\\IOC\\\\personas.pdf\")",
+      "PowerShell(Start-Process \"C:\\\\IOC\\\\prototype_mr.html\")",
+      "PowerShell(Start-Process \"C:\\\\IOC\\\\prototype_mobile.html\")",
+      "Bash(start \"c:\\\\IOC\\\\prototype_mr2.html\")",
+      "Bash(start \"c:\\\\IOC\\\\prototype_mobile.html\")",
+      "Bash(git init *)",
+      "Bash(git remote *)",
+      "Bash(git fetch *)",
+      "Bash(git checkout *)",
+      "Bash(git push *)",
+      "Bash(start \"c:\\\\IOC\\\\ar_ux_artifacts.html\")",
+      "Bash(start \"c:\\\\IOC\\\\storyboard_ar.html\")",
+      "Bash(start \"c:\\\\IOC\\\\ar_flows_sketches.html\")",
+      "Bash(start \"c:\\\\IOC\\\\ar_userflow.html\")",
+      "Bash(start \"c:\\\\IOC\\\\ar_sketches.html\")",
+      "Bash(mv \"c:\\\\IOC\\\\prototype_mr2.html\" \"c:\\\\IOC\\\\ar-headset\\\\\"; mv \"c:\\\\IOC\\\\storyboard_ar.html\" \"c:\\\\IOC\\\\ar-headset\\\\\")",
+      "Bash(mv \"c:\\\\IOC\\\\ar_userflow.html\" \"c:\\\\IOC\\\\ar-headset\\\\\"; mv \"c:\\\\IOC\\\\ar_sketches.html\" \"c:\\\\IOC\\\\ar-headset\\\\\")",
+      "Bash(mv \"c:\\\\IOC\\\\ar_ux_artifacts.html\" \"c:\\\\IOC\\\\ar-headset\\\\\"; mv \"c:\\\\IOC\\\\prototype_mobile.html\" \"c:\\\\IOC\\\\mobile\\\\\")",
+      "Bash(mv \"c:\\\\IOC\\\\personas.html\" \"c:\\\\IOC\\\\personas\\\\\"; mv \"c:\\\\IOC\\\\personas.pdf\" \"c:\\\\IOC\\\\personas\\\\\")",
+      "Read(//c//**)",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\IOC\\\\ar-headset\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\IOC\\\\mobile\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\IOC\\\\personas\")",
+      "PowerShell(Move-Item \"c:\\\\IOC\\\\prototype_mr2.html\"    \"c:\\\\IOC\\\\ar-headset\\\\\")",
+      "PowerShell(Move-Item \"c:\\\\IOC\\\\storyboard_ar.html\"    \"c:\\\\IOC\\\\ar-headset\\\\\")",
+      "PowerShell(Move-Item \"c:\\\\IOC\\\\ar_userflow.html\"      \"c:\\\\IOC\\\\ar-headset\\\\\")",
+      "PowerShell(Move-Item \"c:\\\\IOC\\\\ar_sketches.html\"      \"c:\\\\IOC\\\\ar-headset\\\\\")",
+      "PowerShell(Move-Item \"c:\\\\IOC\\\\ar_ux_artifacts.html\"  \"c:\\\\IOC\\\\ar-headset\\\\\")",
+      "PowerShell(Move-Item \"c:\\\\IOC\\\\prototype_mobile.html\" \"c:\\\\IOC\\\\mobile\\\\\")",
+      "PowerShell(Move-Item \"c:\\\\IOC\\\\personas.html\"         \"c:\\\\IOC\\\\personas\\\\\")",
+      "PowerShell(Move-Item \"c:\\\\IOC\\\\personas.pdf\"          \"c:\\\\IOC\\\\personas\\\\\" -ErrorAction SilentlyContinue)",
+      "PowerShell(Move-Item \"c:\\\\IOC\\\\ar_flows_sketches.html\" \"c:\\\\IOC\\\\ar-headset\\\\\" -ErrorAction SilentlyContinue)",
+      "PowerShell(Move-Item \"c:\\\\IOC\\\\prototype_mr.html\" \"c:\\\\IOC\\\\ar-headset\\\\\" -ErrorAction SilentlyContinue)"
+    ],
+    "additionalDirectories": [
+      "C:\\IOC"
+    ]
+  }
+}
