@@ -34,6 +34,16 @@ Start-Sleep -Milliseconds 400
 Start-Process "$base\smartwatch\storyboard-1778698510968.png"
 Start-Sleep -Milliseconds 400
 
+# 5. Mobile (Andrei)
+Start-Process "$base\mobile\AppSketch-Andrei.png"
+Start-Sleep -Milliseconds 400
+Start-Process "$base\mobile\flow-Andrei.png"
+Start-Sleep -Milliseconds 400
+Start-Process "$base\mobile\storyboard-Andrei.png"
+Start-Sleep -Milliseconds 400
+Start-Process "$base\mobile\storyboard-Andrei-AI.png"
+Start-Sleep -Milliseconds 400
+
 # Personas (supporting context)
 Start-Process "$base\personas\personas.html"
 
