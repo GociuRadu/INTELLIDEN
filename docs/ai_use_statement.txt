@@ -1,0 +1,58 @@
+STATEMENT OF AI USE
+INTELLIDEN — Smart Home Ecosystem
+HCI Project 2026
+=====================================
+
+TEAM MEMBER: Gociu Radu
+--------------------------------------------------------------------------------
+
+AI TOOL USED
+  Tool:      Claude (Anthropic)
+  Model:     Claude Sonnet 4.6
+  Interface: Claude Code — VS Code Extension
+
+HOW IT WAS USED
+  Claude Code was used as an interactive coding assistant directly inside VS Code.
+  I described each deliverable in natural language, reviewed the output in a browser,
+  and issued follow-up prompts to refine or correct it. All design decisions —
+  scope, structure, personas, features — were made by me. Claude handled the
+  HTML/CSS/SVG implementation.
+
+WHAT WAS GENERATED
+  - ar-headset/prototype_mr2.html    — MR headset prototype (3-tab AR interface)
+  - mobile/prototype_mobile.html     — Mobile app prototype (5 screens)
+  - personas/personas.html           — Persona profiles (Robert, Daniel, Laura)
+  - ar-headset/storyboard_ar.html    — AR storyboard (6 panels, white-card style)
+  - ar-headset/ar_userflow.html      — AR user flow diagram
+  - ar-headset/ar_sketches.html      — Annotated screen sketches for AR headset
+  - research/research_tactics.html   — Research tactics document
+
+PROMPT SAMPLES
+  "Create an MR headset prototype — dark AR aesthetic, glassmorphism panels,
+   3 tabs: Hub, Rooms, Access. Make it feel like a real AR HUD."
+
+  "The storyboard needs to be in this style [reference image] — white cards,
+   stick figures, 6 panels showing the main usage scenario."
+
+  "Reduce the features of the MR headset, too much content for a
+   gaze-based AR interface. Make it more compact and intuitive."
+
+  "Check that in all examples we use people from our persona profiles,
+   not placeholder names."
+
+CONVERSATION
+  Session conducted locally via Claude Code VS Code Extension.
+  No public conversation link available (local tool session).
+
+--------------------------------------------------------------------------------
+
+TEAM MEMBER: [Colleague Name]
+  [To be completed by team member]
+
+--------------------------------------------------------------------------------
+
+TEAM MEMBER: [Colleague Name]
+  [To be completed by team member]
+
+=====================================
+INTELLIDEN Team · HCI Project 2026

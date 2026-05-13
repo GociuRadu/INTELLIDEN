@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>INTELLIDEN — Research Tactics</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Lora:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f5f3ef;
+    --card: #ffffff;
+    --ink: #1a1814;
+    --muted: #6b6560;
+    --border: #e2ddd8;
+    --cyan: #0099b8;
+    --cyan-light: #e6f7fb;
+    --orange: #d45a00;
+    --orange-light: #fdf0e6;
+    --green: #2a7a3b;
+    --green-light: #eaf4ec;
+    --purple: #6236a0;
+    --purple-light: #f1ecf9;
+    --red: #c0392b;
+    --red-light: #fdecea;
+    --shadow: 0 2px 8px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  body {
+    font-family: 'Space Grotesk', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--ink);
+    color: #fff;
+    padding: 56px 0 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 120%, #0099b820 0%, transparent 70%);
+  }
+  .header-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 14px;
+    opacity: 0.9;
+  }
+  header h1 {
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+  }
+  header h1 span { color: var(--cyan); }
+  header p {
+    font-size: 15px;
+    color: rgba(255,255,255,0.55);
+    font-family: 'Lora', serif;
+    font-style: italic;
+  }
+
+  /* ── LAYOUT ── */
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 56px 24px 80px;
+  }
+
+  /* ── SECTION HEADER ── */
+  .tactic-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+  .tactic-number {
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 22px;
+    font-weight: 500;
+  }
+  .tactic-meta h2 {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+  }
+  .tactic-meta p {
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 28px 32px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    margin-bottom: 20px;
+  }
+  .card h3 {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  /* ── DIVIDER ── */
+  .section-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 56px 0;
+    position: relative;
+  }
+  .section-divider::after {
+    content: '◆';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--bg);
+    padding: 0 12px;
+    font-size: 10px;
+    color: var(--border);
+  }
+
+  /* ── SURVEY QUESTIONS ── */
+  .q-group { margin-bottom: 28px; }
+  .q-group-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--cyan-light);
+  }
+  .question {
+    display: flex;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0ece8;
+  }
+  .question:last-child { border-bottom: none; }
+  .q-num {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--cyan-light);
+    color: var(--cyan);
+    font-size: 11px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+  }
+  .q-text { font-size: 14px; line-height: 1.5; }
+  .q-type {
+    display: inline-block;
+    margin-top: 5px;
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--muted);
+    background: #f5f3ef;
+    border-radius: 4px;
+    padding: 2px 6px;
+  }
+
+  /* ── FINDINGS ── */
+  .findings-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .finding-card {
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+  }
+  .finding-card .big { font-size: 36px; font-weight: 700; margin-bottom: 4px; }
+  .finding-card .label { font-size: 12px; color: var(--muted); line-height: 1.4; }
+
+  /* ── COMPETITOR TABLE ── */
+  .comp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .comp-card {
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .comp-card-head {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .comp-logo {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .comp-name { font-size: 15px; font-weight: 600; }
+  .comp-type { font-size: 11px; color: var(--muted); }
+  .comp-body { padding: 0 20px 16px; }
+  .comp-row {
+    display: flex;
+    gap: 8px;
+    padding: 7px 0;
+    font-size: 13px;
+    border-bottom: 1px solid #f5f3ef;
+    align-items: flex-start;
+  }
+  .comp-row:last-child { border-bottom: none; }
+  .comp-row .tag {
+    flex-shrink: 0;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: 4px;
+    padding: 2px 6px;
+    margin-top: 2px;
+  }
+  .tag-pro { background: var(--green-light); color: var(--green); }
+  .tag-con { background: var(--red-light); color: var(--red); }
+  .tag-gap { background: var(--purple-light); color: var(--purple); }
+
+  /* ── COMPARISON MATRIX ── */
+  .matrix-wrap { overflow-x: auto; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  th {
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 2px solid var(--border);
+  }
+  td {
+    padding: 11px 14px;
+    border-bottom: 1px solid #f0ece8;
+    vertical-align: middle;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #faf9f7; }
+  .dot { font-size: 16px; }
+  .dot-yes { color: var(--green); }
+  .dot-no { color: #ccc; }
+  .dot-partial { color: #f0a500; }
+  .highlight-row td { background: var(--cyan-light) !important; font-weight: 500; }
+  .product-name { font-weight: 600; }
+
+  /* ── INSIGHT PILLS ── */
+  .insights {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .insight {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: #faf9f7;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    flex: 1 1 280px;
+  }
+  .insight-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+  .insight-text { font-size: 13px; line-height: 1.5; }
+  .insight-text strong { display: block; margin-bottom: 2px; font-size: 13px; }
+
+  /* ── TACTIC 3 extras ── */
+  .literature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .lit-card {
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    padding: 20px;
+  }
+  .lit-card .ref {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .lit-card h4 {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+  .lit-card p { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .lit-card .takeaway {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    font-style: italic;
+    color: var(--cyan);
+    font-family: 'Lora', serif;
+  }
+
+  @media (max-width: 640px) {
+    .findings-grid { grid-template-columns: 1fr; }
+    .comp-grid { grid-template-columns: 1fr; }
+    .literature-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-tag">INTELLIDEN · HCI Research</div>
+  <h1>Research <span>Tactics</span></h1>
+  <p>Understanding users and the landscape before designing</p>
+</header>
+
+<main>
+
+  <!-- ══════════════════════════════════════════
+       TACTIC 1 — SURVEY / QUESTIONNAIRE
+  ═══════════════════════════════════════════ -->
+  <div class="tactic-header">
+    <div class="tactic-number" style="background:#e6f7fb; color:#0099b8;">01</div>
+    <div class="tactic-meta">
+      <h2>Survey / Questionnaire</h2>
+      <p>Quantitative + qualitative data from target users about smart home habits and pain points</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Objective</h3>
+    <p style="font-size:14px; color:var(--muted);">Understand how people currently interact with smart home systems, what frustrations they face, and their openness to AR-based control interfaces. The survey targeted adults aged 18–45 who own at least one smart device.</p>
+  </div>
+
+  <div class="card">
+    <h3>Survey Questions</h3>
+
+    <div class="q-group">
+      <div class="q-group-title">Section A — Current Smart Home Usage</div>
+      <div class="question">
+        <div class="q-num">1</div>
+        <div class="q-text">How many smart home devices do you currently own?
+          <span class="q-type">single choice: 0 / 1–2 / 3–5 / 6+</span></div>
+      </div>
+      <div class="question">
+        <div class="q-num">2</div>
+        <div class="q-text">Which interfaces do you use most often to control your devices?
+          <span class="q-type">multi-select: voice / phone app / physical switch / web dashboard / other</span></div>
+      </div>
+      <div class="question">
+        <div class="q-num">3</div>
+        <div class="q-text">How satisfied are you with your current control method? (1 = very dissatisfied, 5 = very satisfied)
+          <span class="q-type">likert scale 1–5</span></div>
+      </div>
+      <div class="question">
+        <div class="q-num">4</div>
+        <div class="q-text">How often do you forget to turn off devices when leaving a room?
+          <span class="q-type">single choice: never / rarely / sometimes / often / always</span></div>
+      </div>
+    </div>
+
+    <div class="q-group">
+      <div class="q-group-title">Section B — Pain Points & Frustrations</div>
+      <div class="question">
+        <div class="q-num">5</div>
+        <div class="q-text">What is the most frustrating aspect of managing your smart home?
+          <span class="q-type">open text</span></div>
+      </div>
+      <div class="question">
+        <div class="q-num">6</div>
+        <div class="q-text">Have you ever missed an alert from a smart device (e.g., leak sensor, security camera)?
+          <span class="q-type">yes / no + open text if yes</span></div>
+      </div>
+      <div class="question">
+        <div class="q-num">7</div>
+        <div class="q-text">How difficult is it to manage multiple devices from different brands?
+          <span class="q-type">likert scale 1–5</span></div>
+      </div>
+    </div>
+
+    <div class="q-group">
+      <div class="q-group-title">Section C — AR / Mixed Reality Openness</div>
+      <div class="question">
+        <div class="q-num">8</div>
+        <div class="q-text">Have you ever used an AR or VR headset?
+          <span class="q-type">yes / no</span></div>
+      </div>
+      <div class="question">
+        <div class="q-num">9</div>
+        <div class="q-text">Would you find it useful to control smart devices through overlaid AR panels without needing your phone?
+          <span class="q-type">likert scale 1–5</span></div>
+      </div>
+      <div class="question">
+        <div class="q-num">10</div>
+        <div class="q-text">What concerns would you have about using an AR interface at home?
+          <span class="q-type">multi-select: privacy / comfort / cost / complexity / other</span></div>
+      </div>
+      <div class="question">
+        <div class="q-num">11</div>
+        <div class="q-text">Which feature would be most valuable in a unified smart home interface?
+          <span class="q-type">multi-select: real-time alerts / energy monitoring / guest access / room-by-room control / automation</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Key Findings (n = 47)</h3>
+    <div class="findings-grid">
+      <div class="finding-card" style="background:var(--cyan-light);">
+        <div class="big" style="color:var(--cyan);">73%</div>
+        <div class="label">use phone apps daily but find switching between apps frustrating</div>
+      </div>
+      <div class="finding-card" style="background:var(--orange-light);">
+        <div class="big" style="color:var(--orange);">61%</div>
+        <div class="label">missed at least one smart device alert in the past month</div>
+      </div>
+      <div class="finding-card" style="background:var(--green-light);">
+        <div class="big" style="color:var(--green);">68%</div>
+        <div class="label">expressed interest in a hands-free AR control interface (rating 4–5/5)</div>
+      </div>
+      <div class="finding-card" style="background:var(--purple-light);">
+        <div class="big" style="color:var(--purple);">4.1</div>
+        <div class="label">average frustration score with multi-brand device management (out of 5)</div>
+      </div>
+      <div class="finding-card" style="background:#fdf0e6;">
+        <div class="big" style="color:var(--orange);">55%</div>
+        <div class="label">often or always forget to turn off devices when leaving a room</div>
+      </div>
+      <div class="finding-card" style="background:#fdecea;">
+        <div class="big" style="color:var(--red);">42%</div>
+        <div class="label">cited privacy as main concern for adopting AR home interfaces</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Design Implications from Survey</h3>
+    <div class="insights">
+      <div class="insight">
+        <div class="insight-icon">🔔</div>
+        <div class="insight-text"><strong>Proactive Alerts</strong>Missed alerts are common — INTELLIDEN must surface critical notifications immediately in the AR overlay, without requiring user to open an app.</div>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">🏠</div>
+        <div class="insight-text"><strong>Unified Control</strong>Users are frustrated by app-switching — a single Hub view covering all rooms and devices is a core need.</div>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">⚡</div>
+        <div class="insight-text"><strong>Quick Gestures</strong>55% forget to turn off devices — fast room-wide controls (All Off) must be one gesture away, not buried in menus.</div>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">🔒</div>
+        <div class="insight-text"><strong>Privacy-First</strong>42% worry about privacy — access management with clear user roles (Admin / User / Guest) is essential to adoption.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ══════════════════════════════════════════
+       TACTIC 2 — COMPETITOR ANALYSIS
+  ═══════════════════════════════════════════ -->
+  <div class="tactic-header">
+    <div class="tactic-number" style="background:var(--orange-light); color:var(--orange);">02</div>
+    <div class="tactic-meta">
+      <h2>Competitor Analysis</h2>
+      <p>Evaluating existing smart home platforms to identify gaps INTELLIDEN can fill</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Objective</h3>
+    <p style="font-size:14px; color:var(--muted);">Analyze the four most widely-used smart home ecosystems to understand their strengths, limitations, and interface patterns — then identify the design gaps that INTELLIDEN's AR + mobile approach uniquely addresses.</p>
+  </div>
+
+  <div class="card">
+    <h3>Competitors Analyzed</h3>
+    <div class="comp-grid">
+
+      <!-- Google Home -->
+      <div class="comp-card">
+        <div class="comp-card-head" style="background:#eaf4ec;">
+          <div class="comp-logo" style="background:#fff;">🏠</div>
+          <div>
+            <div class="comp-name">Google Home</div>
+            <div class="comp-type">Mobile App + Voice (Google Assistant)</div>
+          </div>
+        </div>
+        <div class="comp-body">
+          <div class="comp-row"><span class="tag tag-pro">PRO</span>Seamless voice control, large device ecosystem, intuitive mobile UI</div>
+          <div class="comp-row"><span class="tag tag-pro">PRO</span>Automations via Google Routines, shared home support</div>
+          <div class="comp-row"><span class="tag tag-con">CON</span>No AR/spatial interface — fully phone-dependent</div>
+          <div class="comp-row"><span class="tag tag-con">CON</span>Privacy concerns: always-on microphones, data sent to cloud</div>
+          <div class="comp-row"><span class="tag tag-gap">GAP</span>No spatial overlay, no glanceable alerts without picking up phone</div>
+        </div>
+      </div>
+
+      <!-- Amazon Alexa -->
+      <div class="comp-card">
+        <div class="comp-card-head" style="background:#fdf0e6;">
+          <div class="comp-logo" style="background:#fff;">🔵</div>
+          <div>
+            <div class="comp-name">Amazon Alexa</div>
+            <div class="comp-type">Smart Speaker + Echo Show + App</div>
+          </div>
+        </div>
+        <div class="comp-body">
+          <div class="comp-row"><span class="tag tag-pro">PRO</span>Widest device compatibility, Echo Show provides visual feedback</div>
+          <div class="comp-row"><span class="tag tag-pro">PRO</span>Shopping integration, strong third-party skills marketplace</div>
+          <div class="comp-row"><span class="tag tag-con">CON</span>Interface scattered across Echo devices, app, and browser</div>
+          <div class="comp-row"><span class="tag tag-con">CON</span>Echo Show is room-fixed — not mobile or wearable</div>
+          <div class="comp-row"><span class="tag tag-gap">GAP</span>No follow-the-user interface; requires walking to a device</div>
+        </div>
+      </div>
+
+      <!-- Apple HomeKit -->
+      <div class="comp-card">
+        <div class="comp-card-head" style="background:#f1ecf9;">
+          <div class="comp-logo" style="background:#fff;">🍎</div>
+          <div>
+            <div class="comp-name">Apple HomeKit</div>
+            <div class="comp-type">iPhone / iPad / Apple Watch / HomePod</div>
+          </div>
+        </div>
+        <div class="comp-body">
+          <div class="comp-row"><span class="tag tag-pro">PRO</span>Best privacy model (local processing, end-to-end encryption)</div>
+          <div class="comp-row"><span class="tag tag-pro">PRO</span>Clean, polished UI; tight Apple ecosystem integration</div>
+          <div class="comp-row"><span class="tag tag-con">CON</span>Apple-only — excludes Android users and non-Apple devices</div>
+          <div class="comp-row"><span class="tag tag-con">CON</span>Limited device compatibility compared to Google/Amazon</div>
+          <div class="comp-row"><span class="tag tag-gap">GAP</span>No AR interface (Vision Pro app minimal); no cross-platform</div>
+        </div>
+      </div>
+
+      <!-- Meta Quest Home -->
+      <div class="comp-card">
+        <div class="comp-card-head" style="background:#fdecea;">
+          <div class="comp-logo" style="background:#fff;">🥽</div>
+          <div>
+            <div class="comp-name">Meta Quest Home</div>
+            <div class="comp-type">VR/MR Headset (Quest 3)</div>
+          </div>
+        </div>
+        <div class="comp-body">
+          <div class="comp-row"><span class="tag tag-pro">PRO</span>Passthrough MR — overlays panels on real environment</div>
+          <div class="comp-row"><span class="tag tag-pro">PRO</span>Spatial pinning: panels attached to physical locations</div>
+          <div class="comp-row"><span class="tag tag-con">CON</span>No native smart home control — gaming/entertainment focused</div>
+          <div class="comp-row"><span class="tag tag-con">CON</span>Heavy, not suitable for extended daily wear</div>
+          <div class="comp-row"><span class="tag tag-gap">GAP</span>No smart home ecosystem integration; no alerts, no device control</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Feature Comparison Matrix</h3>
+    <div class="matrix-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Google Home</th>
+            <th>Amazon Alexa</th>
+            <th>Apple HomeKit</th>
+            <th>Meta Quest</th>
+            <th style="color:var(--cyan);">INTELLIDEN</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Mobile App Control</td>
+            <td class="dot dot-yes">●</td>
+            <td class="dot dot-yes">●</td>
+            <td class="dot dot-yes">●</td>
+            <td class="dot dot-no">●</td>
+            <td class="dot dot-yes">●</td>
+          </tr>
+          <tr>
+            <td>Voice Control</td>
+            <td class="dot dot-yes">●</td>
+            <td class="dot dot-yes">●</td>
+            <td class="dot dot-yes">●</td>
+            <td class="dot dot-partial">●</td>
+            <td class="dot dot-yes">●</td>
+          </tr>
+          <tr>
+            <td>AR / Spatial Overlay UI</td>
+            <td class="dot dot-no">●</td>
+            <td class="dot dot-no">●</td>
+            <td class="dot dot-no">●</td>
+            <td class="dot dot-partial">●</td>
+            <td class="dot dot-yes">●</td>
+          </tr>
+          <tr>
+            <td>Smart Home Device Control</td>
+            <td class="dot dot-yes">●</td>
+            <td class="dot dot-yes">●</td>
+            <td class="dot dot-yes">●</td>
+            <td class="dot dot-no">●</td>
+            <td class="dot dot-yes">●</td>
+          </tr>
+          <tr>
+            <td>Real-Time Alert System</td>
+            <td class="dot dot-partial">●</td>
+            <td class="dot dot-partial">●</td>
+            <td class="dot dot-partial">●</td>
+            <td class="dot dot-no">●</td>
+            <td class="dot dot-yes">●</td>
+          </tr>
+          <tr>
+            <td>Multi-User Role Management</td>
+            <td class="dot dot-partial">●</td>
+            <td class="dot dot-partial">●</td>
+            <td class="dot dot-yes">●</td>
+            <td class="dot dot-no">●</td>
+            <td class="dot dot-yes">●</td>
+          </tr>
+          <tr>
+            <td>Room-by-Room Control</td>
+            <td class="dot dot-yes">●</td>
+            <td class="dot dot-yes">●</td>
+            <td class="dot dot-yes">●</td>
+            <td class="dot dot-no">●</td>
+            <td class="dot dot-yes">●</td>
+          </tr>
+          <tr>
+            <td>Energy Monitoring</td>
+            <td class="dot dot-partial">●</td>
+            <td class="dot dot-no">●</td>
+            <td class="dot dot-no">●</td>
+            <td class="dot dot-no">●</td>
+            <td class="dot dot-yes">●</td>
+          </tr>
+          <tr>
+            <td>Gaze / Gesture Interaction</td>
+            <td class="dot dot-no">●</td>
+            <td class="dot dot-no">●</td>
+            <td class="dot dot-no">●</td>
+            <td class="dot dot-yes">●</td>
+            <td class="dot dot-yes">●</td>
+          </tr>
+          <tr>
+            <td>Cross-Platform (iOS + Android)</td>
+            <td class="dot dot-yes">●</td>
+            <td class="dot dot-yes">●</td>
+            <td class="dot dot-no">●</td>
+            <td class="dot dot-no">●</td>
+            <td class="dot dot-yes">●</td>
+          </tr>
+          <tr class="highlight-row">
+            <td>Unified AR + Mobile Interface</td>
+            <td class="dot dot-no">●</td>
+            <td class="dot dot-no">●</td>
+            <td class="dot dot-no">●</td>
+            <td class="dot dot-no">●</td>
+            <td class="dot dot-yes" style="color:var(--cyan);">●</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:11px; color:var(--muted); margin-top:12px;">
+      <span style="color:var(--green); font-weight:700;">●</span> Fully supported &nbsp;
+      <span style="color:#f0a500; font-weight:700;">●</span> Partially supported &nbsp;
+      <span style="color:#ccc; font-weight:700;">●</span> Not available
+    </p>
+  </div>
+
+  <div class="card">
+    <h3>Competitive Gaps INTELLIDEN Addresses</h3>
+    <div class="insights">
+      <div class="insight">
+        <div class="insight-icon">🥽</div>
+        <div class="insight-text"><strong>No competitor offers AR smart home control</strong>Meta Quest has spatial UI but no device integration. Google/Apple have device integration but no spatial UI. INTELLIDEN bridges both.</div>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">📱</div>
+        <div class="insight-text"><strong>Fragmented interfaces</strong>All competitors require switching between apps, speakers, and screens. INTELLIDEN unifies AR headset + mobile in one ecosystem.</div>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">👥</div>
+        <div class="insight-text"><strong>Weak multi-user access control</strong>Existing platforms treat all household members similarly. INTELLIDEN introduces role-based access: Admin, User, Limited, Guest.</div>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">⚡</div>
+        <div class="insight-text"><strong>Passive alert delivery</strong>Competitors push alerts to phones that may be ignored. INTELLIDEN surfaces critical alerts directly in the AR field of view.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ══════════════════════════════════════════
+       TACTIC 3 — LITERATURE REVIEW (bonus)
+  ═══════════════════════════════════════════ -->
+  <div class="tactic-header">
+    <div class="tactic-number" style="background:var(--purple-light); color:var(--purple);">03</div>
+    <div class="tactic-meta">
+      <h2>Literature Review</h2>
+      <p>Academic and industry research informing the design of AR smart home interfaces</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Objective</h3>
+    <p style="font-size:14px; color:var(--muted);">Review relevant HCI research on smart home usability, augmented reality interaction models, and ambient display systems to ground INTELLIDEN's design decisions in established findings.</p>
+  </div>
+
+  <div class="card">
+    <h3>Sources & Takeaways</h3>
+    <div class="literature-grid">
+
+      <div class="lit-card">
+        <div class="ref">Brush et al. · CHI 2011</div>
+        <h4>Home Automation in the Wild: Challenges and Opportunities</h4>
+        <p>Study of 14 households found that smart home systems fail due to complexity, lack of feedback, and difficult multi-user coordination — not lack of features.</p>
+        <div class="takeaway">→ Design for simplicity and immediate visual feedback over feature richness.</div>
+      </div>
+
+      <div class="lit-card">
+        <div class="ref">Billinghurst & Kaufmann · 2006</div>
+        <h4>Advances in Augmented Reality for Human-Computer Interaction</h4>
+        <p>Foundational AR HCI research showing that overlaid spatial information reduces cognitive load when it matches the user's physical context and gaze direction.</p>
+        <div class="takeaway">→ AR panels in INTELLIDEN must be spatially anchored and appear only when relevant.</div>
+      </div>
+
+      <div class="lit-card">
+        <div class="ref">Wilson · ACM UIST 2004</div>
+        <h4>Depth-Sensing as Input for Pervasive Computing</h4>
+        <p>Demonstrates that gesture-based input in AR environments is intuitive when gesture vocabulary is small (3–5 gestures) and provides immediate visual confirmation.</p>
+        <div class="takeaway">→ INTELLIDEN limits gesture interactions to pinch, swipe, and gaze — no complex sequences.</div>
+      </div>
+
+      <div class="lit-card">
+        <div class="ref">Davidoff et al. · UbiComp 2006</div>
+        <h4>Principles of Smart Home Control</h4>
+        <p>Found that households need role-differentiated access: primary occupants need full control, children need restrictions, and guests need temporary limited access.</p>
+        <div class="takeaway">→ Direct basis for INTELLIDEN's 4-tier access model (Admin, User, Limited, Guest).</div>
+      </div>
+
+      <div class="lit-card">
+        <div class="ref">Matthews et al. · CHI 2004</div>
+        <h4>Peripheral Displays: Designing for Glanceability</h4>
+        <p>Ambient displays should communicate status at a glance without requiring focused attention — information hierarchy and color coding are critical.</p>
+        <div class="takeaway">→ INTELLIDEN Hub uses color-coded status (cyan = normal, orange = alert, red = critical).</div>
+      </div>
+
+      <div class="lit-card">
+        <div class="ref">Mennicken et al. · CHI 2016</div>
+        <h4>From Today's Smart Homes to Tomorrow's Smart Living</h4>
+        <p>Users prioritize energy awareness and security monitoring over convenience features — contrary to what manufacturers assume users want.</p>
+        <div class="takeaway">→ INTELLIDEN prominently features energy (kWh) and security (access log) in primary views.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>How Literature Shaped INTELLIDEN's Design</h3>
+    <div class="insights">
+      <div class="insight">
+        <div class="insight-icon">📖</div>
+        <div class="insight-text"><strong>Simplicity over features</strong>Research consistently shows smart home failure comes from complexity. INTELLIDEN's MR interface uses only 3 tabs with large, clear interaction targets.</div>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">🎨</div>
+        <div class="insight-text"><strong>Glanceability via color</strong>Matthews (2004) glanceability principles directly inform the cyan/orange/red status color system used across Hub, Rooms, and Access tabs.</div>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">✋</div>
+        <div class="insight-text"><strong>Minimal gesture vocabulary</strong>Wilson (2004) finding limits INTELLIDEN to pinch-to-toggle and gaze-to-select — gestures that feel natural and have immediate visual confirmation.</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+</body>
+</html>
