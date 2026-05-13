@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>INTELLIDEN — AR Screen Sketches</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=JetBrains+Mono:wght@400&family=Lora:ital@1&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Space Grotesk',sans-serif;
+  background:#eeecea;
+  min-height:100vh;
+  padding:52px 40px 64px;
+}
+header{text-align:center;margin-bottom:52px}
+.brand{font-size:10px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:#aaa}
+h1{font-size:22px;font-weight:700;color:#1a1a1a;margin-top:4px}
+
+.sketches{display:flex;flex-direction:column;gap:32px;max-width:1000px;margin:0 auto}
+
+.sketch-card{
+  background:#fafaf7;
+  border-radius:18px;
+  box-shadow:0 4px 24px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.04);
+  padding:32px 36px 28px;
+}
+.sketch-header{
+  display:flex;
+  align-items:baseline;
+  gap:14px;
+  margin-bottom:20px;
+}
+.screen-num{
+  width:28px;height:28px;border-radius:50%;
+  background:#1a1a1a;color:white;
+  font-size:12px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.screen-name{font-size:16px;font-weight:700;color:#1a1a1a}
+.screen-sub{font-size:11px;color:#aaa;margin-left:4px;font-weight:400}
+
+.sketch-body{
+  display:flex;
+  gap:28px;
+  align-items:flex-start;
+}
+.sketch-frame{flex:1}
+.sketch-frame svg{width:100%;display:block;border-radius:8px}
+.annotations{
+  width:200px;
+  flex-shrink:0;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+.ann{display:flex;gap:10px;align-items:flex-start}
+.ann-num{
+  width:20px;height:20px;border-radius:50%;
+  font-size:9px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;margin-top:1px;
+}
+.ann-text{font-size:11px;color:#555;line-height:1.5}
+.ann-text strong{display:block;font-size:11px;font-weight:700;color:#1a1a1a;margin-bottom:1px}
+
+footer{text-align:center;margin-top:44px;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#bbb}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">INTELLIDEN · AR Headset</div>
+  <h1>Screen Sketches</h1>
+</header>
+
+<div class="sketches">
+
+  <!-- ── SKETCH 1: HUB ── -->
+  <div class="sketch-card">
+    <div class="sketch-header">
+      <div class="screen-num">1</div>
+      <div>
+        <span class="screen-name">Hub</span>
+        <span class="screen-sub">— overview on boot</span>
+      </div>
+    </div>
+    <div class="sketch-body">
+      <div class="sketch-frame">
+        <svg viewBox="0 0 700 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- AR headset display frame -->
+          <rect x="2" y="2" width="696" height="376" rx="18" fill="#0d1318" stroke="#2a3540" stroke-width="2"/>
+          <!-- scanlines hint -->
+          <rect x="2" y="2" width="696" height="376" rx="18" fill="url(#scan)" opacity="0.4"/>
+          <defs>
+            <pattern id="scan" width="1" height="4" patternUnits="userSpaceOnUse">
+              <rect width="1" height="1" fill="rgba(0,200,220,0.03)"/>
+            </pattern>
+          </defs>
+          <!-- vignette -->
+          <radialGradient id="vig" cx="50%" cy="50%" r="60%">
+            <stop offset="0%" stop-color="transparent"/>
+            <stop offset="100%" stop-color="rgba(0,0,0,0.5)"/>
+          </radialGradient>
+          <rect x="2" y="2" width="696" height="376" rx="18" fill="url(#vig)"/>
+
+          <!-- TOP BAR -->
+          <rect x="2" y="2" width="696" height="36" rx="18" fill="rgba(0,0,0,0.5)"/>
+          <rect x="2" y="20" width="696" height="18" fill="rgba(0,0,0,0.5)"/>
+          <text x="22" y="26" font-family="JetBrains Mono" font-size="10" fill="rgba(0,220,240,0.7)" font-weight="600">INTELLIDEN</text>
+          <!-- tabs -->
+          <rect x="248" y="10" width="56" height="18" rx="9" fill="rgba(0,220,240,0.12)" stroke="rgba(0,220,240,0.5)" stroke-width="1"/>
+          <text x="276" y="22" font-family="Space Grotesk" font-size="9" fill="#00d4e8" text-anchor="middle" font-weight="700">HUB</text>
+          <text x="318" y="22" font-family="Space Grotesk" font-size="9" fill="rgba(255,255,255,0.3)" text-anchor="middle">ROOMS</text>
+          <text x="368" y="22" font-family="Space Grotesk" font-size="9" fill="rgba(255,255,255,0.3)" text-anchor="middle">ACCESS</text>
+          <!-- status dots -->
+          <circle cx="578" cy="19" r="3" fill="#39ff14" opacity="0.9"/>
+          <text x="585" y="23" font-family="JetBrains Mono" font-size="8" fill="rgba(255,255,255,0.4)">28 nodes</text>
+          <circle cx="646" cy="19" r="3" fill="#ff3d00" opacity="0.9"/>
+          <text x="653" y="23" font-family="JetBrains Mono" font-size="8" fill="rgba(255,255,255,0.4)">1 alert</text>
+
+          <!-- LEFT COLUMN: status cards -->
+          <rect x="14" y="48" width="138" height="98" rx="8" fill="rgba(0,220,240,0.06)" stroke="rgba(0,220,240,0.2)" stroke-width="1"/>
+          <text x="24" y="68" font-family="Space Grotesk" font-size="7.5" fill="rgba(0,220,240,0.5)" letter-spacing="1">TEMPERATURE</text>
+          <text x="24" y="98" font-family="JetBrains Mono" font-size="32" fill="#00d4e8" font-weight="600">22°</text>
+          <text x="72" y="98" font-family="JetBrains Mono" font-size="14" fill="rgba(0,220,240,0.5)">C</text>
+          <text x="24" y="116" font-family="Space Grotesk" font-size="8" fill="rgba(255,255,255,0.3)">indoor average</text>
+          <rect x="24" y="128" width="118" height="5" rx="2.5" fill="rgba(255,255,255,0.08)"/>
+          <rect x="24" y="128" width="68" height="5" rx="2.5" fill="rgba(0,220,240,0.5)"/>
+
+          <rect x="14" y="154" width="138" height="82" rx="8" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+          <text x="24" y="172" font-family="Space Grotesk" font-size="7.5" fill="rgba(255,255,255,0.25)" letter-spacing="1">POWER</text>
+          <text x="24" y="198" font-family="JetBrains Mono" font-size="28" fill="rgba(255,255,255,0.7)" font-weight="600">3.2</text>
+          <text x="70" y="198" font-family="JetBrains Mono" font-size="13" fill="rgba(255,255,255,0.3)">kWh</text>
+          <rect x="24" y="208" width="118" height="4" rx="2" fill="rgba(255,255,255,0.06)"/>
+          <rect x="24" y="208" width="75" height="4" rx="2" fill="rgba(251,191,36,0.5)"/>
+
+          <!-- alert card -->
+          <rect x="14" y="244" width="138" height="62" rx="8" fill="rgba(255,60,0,0.08)" stroke="rgba(255,60,0,0.35)" stroke-width="1"/>
+          <circle cx="30" cy="262" r="5" fill="#ff3d00" opacity="0.9"/>
+          <circle cx="30" cy="262" r="9" fill="none" stroke="rgba(255,60,0,0.3)" stroke-width="1"/>
+          <text x="44" y="265" font-family="Space Grotesk" font-size="9" fill="#ff6b47" font-weight="600">Entrance</text>
+          <text x="24" y="280" font-family="Space Grotesk" font-size="8" fill="rgba(255,255,255,0.35)">Door open · 22:14</text>
+          <text x="24" y="296" font-family="Space Grotesk" font-size="7" fill="rgba(255,100,50,0.6)">⚠ ALERT</text>
+
+          <!-- CENTER: greeting + controls -->
+          <text x="350" y="104" font-family="Space Grotesk" font-size="9" fill="rgba(0,220,240,0.35)" text-anchor="middle" letter-spacing="4">GOOD EVENING</text>
+          <text x="350" y="138" font-family="Space Grotesk" font-size="26" fill="rgba(255,255,255,0.9)" text-anchor="middle" font-weight="800">Robert Ionescu</text>
+          <text x="350" y="158" font-family="JetBrains Mono" font-size="9" fill="rgba(255,255,255,0.2)" text-anchor="middle">TUESDAY · 13 MAY 2026</text>
+
+          <!-- scene pill -->
+          <rect x="258" y="170" width="184" height="26" rx="13" fill="rgba(0,220,240,0.06)" stroke="rgba(0,220,240,0.3)" stroke-width="1"/>
+          <text x="350" y="187" font-family="Space Grotesk" font-size="9" fill="#00d4e8" text-anchor="middle" font-weight="700" letter-spacing="2">◈ EVENING MODE ACTIVE</text>
+
+          <!-- 3 quick control tiles -->
+          <rect x="176" y="210" width="112" height="100" rx="10" fill="rgba(0,220,240,0.07)" stroke="rgba(0,220,240,0.25)" stroke-width="1"/>
+          <text x="232" y="248" font-size="22" text-anchor="middle">💡</text>
+          <text x="232" y="272" font-family="Space Grotesk" font-size="10" fill="rgba(255,255,255,0.8)" text-anchor="middle" font-weight="600">Lights</text>
+          <text x="232" y="287" font-family="Space Grotesk" font-size="8" fill="rgba(0,220,240,0.5)" text-anchor="middle">4 rooms on</text>
+          <!-- toggle ON -->
+          <rect x="218" y="294" width="28" height="13" rx="6.5" fill="rgba(0,220,240,0.2)" stroke="rgba(0,220,240,0.5)" stroke-width="0.8"/>
+          <circle cx="240" cy="300.5" r="5" fill="#00d4e8"/>
+
+          <rect x="294" y="210" width="112" height="100" rx="10" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+          <text x="350" y="248" font-size="22" text-anchor="middle">❄️</text>
+          <text x="350" y="272" font-family="Space Grotesk" font-size="10" fill="rgba(255,255,255,0.8)" text-anchor="middle" font-weight="600">Climate</text>
+          <text x="350" y="287" font-family="Space Grotesk" font-size="8" fill="rgba(255,255,255,0.3)" text-anchor="middle">Target 21°C</text>
+          <text x="350" y="304" font-family="JetBrains Mono" font-size="14" fill="#00d4e8" text-anchor="middle" font-weight="600">21°</text>
+
+          <rect x="412" y="210" width="112" height="100" rx="10" fill="rgba(57,255,20,0.04)" stroke="rgba(57,255,20,0.18)" stroke-width="1"/>
+          <text x="468" y="248" font-size="22" text-anchor="middle">🔒</text>
+          <text x="468" y="272" font-family="Space Grotesk" font-size="10" fill="rgba(255,255,255,0.8)" text-anchor="middle" font-weight="600">Security</text>
+          <text x="468" y="287" font-family="Space Grotesk" font-size="8" fill="rgba(57,255,20,0.5)" text-anchor="middle">All locked</text>
+          <rect x="446" y="296" width="44" height="12" rx="4" fill="rgba(57,255,20,0.08)" stroke="rgba(57,255,20,0.2)" stroke-width="0.8"/>
+          <text x="468" y="305" font-family="Space Grotesk" font-size="7" fill="rgba(57,255,20,0.7)" text-anchor="middle">SECURED</text>
+
+          <!-- RIGHT: network -->
+          <rect x="548" y="48" width="136" height="258" rx="8" fill="rgba(0,220,240,0.05)" stroke="rgba(0,220,240,0.15)" stroke-width="1"/>
+          <text x="616" y="68" font-family="Space Grotesk" font-size="7.5" fill="rgba(0,220,240,0.4)" text-anchor="middle" letter-spacing="1">NETWORK</text>
+          <text x="572" y="104" font-family="JetBrains Mono" font-size="36" fill="rgba(57,255,20,0.9)" font-weight="600">28</text>
+          <text x="614" y="104" font-family="JetBrains Mono" font-size="16" fill="rgba(255,255,255,0.2)">/32</text>
+          <!-- node dots grid 8x4 -->
+          <g opacity="0.8">
+          <rect x="560" y="114" width="8" height="8" rx="1.5" fill="rgba(57,255,20,0.5)"/>
+          <rect x="572" y="114" width="8" height="8" rx="1.5" fill="rgba(57,255,20,0.5)"/>
+          <rect x="584" y="114" width="8" height="8" rx="1.5" fill="rgba(57,255,20,0.5)"/>
+          <rect x="596" y="114" width="8" height="8" rx="1.5" fill="rgba(57,255,20,0.5)"/>
+          <rect x="608" y="114" width="8" height="8" rx="1.5" fill="rgba(57,255,20,0.5)"/>
+          <rect x="620" y="114" width="8" height="8" rx="1.5" fill="rgba(57,255,20,0.5)"/>
+          <rect x="632" y="114" width="8" height="8" rx="1.5" fill="rgba(57,255,20,0.5)"/>
+          <rect x="644" y="114" width="8" height="8" rx="1.5" fill="rgba(57,255,20,0.5)"/>
+          <rect x="560" y="126" width="8" height="8" rx="1.5" fill="rgba(57,255,20,0.5)"/>
+          <rect x="572" y="126" width="8" height="8" rx="1.5" fill="rgba(57,255,20,0.5)"/>
+          <rect x="584" y="126" width="8" height="8" rx="1.5" fill="rgba(57,255,20,0.5)"/>
+          <rect x="596" y="126" width="8" height="8" rx="1.5" fill="rgba(57,255,20,0.5)"/>
+          <rect x="608" y="126" width="8" height="8" rx="1.5" fill="rgba(57,255,20,0.5)"/>
+          <rect x="620" y="126" width="8" height="8" rx="1.5" fill="rgba(57,255,20,0.5)"/>
+          <rect x="632" y="126" width="8" height="8" rx="1.5" fill="rgba(57,255,20,0.5)"/>
+          <rect x="644" y="126" width="8" height="8" rx="1.5" fill="rgba(57,255,20,0.5)"/>
+          <rect x="560" y="138" width="8" height="8" rx="1.5" fill="rgba(57,255,20,0.5)"/>
+          <rect x="572" y="138" width="8" height="8" rx="1.5" fill="rgba(57,255,20,0.5)"/>
+          <rect x="584" y="138" width="8" height="8" rx="1.5" fill="rgba(57,255,20,0.5)"/>
+          <rect x="596" y="138" width="8" height="8" rx="1.5" fill="rgba(57,255,20,0.5)"/>
+          <rect x="608" y="138" width="8" height="8" rx="1.5" fill="rgba(57,255,20,0.5)"/>
+          <rect x="620" y="138" width="8" height="8" rx="1.5" fill="rgba(57,255,20,0.5)"/>
+          <rect x="632" y="138" width="8" height="8" rx="1.5" fill="rgba(57,255,20,0.5)"/>
+          <rect x="644" y="138" width="8" height="8" rx="1.5" fill="rgba(57,255,20,0.5)"/>
+          <rect x="560" y="150" width="8" height="8" rx="1.5" fill="rgba(57,255,20,0.5)"/>
+          <rect x="572" y="150" width="8" height="8" rx="1.5" fill="rgba(57,255,20,0.5)"/>
+          <rect x="584" y="150" width="8" height="8" rx="1.5" fill="rgba(57,255,20,0.5)"/>
+          <rect x="596" y="150" width="8" height="8" rx="1.5" fill="rgba(57,255,20,0.5)"/>
+          <rect x="608" y="150" width="8" height="8" rx="1.5" fill="rgba(255,255,255,0.1)"/>
+          <rect x="620" y="150" width="8" height="8" rx="1.5" fill="rgba(255,255,255,0.1)"/>
+          <rect x="632" y="150" width="8" height="8" rx="1.5" fill="rgba(255,255,255,0.1)"/>
+          <rect x="644" y="150" width="8" height="8" rx="1.5" fill="rgba(255,255,255,0.1)"/>
+          </g>
+          <!-- stats grid -->
+          <line x1="556" y1="168" x2="676" y2="168" stroke="rgba(0,220,240,0.1)" stroke-width="1"/>
+          <text x="576" y="188" font-family="JetBrains Mono" font-size="16" fill="rgba(251,191,36,0.8)" text-anchor="middle">12</text>
+          <text x="576" y="200" font-family="Space Grotesk" font-size="7" fill="rgba(255,255,255,0.3)" text-anchor="middle">lights</text>
+          <text x="636" y="188" font-family="JetBrains Mono" font-size="16" fill="rgba(167,139,250,0.8)" text-anchor="middle">8</text>
+          <text x="636" y="200" font-family="Space Grotesk" font-size="7" fill="rgba(255,255,255,0.3)" text-anchor="middle">security</text>
+          <text x="576" y="226" font-family="JetBrains Mono" font-size="16" fill="rgba(57,255,20,0.7)" text-anchor="middle">4</text>
+          <text x="576" y="238" font-family="Space Grotesk" font-size="7" fill="rgba(255,255,255,0.3)" text-anchor="middle">sensors</text>
+          <text x="636" y="226" font-family="JetBrains Mono" font-size="16" fill="rgba(0,220,240,0.7)" text-anchor="middle">4</text>
+          <text x="636" y="238" font-family="Space Grotesk" font-size="7" fill="rgba(255,255,255,0.3)" text-anchor="middle">cameras</text>
+
+          <!-- BOTTOM BAR -->
+          <rect x="2" y="322" width="696" height="34" rx="18" fill="rgba(0,0,0,0.5)"/>
+          <rect x="2" y="322" width="696" height="16" fill="rgba(0,0,0,0.5)"/>
+          <text x="22" y="342" font-family="JetBrains Mono" font-size="8" fill="rgba(0,220,240,0.3)">✦ OPEN PALM → GESTURE MENU  |  GAZE + PINCH → SELECT</text>
+          <text x="660" y="342" font-family="JetBrains Mono" font-size="8" fill="rgba(255,255,255,0.2)">22:37</text>
+
+          <!-- ANNOTATION DOTS -->
+          <!-- 1: top bar -->
+          <circle cx="276" cy="19" r="9" fill="none" stroke="#ffcc00" stroke-width="1.5"/>
+          <circle cx="276" cy="19" r="3" fill="#ffcc00"/>
+          <!-- 2: alert card -->
+          <circle cx="83" cy="262" r="9" fill="none" stroke="#ff5533" stroke-width="1.5"/>
+          <circle cx="83" cy="262" r="3" fill="#ff5533"/>
+          <!-- 3: quick controls -->
+          <circle cx="232" cy="220" r="9" fill="none" stroke="#00d4e8" stroke-width="1.5"/>
+          <circle cx="232" cy="220" r="3" fill="#00d4e8"/>
+          <!-- 4: node grid -->
+          <circle cx="616" cy="135" r="9" fill="none" stroke="#39ff14" stroke-width="1.5"/>
+          <circle cx="616" cy="135" r="3" fill="#39ff14"/>
+        </svg>
+      </div>
+      <div class="annotations">
+        <div class="ann">
+          <div class="ann-num" style="background:#ffcc00;color:#1a1a1a">①</div>
+          <div class="ann-text"><strong>Tab navigation</strong>Gaze at a tab, pinch to switch. Active tab highlighted in cyan.</div>
+        </div>
+        <div class="ann">
+          <div class="ann-num" style="background:#ff5533;color:white">②</div>
+          <div class="ann-text"><strong>Alert card</strong>Entrance open — pulsing orange border. Gaze to inspect.</div>
+        </div>
+        <div class="ann">
+          <div class="ann-num" style="background:#00d4e8;color:white">③</div>
+          <div class="ann-text"><strong>Quick controls</strong>3 tiles: Lights, Climate, Security. Pinch toggle to switch on/off.</div>
+        </div>
+        <div class="ann">
+          <div class="ann-num" style="background:#39ff14;color:#1a1a1a">④</div>
+          <div class="ann-text"><strong>Node grid</strong>28/32 nodes online. Green = active, dim = offline.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SKETCH 2: ROOMS ── -->
+  <div class="sketch-card">
+    <div class="sketch-header">
+      <div class="screen-num">2</div>
+      <div>
+        <span class="screen-name">Rooms</span>
+        <span class="screen-sub">— gaze + pinch to control</span>
+      </div>
+    </div>
+    <div class="sketch-body">
+      <div class="sketch-frame">
+        <svg viewBox="0 0 700 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="696" height="336" rx="18" fill="#0d1318" stroke="#2a3540" stroke-width="2"/>
+          <radialGradient id="vig2" cx="50%" cy="50%" r="60%">
+            <stop offset="0%" stop-color="transparent"/>
+            <stop offset="100%" stop-color="rgba(0,0,0,0.5)"/>
+          </radialGradient>
+          <rect x="2" y="2" width="696" height="336" rx="18" fill="url(#vig2)"/>
+
+          <!-- top bar -->
+          <rect x="2" y="2" width="696" height="32" rx="18" fill="rgba(0,0,0,0.55)"/>
+          <rect x="2" y="18" width="696" height="16" fill="rgba(0,0,0,0.55)"/>
+          <text x="22" y="22" font-family="JetBrains Mono" font-size="9" fill="rgba(0,220,240,0.5)">INTELLIDEN</text>
+          <text x="252" y="22" font-family="Space Grotesk" font-size="8.5" fill="rgba(255,255,255,0.25)">HUB</text>
+          <rect x="282" y="8" width="52" height="18" rx="9" fill="rgba(0,220,240,0.1)" stroke="rgba(0,220,240,0.45)" stroke-width="1"/>
+          <text x="308" y="20" font-family="Space Grotesk" font-size="8.5" fill="#00d4e8" text-anchor="middle" font-weight="700">ROOMS</text>
+          <text x="348" y="22" font-family="Space Grotesk" font-size="8.5" fill="rgba(255,255,255,0.25)">ACCESS</text>
+
+          <!-- 3x2 room grid -->
+          <!-- Row 1 -->
+          <!-- Living (ON + selected with gaze brackets) -->
+          <rect x="12" y="42" width="214" height="126" rx="10" fill="rgba(0,220,240,0.08)" stroke="rgba(0,220,240,0.35)" stroke-width="1.2"/>
+          <!-- gaze/selection brackets (AR corner markers) -->
+          <polyline points="13,43 13,55 25,55" fill="none" stroke="#00d4e8" stroke-width="1.5"/>
+          <polyline points="225,43 225,55 213,55" fill="none" stroke="#00d4e8" stroke-width="1.5"/>
+          <polyline points="13,167 13,155 25,155" fill="none" stroke="#00d4e8" stroke-width="1.5"/>
+          <polyline points="225,167 225,155 213,155" fill="none" stroke="#00d4e8" stroke-width="1.5"/>
+          <text x="30" y="72" font-size="20">💡</text>
+          <text x="60" y="74" font-family="Space Grotesk" font-size="13" fill="rgba(255,255,255,0.9)" font-weight="700">Living Room</text>
+          <text x="30" y="94" font-family="Space Grotesk" font-size="9" fill="rgba(0,220,240,0.6)">4 lights · 75% brightness</text>
+          <rect x="28" y="106" width="180" height="5" rx="2.5" fill="rgba(255,255,255,0.08)"/>
+          <rect x="28" y="106" width="135" height="5" rx="2.5" fill="#00d4e8" opacity="0.7"/>
+          <rect x="28" y="118" width="28" height="18" rx="9" fill="rgba(0,220,240,0.18)" stroke="rgba(0,220,240,0.5)" stroke-width="0.8"/>
+          <circle cx="50" cy="127" r="7" fill="#00d4e8"/>
+          <text x="30" y="155" font-family="Space Grotesk" font-size="7.5" fill="rgba(57,255,20,0.7)" letter-spacing="1">● ACTIVE</text>
+
+          <!-- Bedroom (OFF) -->
+          <rect x="242" y="42" width="214" height="126" rx="10" fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+          <text x="260" y="72" font-size="20">🌙</text>
+          <text x="290" y="74" font-family="Space Grotesk" font-size="13" fill="rgba(255,255,255,0.6)" font-weight="600">Bedroom</text>
+          <text x="260" y="94" font-family="Space Grotesk" font-size="9" fill="rgba(255,255,255,0.25)">2 lights · standby</text>
+          <rect x="258" y="106" width="180" height="5" rx="2.5" fill="rgba(255,255,255,0.06)"/>
+          <rect x="258" y="118" width="28" height="18" rx="9" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.1)" stroke-width="0.8"/>
+          <circle cx="266" cy="127" r="7" fill="rgba(255,255,255,0.25)"/>
+          <text x="260" y="155" font-family="Space Grotesk" font-size="7.5" fill="rgba(255,255,255,0.2)" letter-spacing="1">STANDBY</text>
+
+          <!-- Kitchen (ON) -->
+          <rect x="472" y="42" width="214" height="126" rx="10" fill="rgba(0,220,240,0.07)" stroke="rgba(0,220,240,0.25)" stroke-width="1"/>
+          <text x="490" y="72" font-size="20">🍳</text>
+          <text x="520" y="74" font-family="Space Grotesk" font-size="13" fill="rgba(255,255,255,0.85)" font-weight="700">Kitchen</text>
+          <text x="490" y="94" font-family="Space Grotesk" font-size="9" fill="rgba(0,220,240,0.5)">3 lights · 100%</text>
+          <rect x="488" y="106" width="180" height="5" rx="2.5" fill="#00d4e8" opacity="0.6"/>
+          <rect x="488" y="118" width="28" height="18" rx="9" fill="rgba(0,220,240,0.18)" stroke="rgba(0,220,240,0.4)" stroke-width="0.8"/>
+          <circle cx="510" cy="127" r="7" fill="#00d4e8"/>
+          <text x="490" y="155" font-family="Space Grotesk" font-size="7.5" fill="rgba(57,255,20,0.6)" letter-spacing="1">● ACTIVE</text>
+
+          <!-- Row 2 -->
+          <!-- Bathroom (ON) -->
+          <rect x="12" y="178" width="214" height="120" rx="10" fill="rgba(0,220,240,0.06)" stroke="rgba(0,220,240,0.2)" stroke-width="1"/>
+          <text x="30" y="206" font-size="20">🚿</text>
+          <text x="60" y="208" font-family="Space Grotesk" font-size="13" fill="rgba(255,255,255,0.8)" font-weight="600">Bathroom</text>
+          <text x="30" y="228" font-family="Space Grotesk" font-size="9" fill="rgba(0,220,240,0.4)">1 light · 50%</text>
+          <rect x="28" y="238" width="180" height="5" rx="2.5" fill="rgba(255,255,255,0.06)"/>
+          <rect x="28" y="238" width="90" height="5" rx="2.5" fill="#00d4e8" opacity="0.5"/>
+
+          <!-- Entrance (ALERT) -->
+          <rect x="242" y="178" width="214" height="120" rx="10" fill="rgba(255,60,0,0.06)" stroke="rgba(255,60,0,0.35)" stroke-width="1.2"/>
+          <text x="260" y="206" font-size="20">🚪</text>
+          <text x="290" y="208" font-family="Space Grotesk" font-size="13" fill="#ff6b47" font-weight="700">Entrance</text>
+          <text x="260" y="228" font-family="Space Grotesk" font-size="9" fill="rgba(255,255,255,0.3)">Door open · since 22:14</text>
+          <rect x="258" y="238" width="180" height="5" rx="2.5" fill="rgba(255,60,0,0.15)"/>
+          <rect x="258" y="238" width="180" height="5" rx="2.5" fill="rgba(255,60,0,0.6)"/>
+          <rect x="258" y="254" width="62" height="14" rx="4" fill="rgba(255,60,0,0.1)" stroke="rgba(255,60,0,0.3)" stroke-width="0.8"/>
+          <text x="289" y="264" font-family="Space Grotesk" font-size="7" fill="#ff6b47" text-anchor="middle" font-weight="700">⚠ ALERT</text>
+
+          <!-- Office (OFF) -->
+          <rect x="472" y="178" width="214" height="120" rx="10" fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+          <text x="490" y="206" font-size="20">🖥️</text>
+          <text x="520" y="208" font-family="Space Grotesk" font-size="13" fill="rgba(255,255,255,0.5)" font-weight="600">Office</text>
+          <text x="490" y="228" font-family="Space Grotesk" font-size="9" fill="rgba(255,255,255,0.2)">2 lights · off</text>
+          <rect x="488" y="238" width="180" height="5" rx="2.5" fill="rgba(255,255,255,0.05)"/>
+          <text x="490" y="270" font-family="Space Grotesk" font-size="7.5" fill="rgba(255,255,255,0.15)" letter-spacing="1">IDLE</text>
+
+          <!-- Bottom action bar -->
+          <rect x="2" y="304" width="696" height="30" rx="18" fill="rgba(0,0,0,0.55)"/>
+          <rect x="2" y="304" width="696" height="15" fill="rgba(0,0,0,0.55)"/>
+          <rect x="258" y="310" width="70" height="18" rx="8" fill="rgba(255,60,0,0.08)" stroke="rgba(255,60,0,0.25)" stroke-width="0.8"/>
+          <text x="293" y="322" font-family="Space Grotesk" font-size="8" fill="rgba(255,100,50,0.8)" text-anchor="middle" font-weight="700">ALL OFF</text>
+          <rect x="370" y="310" width="70" height="18" rx="8" fill="rgba(0,220,240,0.07)" stroke="rgba(0,220,240,0.25)" stroke-width="0.8"/>
+          <text x="405" y="322" font-family="Space Grotesk" font-size="8" fill="rgba(0,220,240,0.8)" text-anchor="middle" font-weight="700">ALL ON</text>
+
+          <!-- ANNOTATION DOTS -->
+          <circle cx="119" cy="55" r="9" fill="none" stroke="#ffcc00" stroke-width="1.5"/>
+          <circle cx="119" cy="55" r="3" fill="#ffcc00"/>
+          <circle cx="349" cy="55" r="9" fill="none" stroke="#aaa" stroke-width="1.5"/>
+          <circle cx="349" cy="55" r="3" fill="#aaa"/>
+          <circle cx="349" cy="191" r="9" fill="none" stroke="#ff5533" stroke-width="1.5"/>
+          <circle cx="349" cy="191" r="3" fill="#ff5533"/>
+          <circle cx="405" cy="316" r="9" fill="none" stroke="#00d4e8" stroke-width="1.5"/>
+          <circle cx="405" cy="316" r="3" fill="#00d4e8"/>
+        </svg>
+      </div>
+      <div class="annotations">
+        <div class="ann">
+          <div class="ann-num" style="background:#ffcc00;color:#1a1a1a">①</div>
+          <div class="ann-text"><strong>Gaze selection</strong>AR corner brackets appear when gazing at a tile. Pinch to toggle.</div>
+        </div>
+        <div class="ann">
+          <div class="ann-num" style="background:#aaa;color:white">②</div>
+          <div class="ann-text"><strong>Standby tile</strong>Dimmed appearance. Toggle off, no brightness bar fill.</div>
+        </div>
+        <div class="ann">
+          <div class="ann-num" style="background:#ff5533;color:white">③</div>
+          <div class="ann-text"><strong>Alert tile</strong>Orange border, full-width red bar. Cannot be toggled off.</div>
+        </div>
+        <div class="ann">
+          <div class="ann-num" style="background:#00d4e8;color:white">④</div>
+          <div class="ann-text"><strong>All ON / All OFF</strong>Batch control — applies to all non-alert rooms at once.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SKETCH 3: ACCESS ── -->
+  <div class="sketch-card">
+    <div class="sketch-header">
+      <div class="screen-num">3</div>
+      <div>
+        <span class="screen-name">Access</span>
+        <span class="screen-sub">— users &amp; security events</span>
+      </div>
+    </div>
+    <div class="sketch-body">
+      <div class="sketch-frame">
+        <svg viewBox="0 0 700 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="696" height="336" rx="18" fill="#0d1318" stroke="#2a3540" stroke-width="2"/>
+          <radialGradient id="vig3" cx="50%" cy="50%" r="60%">
+            <stop offset="0%" stop-color="transparent"/>
+            <stop offset="100%" stop-color="rgba(0,0,0,0.5)"/>
+          </radialGradient>
+          <rect x="2" y="2" width="696" height="336" rx="18" fill="url(#vig3)"/>
+          <!-- top bar -->
+          <rect x="2" y="2" width="696" height="32" rx="18" fill="rgba(0,0,0,0.55)"/>
+          <rect x="2" y="18" width="696" height="16" fill="rgba(0,0,0,0.55)"/>
+          <text x="22" y="22" font-family="JetBrains Mono" font-size="9" fill="rgba(0,220,240,0.5)">INTELLIDEN</text>
+          <text x="252" y="22" font-family="Space Grotesk" font-size="8.5" fill="rgba(255,255,255,0.25)">HUB</text>
+          <text x="296" y="22" font-family="Space Grotesk" font-size="8.5" fill="rgba(255,255,255,0.25)">ROOMS</text>
+          <rect x="340" y="8" width="58" height="18" rx="9" fill="rgba(0,220,240,0.1)" stroke="rgba(0,220,240,0.45)" stroke-width="1"/>
+          <text x="369" y="20" font-family="Space Grotesk" font-size="8.5" fill="#00d4e8" text-anchor="middle" font-weight="700">ACCESS</text>
+
+          <!-- LEFT: 2x2 user grid -->
+          <!-- User 1: Alex (Admin) -->
+          <rect x="12" y="44" width="178" height="130" rx="10" fill="rgba(0,220,240,0.06)" stroke="rgba(0,220,240,0.22)" stroke-width="1"/>
+          <circle cx="48" cy="80" r="20" fill="rgba(0,220,240,0.15)" stroke="rgba(0,220,240,0.35)" stroke-width="1"/>
+          <text x="48" y="85" font-family="Space Grotesk" font-size="10" fill="#00d4e8" text-anchor="middle" font-weight="700">AM</text>
+          <text x="80" y="74" font-family="Space Grotesk" font-size="13" fill="rgba(255,255,255,0.9)" font-weight="700">Alex M.</text>
+          <rect x="80" y="80" width="40" height="13" rx="4" fill="rgba(0,220,240,0.1)" stroke="rgba(0,220,240,0.3)" stroke-width="0.8"/>
+          <text x="100" y="90" font-family="Space Grotesk" font-size="7.5" fill="#00d4e8" text-anchor="middle" font-weight="700">ADMIN</text>
+          <text x="26" y="116" font-family="Space Grotesk" font-size="9" fill="rgba(255,255,255,0.35)">All access · 32 devices</text>
+          <text x="26" y="134" font-family="Space Grotesk" font-size="8" fill="rgba(0,220,240,0.5)">Active now · 2 min ago</text>
+          <text x="26" y="162" font-family="Space Grotesk" font-size="8" fill="rgba(255,255,255,0.2)">Permissions →</text>
+
+          <!-- User 2: Sarah -->
+          <rect x="200" y="44" width="178" height="130" rx="10" fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+          <circle cx="236" cy="80" r="20" fill="rgba(57,255,20,0.1)" stroke="rgba(57,255,20,0.2)" stroke-width="1"/>
+          <text x="236" y="85" font-family="Space Grotesk" font-size="10" fill="rgba(57,255,20,0.8)" text-anchor="middle" font-weight="700">SM</text>
+          <text x="268" y="74" font-family="Space Grotesk" font-size="13" fill="rgba(255,255,255,0.7)" font-weight="600">Sarah M.</text>
+          <rect x="268" y="80" width="30" height="13" rx="4" fill="rgba(57,255,20,0.06)" stroke="rgba(57,255,20,0.2)" stroke-width="0.8"/>
+          <text x="283" y="90" font-family="Space Grotesk" font-size="7.5" fill="rgba(57,255,20,0.7)" text-anchor="middle" font-weight="700">USER</text>
+          <text x="214" y="116" font-family="Space Grotesk" font-size="9" fill="rgba(255,255,255,0.3)">Lights · Climate</text>
+          <text x="214" y="134" font-family="Space Grotesk" font-size="8" fill="rgba(57,255,20,0.4)">Online · 1h ago</text>
+
+          <!-- User 3: Kids -->
+          <rect x="12" y="184" width="178" height="130" rx="10" fill="rgba(251,191,36,0.04)" stroke="rgba(251,191,36,0.14)" stroke-width="1"/>
+          <circle cx="48" cy="220" r="20" fill="rgba(251,191,36,0.1)" stroke="rgba(251,191,36,0.25)" stroke-width="1"/>
+          <text x="48" y="225" font-family="Space Grotesk" font-size="10" fill="rgba(251,191,36,0.8)" text-anchor="middle" font-weight="700">KA</text>
+          <text x="80" y="214" font-family="Space Grotesk" font-size="13" fill="rgba(255,255,255,0.65)" font-weight="600">Kids</text>
+          <rect x="80" y="220" width="48" height="13" rx="4" fill="rgba(251,191,36,0.06)" stroke="rgba(251,191,36,0.2)" stroke-width="0.8"/>
+          <text x="104" y="230" font-family="Space Grotesk" font-size="7.5" fill="rgba(251,191,36,0.7)" text-anchor="middle" font-weight="700">LIMITED</text>
+          <text x="26" y="256" font-family="Space Grotesk" font-size="8.5" fill="rgba(255,100,50,0.6)">⏰ Curfew: 22:00 – 07:00</text>
+          <text x="26" y="274" font-family="Space Grotesk" font-size="8" fill="rgba(255,255,255,0.2)">3h ago · Restricted</text>
+
+          <!-- User 4: Guest -->
+          <rect x="200" y="184" width="178" height="130" rx="10" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+          <circle cx="236" cy="220" r="20" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+          <text x="236" y="225" font-family="Space Grotesk" font-size="10" fill="rgba(255,255,255,0.35)" text-anchor="middle" font-weight="700">GA</text>
+          <text x="268" y="214" font-family="Space Grotesk" font-size="13" fill="rgba(255,255,255,0.45)" font-weight="600">Guest</text>
+          <rect x="268" y="220" width="36" height="13" rx="4" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.1)" stroke-width="0.8"/>
+          <text x="286" y="230" font-family="Space Grotesk" font-size="7.5" fill="rgba(255,255,255,0.3)" text-anchor="middle" font-weight="700">GUEST</text>
+          <text x="214" y="256" font-family="Space Grotesk" font-size="8.5" fill="rgba(255,100,50,0.4)">⏰ 48h limit</text>
+          <text x="214" y="274" font-family="Space Grotesk" font-size="8" fill="rgba(255,255,255,0.15)">Yesterday · Expires soon</text>
+
+          <!-- RIGHT: Alerts + Events -->
+          <!-- Alert card -->
+          <rect x="390" y="44" width="294" height="72" rx="10" fill="rgba(255,60,0,0.07)" stroke="rgba(255,60,0,0.32)" stroke-width="1.2"/>
+          <circle cx="414" cy="68" r="5" fill="#ff3d00"/>
+          <circle cx="414" cy="68" r="9" fill="none" stroke="rgba(255,60,0,0.3)" stroke-width="1"/>
+          <text x="430" y="64" font-family="Space Grotesk" font-size="11" fill="#ff6b47" font-weight="700">Failed Access × 3</text>
+          <text x="430" y="80" font-family="Space Grotesk" font-size="9" fill="rgba(255,255,255,0.35)">3 failed unlock attempts · 3h ago</text>
+          <rect x="580" y="56" width="40" height="13" rx="4" fill="rgba(255,60,0,0.1)" stroke="rgba(255,60,0,0.2)" stroke-width="0.8"/>
+          <text x="600" y="65" font-family="Space Grotesk" font-size="7.5" fill="#ff6b47" text-anchor="middle" font-weight="700">HIGH</text>
+
+          <!-- Events list -->
+          <rect x="390" y="126" width="294" height="188" rx="10" fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+          <text x="406" y="148" font-family="Space Grotesk" font-size="8" fill="rgba(0,220,240,0.4)" letter-spacing="2">RECENT EVENTS</text>
+          <line x1="390" y1="155" x2="684" y2="155" stroke="rgba(0,220,240,0.06)" stroke-width="1"/>
+
+          <!-- event rows -->
+          <rect x="400" y="161" width="24" height="24" rx="6" fill="rgba(0,220,240,0.07)"/>
+          <text x="412" y="177" font-size="11" text-anchor="middle">🔒</text>
+          <text x="432" y="172" font-family="Space Grotesk" font-size="9.5" fill="rgba(255,255,255,0.7)" font-weight="600">Alex Morgan</text>
+          <text x="432" y="185" font-family="Space Grotesk" font-size="8.5" fill="rgba(255,255,255,0.3)">Unlocked Front Door</text>
+          <rect x="640" y="163" width="28" height="14" rx="4" fill="rgba(57,255,20,0.06)" stroke="rgba(57,255,20,0.2)" stroke-width="0.8"/>
+          <text x="654" y="173" font-family="Space Grotesk" font-size="7" fill="rgba(57,255,20,0.7)" text-anchor="middle" font-weight="700">OK</text>
+
+          <line x1="390" y1="197" x2="684" y2="197" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+
+          <rect x="400" y="203" width="24" height="24" rx="6" fill="rgba(57,255,20,0.05)"/>
+          <text x="412" y="219" font-size="11" text-anchor="middle">🌡</text>
+          <text x="432" y="214" font-family="Space Grotesk" font-size="9.5" fill="rgba(255,255,255,0.7)" font-weight="600">Sarah Morgan</text>
+          <text x="432" y="227" font-family="Space Grotesk" font-size="8.5" fill="rgba(255,255,255,0.3)">Adjusted Temperature → 22°C</text>
+          <rect x="640" y="205" width="28" height="14" rx="4" fill="rgba(57,255,20,0.06)" stroke="rgba(57,255,20,0.2)" stroke-width="0.8"/>
+          <text x="654" y="215" font-family="Space Grotesk" font-size="7" fill="rgba(57,255,20,0.7)" text-anchor="middle" font-weight="700">OK</text>
+
+          <line x1="390" y1="239" x2="684" y2="239" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+
+          <rect x="400" y="245" width="24" height="24" rx="6" fill="rgba(255,60,0,0.07)"/>
+          <text x="412" y="261" font-size="11" text-anchor="middle">🚫</text>
+          <text x="432" y="256" font-family="Space Grotesk" font-size="9.5" fill="rgba(255,100,50,0.8)" font-weight="600">Unknown Device</text>
+          <text x="432" y="269" font-family="Space Grotesk" font-size="8.5" fill="rgba(255,255,255,0.3)">Failed Door Unlock · 3 attempts</text>
+          <rect x="632" y="247" width="36" height="14" rx="4" fill="rgba(255,60,0,0.08)" stroke="rgba(255,60,0,0.2)" stroke-width="0.8"/>
+          <text x="650" y="257" font-family="Space Grotesk" font-size="7" fill="#ff6b47" text-anchor="middle" font-weight="700">FAIL</text>
+
+          <line x1="390" y1="281" x2="684" y2="281" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+
+          <rect x="400" y="287" width="24" height="24" rx="6" fill="rgba(167,139,250,0.07)"/>
+          <text x="412" y="303" font-size="11" text-anchor="middle">📷</text>
+          <text x="432" y="298" font-family="Space Grotesk" font-size="9.5" fill="rgba(255,255,255,0.6)" font-weight="600">Kids Account</text>
+          <text x="432" y="311" font-family="Space Grotesk" font-size="8.5" fill="rgba(255,255,255,0.3)">Camera Access — Denied</text>
+          <rect x="632" y="289" width="36" height="14" rx="4" fill="rgba(255,60,0,0.06)" stroke="rgba(255,60,0,0.15)" stroke-width="0.8"/>
+          <text x="650" y="299" font-family="Space Grotesk" font-size="7" fill="rgba(255,100,50,0.6)" text-anchor="middle" font-weight="700">DENY</text>
+
+          <!-- ANNOTATION DOTS -->
+          <circle cx="101" cy="57" r="9" fill="none" stroke="#00d4e8" stroke-width="1.5"/>
+          <circle cx="101" cy="57" r="3" fill="#00d4e8"/>
+          <circle cx="291" cy="197" r="9" fill="none" stroke="#fbbf24" stroke-width="1.5"/>
+          <circle cx="291" cy="197" r="3" fill="#fbbf24"/>
+          <circle cx="537" cy="57" r="9" fill="none" stroke="#ff5533" stroke-width="1.5"/>
+          <circle cx="537" cy="57" r="3" fill="#ff5533"/>
+          <circle cx="537" cy="175" r="9" fill="none" stroke="#aaa" stroke-width="1.5"/>
+          <circle cx="537" cy="175" r="3" fill="#aaa"/>
+        </svg>
+      </div>
+      <div class="annotations">
+        <div class="ann">
+          <div class="ann-num" style="background:#00d4e8;color:white">①</div>
+          <div class="ann-text"><strong>Admin card</strong>Cyan border + gradient avatar. Full access badge. Gaze to expand.</div>
+        </div>
+        <div class="ann">
+          <div class="ann-num" style="background:#fbbf24;color:#1a1a1a">②</div>
+          <div class="ann-text"><strong>Limited user</strong>Yellow accent = restricted. Curfew shown directly on card.</div>
+        </div>
+        <div class="ann">
+          <div class="ann-num" style="background:#ff5533;color:white">③</div>
+          <div class="ann-text"><strong>High alert</strong>Pulsing red border. Requires immediate review — gaze + pinch.</div>
+        </div>
+        <div class="ann">
+          <div class="ann-num" style="background:#aaa;color:white">④</div>
+          <div class="ann-text"><strong>Event log</strong>Color-coded badges: OK (green), FAIL (red), DENY (orange).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>INTELLIDEN · AR Headset · Screen Sketches</footer>
+
+</body>
+</html>

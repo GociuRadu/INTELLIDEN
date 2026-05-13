@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>INTELLIDEN — AR Headset Storyboard</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Lora:ital@1&display=swap');
+
+* { box-sizing:border-box; margin:0; padding:0; }
+body {
+  font-family:'Space Grotesk',sans-serif;
+  background:#efefef;
+  padding:48px 40px 60px;
+  min-height:100vh;
+}
+
+header {
+  text-align:center;
+  margin-bottom:40px;
+}
+header .brand {
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:5px;
+  text-transform:uppercase;
+  color:#aaa;
+}
+header h1 {
+  font-size:20px;
+  font-weight:700;
+  color:#1a1a1a;
+  margin-top:4px;
+  letter-spacing:-0.3px;
+}
+
+.grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+  max-width:1100px;
+  margin:0 auto;
+}
+
+.panel {
+  background:#fff;
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 2px 12px rgba(0,0,0,0.07);
+  display:flex;
+  flex-direction:column;
+}
+
+.panel-top {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:14px 16px 0;
+}
+.panel-num {
+  width:26px;
+  height:26px;
+  border-radius:50%;
+  background:#1a1a1a;
+  color:#fff;
+  font-size:11px;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+.scene-label {
+  font-size:8px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:#aaa;
+}
+
+.panel svg {
+  width:100%;
+  flex:1;
+  display:block;
+  padding:8px 16px;
+}
+
+.caption {
+  font-family:'Lora',serif;
+  font-style:italic;
+  font-size:11.5px;
+  color:#444;
+  line-height:1.6;
+  padding:0 18px 18px;
+  border-top:1px solid #f0f0f0;
+  margin-top:4px;
+  padding-top:12px;
+}
+
+footer {
+  text-align:center;
+  margin-top:40px;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:#ccc;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">INTELLIDEN · AR Headset</div>
+  <h1>Storyboard A — Evening Routine</h1>
+</header>
+
+<div class="grid">
+
+  <!-- PANEL 1 -->
+  <div class="panel">
+    <div class="panel-top">
+      <div class="panel-num">1</div>
+      <div class="scene-label">Living Room · Evening</div>
+    </div>
+    <svg viewBox="0 0 280 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- floor -->
+      <line x1="0" y1="185" x2="280" y2="185" stroke="#e0e0e0" stroke-width="1"/>
+      <!-- figure -->
+      <circle cx="110" cy="55" r="18" stroke="#1a1a1a" stroke-width="2" fill="white"/>
+      <circle cx="104" cy="51" r="2" fill="#1a1a1a"/>
+      <circle cx="116" cy="51" r="2" fill="#1a1a1a"/>
+      <path d="M104 61 Q110 65 116 61" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+      <!-- torso -->
+      <line x1="110" y1="73" x2="110" y2="130" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+      <!-- arms: left up reaching for headset -->
+      <line x1="110" y1="88" x2="80" y2="70" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+      <line x1="80" y1="70" x2="70" y2="55" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+      <!-- right arm normal -->
+      <line x1="110" y1="88" x2="140" y2="108" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+      <!-- legs -->
+      <line x1="110" y1="130" x2="92" y2="185" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+      <line x1="110" y1="130" x2="128" y2="185" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+      <!-- AR headset in hand -->
+      <rect x="55" y="40" width="36" height="18" rx="5" fill="#1a1a1a" stroke="#1a1a1a" stroke-width="1"/>
+      <rect x="59" y="44" width="12" height="10" rx="2" fill="#00e5ff" opacity="0.6"/>
+      <rect x="75" y="44" width="12" height="10" rx="2" fill="#00e5ff" opacity="0.6"/>
+      <!-- label -->
+      <text x="170" y="90" font-family="Space Grotesk" font-size="9" fill="#bbb" text-anchor="middle">puts on</text>
+      <text x="170" y="104" font-family="Space Grotesk" font-size="9" fill="#bbb" text-anchor="middle">headset</text>
+      <line x1="93" y1="52" x2="155" y2="95" stroke="#ddd" stroke-width="1" stroke-dasharray="3,3"/>
+    </svg>
+    <p class="caption">Robert arrives home and lifts the AR headset. He puts it on — the lenses click into place.</p>
+  </div>
+
+  <!-- PANEL 2 -->
+  <div class="panel">
+    <div class="panel-top">
+      <div class="panel-num">2</div>
+      <div class="scene-label">System Boots</div>
+    </div>
+    <svg viewBox="0 0 280 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="0" y1="185" x2="280" y2="185" stroke="#e0e0e0" stroke-width="1"/>
+      <!-- figure with headset on -->
+      <circle cx="100" cy="55" r="18" stroke="#1a1a1a" stroke-width="2" fill="white"/>
+      <!-- headset on head -->
+      <rect x="82" y="44" width="36" height="16" rx="4" fill="#1a1a1a"/>
+      <rect x="85" y="47" width="10" height="9" rx="2" fill="#00e5ff" opacity="0.7"/>
+      <rect x="99" y="47" width="10" height="9" rx="2" fill="#00e5ff" opacity="0.7"/>
+      <!-- torso -->
+      <line x1="100" y1="73" x2="100" y2="130" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+      <!-- arms relaxed -->
+      <line x1="100" y1="88" x2="72" y2="115" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+      <line x1="100" y1="88" x2="128" y2="108" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+      <!-- legs -->
+      <line x1="100" y1="130" x2="82" y2="185" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+      <line x1="100" y1="130" x2="118" y2="185" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+      <!-- floating HUD display -->
+      <rect x="152" y="30" width="110" height="75" rx="6" fill="#0a0f14" stroke="#00e5ff" stroke-width="1.2"/>
+      <!-- top bar of HUD -->
+      <rect x="152" y="30" width="110" height="12" rx="6" fill="rgba(0,229,255,0.1)"/>
+      <text x="158" y="39" font-family="JetBrains Mono" font-size="5" fill="#00e5ff">INTELLIDEN</text>
+      <text x="218" y="39" font-family="JetBrains Mono" font-size="5" fill="rgba(240,240,240,0.4)">22:37</text>
+      <!-- HUD content blocks -->
+      <rect x="156" y="46" width="28" height="22" rx="2" fill="rgba(0,229,255,0.06)" stroke="rgba(0,229,255,0.2)" stroke-width="0.5"/>
+      <text x="162" y="54" font-size="8">🌡</text>
+      <text x="158" y="65" font-family="JetBrains Mono" font-size="5" fill="#00e5ff">22°C</text>
+      <rect x="188" y="46" width="36" height="22" rx="2" fill="rgba(0,229,255,0.04)" stroke="rgba(0,229,255,0.1)" stroke-width="0.5"/>
+      <text x="192" y="60" font-family="Space Grotesk" font-size="5" fill="rgba(240,240,240,0.6)">◈ Evening</text>
+      <text x="192" y="68" font-family="Space Grotesk" font-size="5" fill="rgba(0,229,255,0.6)">Mode ON</text>
+      <rect x="228" y="46" width="28" height="22" rx="2" fill="rgba(57,255,20,0.04)" stroke="rgba(57,255,20,0.15)" stroke-width="0.5"/>
+      <text x="232" y="60" font-family="JetBrains Mono" font-size="5" fill="rgba(57,255,20,0.8)">28/32</text>
+      <text x="232" y="67" font-family="JetBrains Mono" font-size="4" fill="rgba(240,240,240,0.3)">nodes</text>
+      <!-- gaze line from headset to HUD -->
+      <line x1="118" y1="52" x2="152" y2="55" stroke="#00e5ff" stroke-width="0.8" stroke-dasharray="3,2" opacity="0.4"/>
+      <!-- crosshair in HUD center -->
+      <line x1="207" y1="75" x2="207" y2="82" stroke="rgba(0,229,255,0.25)" stroke-width="0.8"/>
+      <line x1="203" y1="78" x2="211" y2="78" stroke="rgba(0,229,255,0.25)" stroke-width="0.8"/>
+    </svg>
+    <p class="caption">INTELLIDEN loads instantly. The Hub overlays the room — temperature, active scene, and node count visible at a glance.</p>
+  </div>
+
+  <!-- PANEL 3 -->
+  <div class="panel">
+    <div class="panel-top">
+      <div class="panel-num">3</div>
+      <div class="scene-label">Alert Detected</div>
+    </div>
+    <svg viewBox="0 0 280 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="0" y1="185" x2="280" y2="185" stroke="#e0e0e0" stroke-width="1"/>
+      <!-- figure -->
+      <circle cx="90" cy="55" r="18" stroke="#1a1a1a" stroke-width="2" fill="white"/>
+      <rect x="72" y="44" width="36" height="16" rx="4" fill="#1a1a1a"/>
+      <rect x="75" y="47" width="10" height="9" rx="2" fill="#ff3d00" opacity="0.8"/>
+      <rect x="89" y="47" width="10" height="9" rx="2" fill="#ff3d00" opacity="0.8"/>
+      <line x1="90" y1="73" x2="90" y2="130" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+      <!-- slight lean forward - attention pose -->
+      <line x1="90" y1="88" x2="68" y2="100" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+      <line x1="90" y1="88" x2="115" y2="95" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+      <line x1="90" y1="130" x2="74" y2="185" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+      <line x1="90" y1="130" x2="106" y2="185" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+      <!-- HUD with alert highlighted -->
+      <rect x="148" y="25" width="118" height="85" rx="6" fill="#0a0f14" stroke="rgba(0,229,255,0.2)" stroke-width="1"/>
+      <rect x="148" y="25" width="118" height="11" rx="6" fill="rgba(0,229,255,0.06)"/>
+      <text x="154" y="33" font-family="JetBrains Mono" font-size="5" fill="rgba(0,229,255,0.5)">INTELLIDEN · HUB</text>
+      <!-- alert card pulsing (orange border) -->
+      <rect x="152" y="40" width="52" height="36" rx="3" fill="rgba(255,61,0,0.12)" stroke="#ff3d00" stroke-width="1.5"/>
+      <!-- pulsing dot -->
+      <circle cx="160" cy="49" r="4" fill="#ff3d00" opacity="0.9"/>
+      <circle cx="160" cy="49" r="7" fill="none" stroke="#ff3d00" stroke-width="0.8" opacity="0.4"/>
+      <text x="168" y="51" font-family="Space Grotesk" font-size="6" fill="#ff6b47" font-weight="700">Entrance</text>
+      <text x="168" y="60" font-family="Space Grotesk" font-size="5" fill="rgba(240,240,240,0.5)">Door open</text>
+      <text x="152" y="83" font-family="JetBrains Mono" font-size="5" fill="rgba(255,100,50,0.7)">⚠ since 22:14</text>
+      <!-- other cards faded -->
+      <rect x="208" y="40" width="52" height="36" rx="3" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.07)" stroke-width="0.5"/>
+      <text x="220" y="62" font-family="Space Grotesk" font-size="5" fill="rgba(240,240,240,0.2)">22.3°C</text>
+      <!-- gaze ray to alert card -->
+      <line x1="108" y1="51" x2="148" y2="56" stroke="#ff3d00" stroke-width="1" stroke-dasharray="3,2" opacity="0.5"/>
+      <circle cx="178" cy="58" r="5" fill="none" stroke="#ff3d00" stroke-width="0.8" opacity="0.4"/>
+    </svg>
+    <p class="caption">An orange alert pulses in the HUD. The entrance door is open. Robert gazes toward the alert card.</p>
+  </div>
+
+  <!-- PANEL 4 -->
+  <div class="panel">
+    <div class="panel-top">
+      <div class="panel-num">4</div>
+      <div class="scene-label">Rooms Screen</div>
+    </div>
+    <svg viewBox="0 0 280 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="0" y1="185" x2="280" y2="185" stroke="#e0e0e0" stroke-width="1"/>
+      <!-- figure -->
+      <circle cx="85" cy="55" r="18" stroke="#1a1a1a" stroke-width="2" fill="white"/>
+      <rect x="67" y="44" width="36" height="16" rx="4" fill="#1a1a1a"/>
+      <rect x="70" y="47" width="10" height="9" rx="2" fill="#00e5ff" opacity="0.6"/>
+      <rect x="84" y="47" width="10" height="9" rx="2" fill="#00e5ff" opacity="0.6"/>
+      <line x1="85" y1="73" x2="85" y2="130" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+      <line x1="85" y1="88" x2="60" y2="110" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+      <line x1="85" y1="88" x2="110" y2="104" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+      <line x1="85" y1="130" x2="68" y2="185" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+      <line x1="85" y1="130" x2="102" y2="185" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+      <!-- HUD: Rooms tab active, 3x2 grid -->
+      <rect x="140" y="20" width="128" height="110" rx="6" fill="#0a0f14" stroke="rgba(0,229,255,0.2)" stroke-width="1"/>
+      <!-- tab bar -->
+      <rect x="140" y="20" width="128" height="13" rx="6" fill="rgba(0,229,255,0.06)"/>
+      <text x="146" y="29" font-family="Space Grotesk" font-size="5" fill="rgba(240,240,240,0.3)">HUB</text>
+      <rect x="163" y="22" width="26" height="10" rx="5" fill="rgba(0,229,255,0.1)" stroke="rgba(0,229,255,0.4)" stroke-width="0.6"/>
+      <text x="168" y="29" font-family="Space Grotesk" font-size="5" fill="#00e5ff">ROOMS</text>
+      <text x="194" y="29" font-family="Space Grotesk" font-size="5" fill="rgba(240,240,240,0.3)">ACCESS</text>
+      <!-- 3x2 room tiles -->
+      <rect x="143" y="36" width="38" height="28" rx="3" fill="rgba(0,229,255,0.06)" stroke="rgba(0,229,255,0.25)" stroke-width="0.6"/>
+      <text x="148" y="46" font-size="7">💡</text>
+      <text x="148" y="58" font-family="Space Grotesk" font-size="4.5" fill="rgba(240,240,240,0.7)">Living</text>
+      <rect x="185" y="36" width="38" height="28" rx="3" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.07)" stroke-width="0.6"/>
+      <text x="190" y="46" font-size="7">🌙</text>
+      <text x="190" y="58" font-family="Space Grotesk" font-size="4.5" fill="rgba(240,240,240,0.35)">Bedroom</text>
+      <rect x="227" y="36" width="38" height="28" rx="3" fill="rgba(0,229,255,0.05)" stroke="rgba(0,229,255,0.2)" stroke-width="0.6"/>
+      <text x="232" y="46" font-size="7">🍳</text>
+      <text x="232" y="58" font-family="Space Grotesk" font-size="4.5" fill="rgba(240,240,240,0.7)">Kitchen</text>
+      <rect x="143" y="68" width="38" height="28" rx="3" fill="rgba(0,229,255,0.05)" stroke="rgba(0,229,255,0.2)" stroke-width="0.6"/>
+      <text x="148" y="78" font-size="7">🚿</text>
+      <text x="148" y="90" font-family="Space Grotesk" font-size="4.5" fill="rgba(240,240,240,0.7)">Bathroom</text>
+      <rect x="185" y="68" width="38" height="28" rx="3" fill="rgba(255,61,0,0.06)" stroke="rgba(255,61,0,0.3)" stroke-width="0.6"/>
+      <text x="190" y="78" font-size="7">🚪</text>
+      <text x="190" y="90" font-family="Space Grotesk" font-size="4.5" fill="rgba(255,100,50,0.8)">Entrance</text>
+      <rect x="227" y="68" width="38" height="28" rx="3" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.07)" stroke-width="0.6"/>
+      <text x="232" y="78" font-size="7">🖥️</text>
+      <text x="232" y="90" font-family="Space Grotesk" font-size="4.5" fill="rgba(240,240,240,0.35)">Office</text>
+      <!-- gaze ray to ROOMS tab -->
+      <line x1="103" y1="52" x2="140" y2="47" stroke="#00e5ff" stroke-width="0.8" stroke-dasharray="3,2" opacity="0.35"/>
+    </svg>
+    <p class="caption">He gazes at the Rooms tab and pinches. Six large room tiles appear — each showing status and brightness at a glance.</p>
+  </div>
+
+  <!-- PANEL 5 -->
+  <div class="panel">
+    <div class="panel-top">
+      <div class="panel-num">5</div>
+      <div class="scene-label">Gaze + Pinch · Toggle</div>
+    </div>
+    <svg viewBox="0 0 280 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="0" y1="185" x2="280" y2="185" stroke="#e0e0e0" stroke-width="1"/>
+      <!-- figure with arm raised for pinch -->
+      <circle cx="80" cy="55" r="18" stroke="#1a1a1a" stroke-width="2" fill="white"/>
+      <rect x="62" y="44" width="36" height="16" rx="4" fill="#1a1a1a"/>
+      <rect x="65" y="47" width="10" height="9" rx="2" fill="#00e5ff" opacity="0.8"/>
+      <rect x="79" y="47" width="10" height="9" rx="2" fill="#00e5ff" opacity="0.8"/>
+      <line x1="80" y1="73" x2="80" y2="130" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+      <!-- right arm raised forward for pinch -->
+      <line x1="80" y1="88" x2="108" y2="72" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+      <line x1="108" y1="72" x2="122" y2="60" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+      <line x1="80" y1="88" x2="56" y2="110" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+      <line x1="80" y1="130" x2="63" y2="185" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+      <line x1="80" y1="130" x2="97" y2="185" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+      <!-- pinch gesture (index + thumb touching) -->
+      <circle cx="122" cy="60" r="5" fill="rgba(0,229,255,0.3)" stroke="#00e5ff" stroke-width="1.2"/>
+      <circle cx="127" cy="56" r="4" fill="rgba(0,229,255,0.2)" stroke="#00e5ff" stroke-width="1.2"/>
+      <!-- pinch sparkle -->
+      <line x1="130" y1="48" x2="133" y2="44" stroke="#00e5ff" stroke-width="1" opacity="0.6"/>
+      <line x1="135" y1="52" x2="140" y2="52" stroke="#00e5ff" stroke-width="1" opacity="0.6"/>
+      <line x1="130" y1="58" x2="133" y2="62" stroke="#00e5ff" stroke-width="1" opacity="0.6"/>
+      <!-- HUD: Living Room tile lit up -->
+      <rect x="148" y="22" width="120" height="95" rx="6" fill="#0a0f14" stroke="rgba(0,229,255,0.2)" stroke-width="1"/>
+      <!-- Living Room tile (selected + ON) -->
+      <rect x="152" y="30" width="55" height="48" rx="4" fill="rgba(0,229,255,0.12)" stroke="#00e5ff" stroke-width="1.2"/>
+      <!-- AR corner brackets on selected tile -->
+      <polyline points="153,30 153,35 158,35" fill="none" stroke="#00e5ff" stroke-width="1.2"/>
+      <polyline points="206,30 206,35 201,35" fill="none" stroke="#00e5ff" stroke-width="1.2"/>
+      <polyline points="153,78 153,73 158,73" fill="none" stroke="#00e5ff" stroke-width="1.2"/>
+      <polyline points="206,78 206,73 201,73" fill="none" stroke="#00e5ff" stroke-width="1.2"/>
+      <text x="158" y="43" font-size="10">💡</text>
+      <text x="170" y="44" font-family="Space Grotesk" font-size="6" fill="rgba(240,240,240,0.9)" font-weight="600">Living</text>
+      <!-- toggle ON -->
+      <rect x="158" y="58" width="20" height="9" rx="4.5" fill="rgba(0,229,255,0.2)" stroke="#00e5ff" stroke-width="0.8"/>
+      <circle cx="173" cy="62.5" r="3.5" fill="#00e5ff"/>
+      <text x="158" y="73" font-family="Space Grotesk" font-size="4.5" fill="rgba(57,255,20,0.8)">75% · ON</text>
+      <!-- other tiles faded -->
+      <rect x="211" y="30" width="52" height="48" rx="4" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" stroke-width="0.6"/>
+      <text x="228" y="58" font-family="Space Grotesk" font-size="5" fill="rgba(240,240,240,0.2)">Bedroom</text>
+      <!-- gaze ray -->
+      <line x1="98" y1="52" x2="148" y2="52" stroke="#00e5ff" stroke-width="0.8" stroke-dasharray="3,2" opacity="0.35"/>
+      <!-- confirm checkmark -->
+      <circle cx="240" cy="95" r="12" fill="rgba(57,255,20,0.1)" stroke="rgba(57,255,20,0.4)" stroke-width="1"/>
+      <polyline points="233,95 238,101 248,88" fill="none" stroke="#39ff14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <p class="caption">Gaze locks on Living Room. One pinch — lights on at 75%. A green checkmark confirms the action instantly.</p>
+  </div>
+
+  <!-- PANEL 6 -->
+  <div class="panel">
+    <div class="panel-top">
+      <div class="panel-num">6</div>
+      <div class="scene-label">Done · No Phone Needed</div>
+    </div>
+    <svg viewBox="0 0 280 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="0" y1="185" x2="280" y2="185" stroke="#e0e0e0" stroke-width="1"/>
+      <!-- figure relaxed, walking slightly -->
+      <circle cx="110" cy="52" r="18" stroke="#1a1a1a" stroke-width="2" fill="white"/>
+      <!-- happy face -->
+      <circle cx="104" cy="48" r="2" fill="#1a1a1a"/>
+      <circle cx="116" cy="48" r="2" fill="#1a1a1a"/>
+      <path d="M104 57 Q110 63 116 57" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+      <!-- headset removed, held in hand -->
+      <line x1="110" y1="70" x2="110" y2="128" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+      <!-- left arm up, headset in hand -->
+      <line x1="110" y1="86" x2="82" y2="100" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+      <line x1="82" y1="100" x2="72" y2="118" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+      <!-- headset held at side -->
+      <rect x="56" y="112" width="28" height="13" rx="3" fill="#333"/>
+      <rect x="59" y="115" width="8" height="7" rx="2" fill="#00e5ff" opacity="0.3"/>
+      <rect x="70" y="115" width="8" height="7" rx="2" fill="#00e5ff" opacity="0.3"/>
+      <!-- right arm relaxed -->
+      <line x1="110" y1="86" x2="136" y2="105" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+      <!-- walking legs -->
+      <line x1="110" y1="128" x2="92" y2="185" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+      <line x1="110" y1="128" x2="130" y2="168" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+      <!-- "done" label -->
+      <circle cx="210" cy="65" r="28" fill="rgba(57,255,20,0.06)" stroke="rgba(57,255,20,0.25)" stroke-width="1.5"/>
+      <text x="210" y="58" font-family="Space Grotesk" font-size="9" fill="#1a1a1a" font-weight="700" text-anchor="middle">Task</text>
+      <text x="210" y="72" font-family="Space Grotesk" font-size="9" fill="#39ff14" font-weight="700" text-anchor="middle">Done ✓</text>
+      <text x="210" y="85" font-family="JetBrains Mono" font-size="7" fill="#aaa" text-anchor="middle">&lt; 10s</text>
+      <!-- phone crossed out -->
+      <rect x="185" y="115" width="50" height="38" rx="5" fill="rgba(240,240,240,0.5)" stroke="#ddd" stroke-width="1"/>
+      <text x="210" y="138" font-size="14" text-anchor="middle">📱</text>
+      <line x1="182" y1="112" x2="238" y2="156" stroke="#ff3d00" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+    </svg>
+    <p class="caption">Task complete in under 10 seconds. No phone, no app. Robert sets the headset down — home is already set up for the evening.</p>
+  </div>
+
+</div>
+
+<footer>INTELLIDEN · AR Headset · Storyboard A · Evening Routine</footer>
+
+</body>
+</html>
