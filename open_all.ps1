@@ -46,5 +46,11 @@ Start-Sleep -Milliseconds 400
 
 # Personas (supporting context)
 Start-Process "$base\personas\personas.html"
+Start-Sleep -Milliseconds 400
+
+# 6. Docs
+Start-Process "$base\intelliden_page_guide.html"
+Start-Sleep -Milliseconds 400
+Start-Process "$base\docs\User_Guide.pdf"
 
 Write-Host "All files opened." -ForegroundColor Green
