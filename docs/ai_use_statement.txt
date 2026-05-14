@@ -61,8 +61,8 @@ Make me a working prototype of the Intelliden smartphone app, same look and feel
 
 --------------------------------------------------------------------------------
 
-TEAM MEMBER: [Colleague Name]
-  [To be completed by team member]
+TEAM MEMBER: [Andrei Popescu]
+  I used Claude for the user guide based on the prototypes already built by us.
 
 =====================================
 INTELLIDEN Team · HCI Project 2026
